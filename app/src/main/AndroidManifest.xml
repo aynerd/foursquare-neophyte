@@ -20,14 +20,16 @@
         </activity>
         <activity
             android:name=".NewRecord"
-            android:label="Register"
-            android:parentActivityName=".Home" />
+            android:label="Register" />
         <activity
             android:name=".People"
             android:label="People" />
         <activity
             android:name=".Details"
-            android:label="Details"/>
+            android:label="Details" />
+        <activity
+            android:name=".EditPerson"
+            android:label="Edit Details"/>
     </application>
 
 </manifest>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,7 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.inveniotechnologies.neophyte.Details">
+    tools:context="com.inveniotechnologies.neophyte.EditPerson">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -24,17 +24,24 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Title:"/>
+                android:text="Date"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/txt_save_date"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#000000"
-                android:maxLines="1"
-                android:textSize="16sp"
-                android:layout_marginTop="5dp"
-                android:textStyle="bold"
-                android:id="@+id/lbl_title"/>
+                android:layout_marginTop="10dp"
+                android:text="Title:"/>
+
+            <android.support.v7.widget.AppCompatSpinner
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:id="@+id/cmb_title"
+                android:entries="@array/titlesList"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -42,15 +49,11 @@
                 android:layout_marginTop="10dp"
                 android:text="Full Name:"/>
 
-            <TextView
-                android:layout_width="wrap_content"
+            <EditText
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="#000000"
-                android:maxLines="1"
-                android:textSize="16sp"
-                android:layout_marginTop="5dp"
-                android:textStyle="bold"
-                android:id="@+id/lbl_full_name"/>
+                android:inputType="textPersonName"
+                android:id="@+id/txt_full_name"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -58,15 +61,11 @@
                 android:layout_marginTop="10dp"
                 android:text="Home Address:"/>
 
-            <TextView
-                android:layout_width="wrap_content"
+            <EditText
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="#000000"
-                android:maxLines="1"
-                android:textSize="16sp"
-                android:layout_marginTop="5dp"
-                android:textStyle="bold"
-                android:id="@+id/lbl_home_address"/>
+                android:inputType="textAutoComplete|textMultiLine"
+                android:id="@+id/txt_home_address"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -74,15 +73,11 @@
                 android:layout_marginTop="10dp"
                 android:text="Home Tel:"/>
 
-            <TextView
-                android:layout_width="wrap_content"
+            <EditText
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="#000000"
-                android:maxLines="1"
-                android:textSize="16sp"
-                android:layout_marginTop="5dp"
-                android:textStyle="bold"
-                android:id="@+id/lbl_home_tel"/>
+                android:inputType="phone"
+                android:id="@+id/txt_home_tel"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -90,15 +85,11 @@
                 android:layout_marginTop="10dp"
                 android:text="Office Tel:"/>
 
-            <TextView
-                android:layout_width="wrap_content"
+            <EditText
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="#000000"
-                android:maxLines="1"
-                android:textSize="16sp"
-                android:layout_marginTop="5dp"
-                android:textStyle="bold"
-                android:id="@+id/lbl_office_tel"/>
+                android:inputType="phone"
+                android:id="@+id/txt_office_tel"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -106,15 +97,11 @@
                 android:layout_marginTop="10dp"
                 android:text="Mobile:"/>
 
-            <TextView
-                android:layout_width="wrap_content"
+            <EditText
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="#000000"
-                android:maxLines="1"
-                android:textSize="16sp"
-                android:layout_marginTop="5dp"
-                android:textStyle="bold"
-                android:id="@+id/lbl_mobile"/>
+                android:inputType="phone"
+                android:id="@+id/txt_mobile"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -122,15 +109,11 @@
                 android:layout_marginTop="10dp"
                 android:text="EmailAddress:"/>
 
-            <TextView
-                android:layout_width="wrap_content"
+            <EditText
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="#000000"
-                android:maxLines="1"
-                android:textSize="16sp"
-                android:layout_marginTop="5dp"
-                android:textStyle="bold"
-                android:id="@+id/lbl_email_address"/>
+                android:inputType="textEmailAddress"
+                android:id="@+id/txt_email"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -138,15 +121,11 @@
                 android:layout_marginTop="10dp"
                 android:text="Invited By:"/>
 
-            <TextView
-                android:layout_width="wrap_content"
+            <EditText
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="#000000"
-                android:maxLines="1"
-                android:textSize="16sp"
-                android:layout_marginTop="5dp"
-                android:textStyle="bold"
-                android:id="@+id/lbl_invited_by"/>
+                android:inputType="textAutoComplete|textAutoCorrect|textMultiLine"
+                android:id="@+id/txt_invited_by"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -154,15 +133,11 @@
                 android:layout_marginTop="10dp"
                 android:text="Birthday:"/>
 
-            <TextView
-                android:layout_width="wrap_content"
+            <EditText
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="#000000"
-                android:maxLines="1"
-                android:textSize="16sp"
-                android:layout_marginTop="5dp"
-                android:textStyle="bold"
-                android:id="@+id/lbl_birthday"/>
+                android:inputType="phone"
+                android:id="@+id/txt_birthday"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -170,15 +145,11 @@
                 android:layout_marginTop="10dp"
                 android:text="Age Group:"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#000000"
-                android:maxLines="1"
-                android:textSize="16sp"
-                android:layout_marginTop="5dp"
-                android:textStyle="bold"
-                android:id="@+id/lbl_age_group"/>
+            <android.support.v7.widget.AppCompatSpinner
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:id="@+id/cmb_age_group"
+                android:entries="@array/ageGroupList"/>
 
             <TextView
                 android:layout_marginTop="10dp"
@@ -186,68 +157,46 @@
                 android:layout_height="wrap_content"
                 android:text="My decision today:"/>
 
-            <TextView
-                android:layout_marginTop="5dp"
+            <android.support.v7.widget.AppCompatCheckBox
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/lbl_commit_life"
-                android:visibility="gone"
-                android:layout_marginLeft="5dp"
-                android:textColor="#000000"
+                android:id="@+id/chk_commit_life"
                 android:text="I want to commit my life to Christ."/>
 
-            <TextView
+            <android.support.v7.widget.AppCompatCheckBox
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/lbl_renew_commitment"
-                android:visibility="gone"
-                android:layout_marginLeft="5dp"
-                android:textColor="#000000"
+                android:id="@+id/chk_renew_commitment"
                 android:text="I want to renew my commitment to Christ."/>
 
-            <TextView
+            <android.support.v7.widget.AppCompatCheckBox
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/lbl_be_baptized"
-                android:visibility="gone"
-                android:layout_marginLeft="5dp"
-                android:textColor="#000000"
+                android:id="@+id/chk_be_baptized"
                 android:text="I want to be baptized."/>
 
-            <TextView
+            <android.support.v7.widget.AppCompatCheckBox
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/lbl_talk_pastorate"
-                android:visibility="gone"
-                android:layout_marginLeft="5dp"
-                android:textColor="#000000"
+                android:id="@+id/chk_talk_pastorate"
                 android:text="I want to talk to members of the pastorate."/>
 
-            <TextView
+            <android.support.v7.widget.AppCompatCheckBox
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/lbl_become_member"
-                android:visibility="gone"
-                android:layout_marginLeft="5dp"
-                android:textColor="#000000"
+                android:id="@+id/chk_become_member"
                 android:text="I want to become a member of this Church."/>
 
-            <TextView
+            <android.support.v7.widget.AppCompatCheckBox
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/lbl_discover_maturity"
-                android:layout_marginLeft="5dp"
-                android:visibility="gone"
-                android:textColor="#000000"
+                android:id="@+id/chk_discover_maturity"
                 android:text="I want to discover spiritual maturity."/>
 
-            <TextView
+            <android.support.v7.widget.AppCompatCheckBox
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/lbl_discover_ministry"
-                android:visibility="gone"
-                android:layout_marginLeft="5dp"
-                android:textColor="#000000"
+                android:id="@+id/chk_discover_ministry"
                 android:text="I want to discover my ministry."/>
 
             <TextView
@@ -256,25 +205,21 @@
                 android:layout_marginTop="10dp"
                 android:text="Comments:"/>
 
-            <TextView
-                android:layout_width="wrap_content"
+            <EditText
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="#000000"
-                android:textSize="16sp"
-                android:layout_marginTop="5dp"
-                android:textStyle="bold"
-                android:id="@+id/lbl_comments"/>
+                android:inputType="textAutoComplete|textAutoCorrect|textMultiLine"
+                android:id="@+id/txt_comments"/>
 
             <Button
                 android:layout_marginTop="10dp"
-                android:layout_marginRight="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="Close"
+                android:text="Update"
                 android:background="@color/colorAccent"
+                android:layout_gravity="center_horizontal"
                 android:textColor="#FFFFFF"
-                android:id="@+id/btn_close"/>
+                android:id="@+id/btn_update_record"/>
         </LinearLayout>
     </ScrollView>
-</RelativeLayout>
+</LinearLayout>

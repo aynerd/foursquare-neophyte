@@ -15,6 +15,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -26,6 +27,7 @@ import com.inveniotechnologies.neophyte.ListAdapters.DateListAdapter;
 import com.inveniotechnologies.neophyte.ListItems.DateListItem;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class Home extends AppCompatActivity {
@@ -62,6 +64,9 @@ public class Home extends AppCompatActivity {
         lst_dates.setAdapter(datesAdapter);
         //
         database = FirebaseDatabase.getInstance();
+        //set offline
+        database.setPersistenceEnabled(true);
+        //
         DatabaseReference membersRef = database.getReference("members");
         membersRef.addChildEventListener(new ChildEventListener() {
             @Override
@@ -84,7 +89,20 @@ public class Home extends AppCompatActivity {
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-
+                if(dataSnapshot != null) {
+                    String date = dataSnapshot.getKey();
+                    //
+                    DateListItem item = new DateListItem();
+                    for (int i = 0; i < datesList.size(); i++) {
+                        if(datesList.get(i).getDate().equals(date)) {
+                            item = datesList.get(i);
+                            break;
+                        }
+                    }
+                    //
+                    datesList.remove(item);
+                    datesAdapter.notifyDataSetChanged();
+                }
             }
 
             @Override
@@ -94,7 +112,8 @@ public class Home extends AppCompatActivity {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
+                Toast.makeText(Home.this, "Sorry, an error occurred while trying to read data.", Toast.LENGTH_LONG).show();
+                finish();
             }
         });
 
