@@ -1,13 +1,16 @@
 package com.inveniotechnologies.neophyte;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.GestureDetector;
@@ -129,7 +132,22 @@ public class Home extends AppCompatActivity {
 
             @Override
             public void onLongClick(View view, int position) {
+                final DateListItem item = datesList.get(position);
+                //
+                PopupMenu popupMenu = new PopupMenu(view.getContext(), view);
+                Home.this.getMenuInflater().inflate(R.menu.menu_day, popupMenu.getMenu());
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem menuItem) {
+                        switch (menuItem.getItemId()) {
+                            case R.id.menu_export:
 
+                                break;
+                        }
+                        return  true;
+                    }
+                });
+                popupMenu.show();
             }
         }));
     }
