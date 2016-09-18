@@ -158,7 +158,7 @@ public class Home extends AppCompatActivity {
         if (!folder.exists())
             folder.mkdir();
         final String filename = item.getDate() + ".csv";
-        final StringBuilder csvBuilder = new StringBuilder(filename);
+        final StringBuilder csvBuilder = new StringBuilder();
         //
         DatabaseReference membersRef = database.getReference("members");
         DatabaseReference dateRef = membersRef.child(item.getDate());
