@@ -260,10 +260,6 @@ public class Home extends AppCompatActivity {
                 }
             }
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 1f68c645fd14f3bc2491552c351ba39c0903b877
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 Toast.makeText(Home.this, "Sorry, an error occured and the data was not exported.", Toast.LENGTH_SHORT).show();
