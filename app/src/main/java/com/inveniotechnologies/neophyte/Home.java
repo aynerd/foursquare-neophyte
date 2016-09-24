@@ -1,6 +1,5 @@
 package com.inveniotechnologies.neophyte;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -168,37 +167,37 @@ public class Home extends AppCompatActivity {
                 if(dataSnapshot != null) {
                     //
                     csvBuilder.append("Full Name");
-                    csvBuilder.append(',');
+                    csvBuilder.append('\t');
 
                     csvBuilder.append("Age Group");
-                    csvBuilder.append(',');
+                    csvBuilder.append('\t');
 
                     csvBuilder.append("Birthday");
-                    csvBuilder.append(',');
+                    csvBuilder.append('\t');
 
                     csvBuilder.append("Comments");
-                    csvBuilder.append(',');
+                    csvBuilder.append('\t');
 
                     csvBuilder.append("Decisions");
-                    csvBuilder.append(',');
+                    csvBuilder.append('\t');
 
                     csvBuilder.append("Email");
-                    csvBuilder.append(',');
+                    csvBuilder.append('\t');
 
                     csvBuilder.append("Home Address");
-                    csvBuilder.append(',');
+                    csvBuilder.append('\t');
 
                     csvBuilder.append("Home Tel");
-                    csvBuilder.append(',');
+                    csvBuilder.append('\t');
 
                     csvBuilder.append("Invited By");
-                    csvBuilder.append(',');
+                    csvBuilder.append('\t');
 
                     csvBuilder.append("Mobile");
-                    csvBuilder.append(',');
+                    csvBuilder.append('\t');
 
                     csvBuilder.append("Office Tel");
-                    csvBuilder.append(',');
+                    csvBuilder.append('\t');
 
                     csvBuilder.append("Title");
 
@@ -208,37 +207,37 @@ public class Home extends AppCompatActivity {
                         Record record = personShot.getValue(Record.class);
                         //
                         csvBuilder.append(record.getFullName());
-                        csvBuilder.append(',');
+                        csvBuilder.append('\t');
 
                         csvBuilder.append(record.getAgeGroup());
-                        csvBuilder.append(',');
+                        csvBuilder.append('\t');
 
                         csvBuilder.append(record.getBirthDay());
-                        csvBuilder.append(',');
+                        csvBuilder.append('\t');
 
                         csvBuilder.append(record.getComments());
-                        csvBuilder.append(',');
+                        csvBuilder.append('\t');
 
                         csvBuilder.append(record.getDecisions());
-                        csvBuilder.append(',');
+                        csvBuilder.append('\t');
 
                         csvBuilder.append(record.getEmail());
-                        csvBuilder.append(',');
+                        csvBuilder.append('\t');
 
                         csvBuilder.append(record.getHomeAddress());
-                        csvBuilder.append(',');
+                        csvBuilder.append('\t');
 
                         csvBuilder.append(record.getHomeTel());
-                        csvBuilder.append(',');
+                        csvBuilder.append('\t');
 
                         csvBuilder.append(record.getInvitedBy());
-                        csvBuilder.append(',');
+                        csvBuilder.append('\t');
 
                         csvBuilder.append(record.getMobile());
-                        csvBuilder.append(',');
+                        csvBuilder.append('\t');
 
                         csvBuilder.append(record.getOfficeTel());
-                        csvBuilder.append(',');
+                        csvBuilder.append('\t');
 
                         csvBuilder.append(record.getTitle());
                         //
@@ -247,6 +246,9 @@ public class Home extends AppCompatActivity {
                     FileOutputStream outputStream;
                     try {
                         File file = new File(folder, filename);
+                        if(file.exists()) {
+                            file.delete();
+                        }
                         outputStream = new FileOutputStream(file);
                         outputStream.write(csvBuilder.toString().getBytes());
                         outputStream.close();
@@ -258,13 +260,15 @@ public class Home extends AppCompatActivity {
                 }
             }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 1f68c645fd14f3bc2491552c351ba39c0903b877
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
+                Toast.makeText(Home.this, "Sorry, an error occured and the data was not exported.", Toast.LENGTH_SHORT).show();
             }
         });
-        //
-
     }
 
     public interface ClickListener {
