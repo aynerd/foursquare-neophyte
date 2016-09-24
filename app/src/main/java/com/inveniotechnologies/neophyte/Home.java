@@ -168,37 +168,37 @@ public class Home extends AppCompatActivity {
                 if(dataSnapshot != null) {
                     //
                     csvBuilder.append("Full Name");
-                    csvBuilder.append(',');
+                    csvBuilder.append('\t');
 
                     csvBuilder.append("Age Group");
-                    csvBuilder.append(',');
+                    csvBuilder.append('\t');
 
                     csvBuilder.append("Birthday");
-                    csvBuilder.append(',');
+                    csvBuilder.append('\t');
 
                     csvBuilder.append("Comments");
-                    csvBuilder.append(',');
+                    csvBuilder.append('\t');
 
                     csvBuilder.append("Decisions");
-                    csvBuilder.append(',');
+                    csvBuilder.append('\t');
 
                     csvBuilder.append("Email");
-                    csvBuilder.append(',');
+                    csvBuilder.append('\t');
 
                     csvBuilder.append("Home Address");
-                    csvBuilder.append(',');
+                    csvBuilder.append('\t');
 
                     csvBuilder.append("Home Tel");
-                    csvBuilder.append(',');
+                    csvBuilder.append('\t');
 
                     csvBuilder.append("Invited By");
-                    csvBuilder.append(',');
+                    csvBuilder.append('\t');
 
                     csvBuilder.append("Mobile");
-                    csvBuilder.append(',');
+                    csvBuilder.append('\t');
 
                     csvBuilder.append("Office Tel");
-                    csvBuilder.append(',');
+                    csvBuilder.append('\t');
 
                     csvBuilder.append("Title");
 
@@ -208,37 +208,37 @@ public class Home extends AppCompatActivity {
                         Record record = personShot.getValue(Record.class);
                         //
                         csvBuilder.append(record.getFullName());
-                        csvBuilder.append(',');
+                        csvBuilder.append('\t');
 
                         csvBuilder.append(record.getAgeGroup());
-                        csvBuilder.append(',');
+                        csvBuilder.append('\t');
 
                         csvBuilder.append(record.getBirthDay());
-                        csvBuilder.append(',');
+                        csvBuilder.append('\t');
 
                         csvBuilder.append(record.getComments());
-                        csvBuilder.append(',');
+                        csvBuilder.append('\t');
 
                         csvBuilder.append(record.getDecisions());
-                        csvBuilder.append(',');
+                        csvBuilder.append('\t');
 
                         csvBuilder.append(record.getEmail());
-                        csvBuilder.append(',');
+                        csvBuilder.append('\t');
 
                         csvBuilder.append(record.getHomeAddress());
-                        csvBuilder.append(',');
+                        csvBuilder.append('\t');
 
                         csvBuilder.append(record.getHomeTel());
-                        csvBuilder.append(',');
+                        csvBuilder.append('\t');
 
                         csvBuilder.append(record.getInvitedBy());
-                        csvBuilder.append(',');
+                        csvBuilder.append('\t');
 
                         csvBuilder.append(record.getMobile());
-                        csvBuilder.append(',');
+                        csvBuilder.append('\t');
 
                         csvBuilder.append(record.getOfficeTel());
-                        csvBuilder.append(',');
+                        csvBuilder.append('\t');
 
                         csvBuilder.append(record.getTitle());
                         //
