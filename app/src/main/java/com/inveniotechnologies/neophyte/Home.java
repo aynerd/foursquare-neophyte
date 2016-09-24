@@ -23,6 +23,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.inveniotechnologies.neophyte.Extras.DividerItemDecoration;
 import com.inveniotechnologies.neophyte.ListAdapters.DateListAdapter;
 import com.inveniotechnologies.neophyte.ListItems.DateListItem;
@@ -153,136 +154,119 @@ public class Home extends AppCompatActivity {
     }
 
     private void createCSV(DateListItem item) {
-        File folder = new File(Environment.getExternalStorageDirectory() + "/FoursquareNewcomers");
+        final File folder = new File(Environment.getExternalStorageDirectory() + "/FoursquareNewcomers");
         if (!folder.exists())
             folder.mkdir();
         final String filename = item.getDate() + ".csv";
-        // show waiting screen
-        CharSequence contentTitle = getString(R.string.app_name);
-        final ProgressDialog progressDailog = ProgressDialog.show(Home.this, contentTitle, "Please wait while the contacts are being written. Check the 'FoursquareNewcomers' foler on the SD Card", true);
-        //
-        final StringBuilder csvBuilder = new StringBuilder(filename);
-        //
-        csvBuilder.append("Full Name");
-        csvBuilder.append(',');
-
-        csvBuilder.append("Age Group");
-        csvBuilder.append(',');
-
-        csvBuilder.append("Birthday");
-        csvBuilder.append(',');
-
-        csvBuilder.append("Comments");
-        csvBuilder.append(',');
-
-        csvBuilder.append("Decisions");
-        csvBuilder.append(',');
-
-        csvBuilder.append("Email");
-        csvBuilder.append(',');
-
-        csvBuilder.append("Home Address");
-        csvBuilder.append(',');
-
-        csvBuilder.append("Home Tel");
-        csvBuilder.append(',');
-
-        csvBuilder.append("Invited By");
-        csvBuilder.append(',');
-
-        csvBuilder.append("Mobile");
-        csvBuilder.append(',');
-
-        csvBuilder.append("Office Tel");
-        csvBuilder.append(',');
-
-        csvBuilder.append("Title");
-        csvBuilder.append(',');
-
-        csvBuilder.append('\n');
+        final StringBuilder csvBuilder = new StringBuilder();
         //
         DatabaseReference membersRef = database.getReference("members");
         DatabaseReference dateRef = membersRef.child(item.getDate());
-        dateRef.addChildEventListener(new ChildEventListener() {
+        dateRef.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                if (dataSnapshot != null) {
-                    Record record = dataSnapshot.getValue(Record.class);
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot != null) {
                     //
-                    csvBuilder.append(record.getFullName());
-                    csvBuilder.append(',');
+                    csvBuilder.append("Full Name");
+                    csvBuilder.append('\t');
 
-                    csvBuilder.append(record.getAgeGroup());
-                    csvBuilder.append(',');
+                    csvBuilder.append("Age Group");
+                    csvBuilder.append('\t');
 
-                    csvBuilder.append(record.getBirthDay());
-                    csvBuilder.append(',');
+                    csvBuilder.append("Birthday");
+                    csvBuilder.append('\t');
 
-                    csvBuilder.append(record.getComments());
-                    csvBuilder.append(',');
+                    csvBuilder.append("Comments");
+                    csvBuilder.append('\t');
 
-                    csvBuilder.append(record.getDecisions());
-                    csvBuilder.append(',');
+                    csvBuilder.append("Decisions");
+                    csvBuilder.append('\t');
 
-                    csvBuilder.append(record.getEmail());
-                    csvBuilder.append(',');
+                    csvBuilder.append("Email");
+                    csvBuilder.append('\t');
 
-                    csvBuilder.append(record.getHomeAddress());
-                    csvBuilder.append(',');
+                    csvBuilder.append("Home Address");
+                    csvBuilder.append('\t');
 
-                    csvBuilder.append(record.getHomeTel());
-                    csvBuilder.append(',');
+                    csvBuilder.append("Home Tel");
+                    csvBuilder.append('\t');
 
-                    csvBuilder.append(record.getInvitedBy());
-                    csvBuilder.append(',');
+                    csvBuilder.append("Invited By");
+                    csvBuilder.append('\t');
 
-                    csvBuilder.append(record.getMobile());
-                    csvBuilder.append(',');
+                    csvBuilder.append("Mobile");
+                    csvBuilder.append('\t');
 
-                    csvBuilder.append(record.getOfficeTel());
-                    csvBuilder.append(',');
+                    csvBuilder.append("Office Tel");
+                    csvBuilder.append('\t');
 
-                    csvBuilder.append(record.getTitle());
-                    csvBuilder.append(',');
-                    //
+                    csvBuilder.append("Title");
+
                     csvBuilder.append('\n');
+                    //
+                    for(DataSnapshot personShot : dataSnapshot.getChildren()) {
+                        Record record = personShot.getValue(Record.class);
+                        //
+                        csvBuilder.append(record.getFullName());
+                        csvBuilder.append('\t');
+
+                        csvBuilder.append(record.getAgeGroup());
+                        csvBuilder.append('\t');
+
+                        csvBuilder.append(record.getBirthDay());
+                        csvBuilder.append('\t');
+
+                        csvBuilder.append(record.getComments());
+                        csvBuilder.append('\t');
+
+                        csvBuilder.append(record.getDecisions());
+                        csvBuilder.append('\t');
+
+                        csvBuilder.append(record.getEmail());
+                        csvBuilder.append('\t');
+
+                        csvBuilder.append(record.getHomeAddress());
+                        csvBuilder.append('\t');
+
+                        csvBuilder.append(record.getHomeTel());
+                        csvBuilder.append('\t');
+
+                        csvBuilder.append(record.getInvitedBy());
+                        csvBuilder.append('\t');
+
+                        csvBuilder.append(record.getMobile());
+                        csvBuilder.append('\t');
+
+                        csvBuilder.append(record.getOfficeTel());
+                        csvBuilder.append('\t');
+
+                        csvBuilder.append(record.getTitle());
+                        //
+                        csvBuilder.append('\n');
+                    }
+                    FileOutputStream outputStream;
+                    try {
+                        File file = new File(folder, filename);
+                        if(file.exists()) {
+                            file.delete();
+                        }
+                        outputStream = new FileOutputStream(file);
+                        outputStream.write(csvBuilder.toString().getBytes());
+                        outputStream.close();
+                        //
+                        Toast.makeText(Home.this, "File successfully exported. " + filename, Toast.LENGTH_SHORT).show();
+                    } catch (Exception e) {
+                        Toast.makeText(Home.this, "Sorry, could not write the file.", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
 
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
+                Toast.makeText(Home.this, "Sorry, an error occured and the data was not exported.", Toast.LENGTH_SHORT).show();
             }
         });
-        //
-        FileOutputStream outputStream;
-        try {
-            File file = new File(folder, filename);
-            outputStream = new FileOutputStream(file);
-            outputStream.write(csvBuilder.toString().getBytes());
-            outputStream.close();
-            //
-            Toast.makeText(Home.this, "File successfully exported. " + filename, Toast.LENGTH_SHORT).show();
-        } catch (Exception e) {
-            Toast.makeText(Home.this, "Sorry, could not write the file.", Toast.LENGTH_SHORT).show();
-        }
-        //
-        progressDailog.dismiss();
     }
 
     public interface ClickListener {
