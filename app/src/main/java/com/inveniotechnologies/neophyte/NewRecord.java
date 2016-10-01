@@ -5,7 +5,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatCheckBox;
 import android.support.v7.widget.AppCompatSpinner;
+import android.text.Editable;
 import android.text.InputType;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -102,6 +104,58 @@ public class NewRecord extends AppCompatActivity implements View.OnClickListener
                 txt_dob.setText(dateFormatter.format(date.getTime()));
             }
         }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+        //
+        txt_dob.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // Do nothing
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // Do nothing
+
+                if(s.length() == 10) {
+                    String yearString = s.toString().substring(0, 4);
+                    int year = Integer.parseInt(yearString);
+                    int currentYear = Calendar.getInstance().get(Calendar.YEAR);
+                    int age = currentYear - year;
+                    //
+                    if(age > 60) {
+                        cmb_age_group.setSelection(8, true);
+                    }
+                    else if(age > 50 && age < 61) {
+                        cmb_age_group.setSelection(7, true);
+                    }
+                    else if(age > 45 && age < 51) {
+                        cmb_age_group.setSelection(6, true);
+                    }
+                    else if(age > 40 && age < 46) {
+                        cmb_age_group.setSelection(5, true);
+                    }
+                    else if(age > 35 && age < 41) {
+                        cmb_age_group.setSelection(4, true);
+                    }
+                    else if(age > 30 && age < 36) {
+                        cmb_age_group.setSelection(3, true);
+                    }
+                    else if(age > 25 && age < 31) {
+                        cmb_age_group.setSelection(2, true);
+                    }
+                    else if(age > 17 && age < 26) {
+                        cmb_age_group.setSelection(1, true);
+                    }
+                    else {
+                        cmb_age_group.setSelection(0, true);
+                    }
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                // Do nothing
+            }
+        });
     }
 
     @Override
