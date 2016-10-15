@@ -168,6 +168,22 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:text="Spiritual Rebirth Date:"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#000000"
+                android:maxLines="1"
+                android:textSize="16sp"
+                android:layout_marginTop="5dp"
+                android:textStyle="bold"
+                android:id="@+id/lbl_spiritual_rebirth_date"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:text="Age Group:"/>
 
             <TextView
@@ -254,7 +270,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Comments:"/>
+                android:text="Comments/Prayer Points:"/>
 
             <TextView
                 android:layout_width="wrap_content"
