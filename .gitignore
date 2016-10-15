@@ -45,3 +45,6 @@ app/google-services.json
 
 # Idea settings folder
 .idea/
+
+# Gradle wrapper file
+gradlew
