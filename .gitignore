@@ -40,8 +40,5 @@ captures/
 # Keystore files
 *.jks
 
-# The google settings file
-app/google-services.json
-
 # Idea settings folder
 .idea/

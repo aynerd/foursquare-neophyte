@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "952942530214",
+    "firebase_url": "https://neophyte-648c7.firebaseio.com",
+    "project_id": "neophyte-648c7",
+    "storage_bucket": "neophyte-648c7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:952942530214:android:7a06f6290bc90ad7",
+        "android_client_info": {
+          "package_name": "com.inveniotechnologies.neophyte"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "952942530214-6r1jhjskfjk2kq54c87tcpd9ubru7d34.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.inveniotechnologies.neophyte",
+            "certificate_hash": "979A2D44A920FC8DA402448CB91907C675094966"
+          }
+        },
+        {
+          "client_id": "952942530214-076147tsdg020e4do3v0dpb7nav9lg0q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAUfcf8e3hTAP4Vm96AZjWtE1abkVp6rv0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "952942530214-076147tsdg020e4do3v0dpb7nav9lg0q.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
