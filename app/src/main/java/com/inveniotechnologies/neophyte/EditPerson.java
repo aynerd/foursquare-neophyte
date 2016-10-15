@@ -37,6 +37,7 @@ public class EditPerson extends AppCompatActivity implements View.OnClickListene
     private EditText txt_email;
     private EditText txt_invited_by;
     private EditText txt_comments;
+    private EditText txt_spiritual_rebirth_date;
     //
     private AppCompatSpinner cmb_title;
     private AppCompatSpinner cmb_age_group;
@@ -59,6 +60,7 @@ public class EditPerson extends AppCompatActivity implements View.OnClickListene
     //
     private DatePickerDialog dobPickerDialog;
     private DatePickerDialog saveDatePickerDialog;
+    private DatePickerDialog dsrPickerDialog;
     //
     String date;
     String Uid;
@@ -113,9 +115,22 @@ public class EditPerson extends AppCompatActivity implements View.OnClickListene
             }
         }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
         //
+        dsrPickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                Calendar date = Calendar.getInstance();
+                date.set(year, month, day);
+                txt_spiritual_rebirth_date.setText(dateFormatter.format(date.getTime()));
+            }
+        }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+        //
         txt_save_date = (EditText) findViewById(R.id.txt_save_date);
         txt_save_date.setInputType(InputType.TYPE_NULL);
         txt_save_date.setOnClickListener(this);
+        //
+        txt_spiritual_rebirth_date = (EditText) findViewById(R.id.txt_spiritual_rebirth_date);
+        txt_spiritual_rebirth_date.setInputType(InputType.TYPE_NULL);
+        txt_spiritual_rebirth_date.setOnClickListener(this);
         //
         saveDatePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
             @Override
@@ -145,6 +160,7 @@ public class EditPerson extends AppCompatActivity implements View.OnClickListene
                     txt_mobile.setText(record.getMobile());
                     txt_office_tel.setText(record.getOfficeTel());
                     txt_invited_by.setText(record.getInvitedBy());
+                    txt_spiritual_rebirth_date.setText(record.getDateOfSpiritualRebirth());
                     //
                     String[] decisions = record.getDecisions().split(";");
                     for(int i = 0; i < decisions.length; i++) {
@@ -188,6 +204,9 @@ public class EditPerson extends AppCompatActivity implements View.OnClickListene
             case R.id.txt_birthday :
                 dobPickerDialog.show();
                 break;
+            case R.id.txt_spiritual_rebirth_date:
+                dsrPickerDialog.show();
+                break;
             case R.id.txt_save_date:
                 saveDatePickerDialog.show();
                 break;
@@ -211,6 +230,7 @@ public class EditPerson extends AppCompatActivity implements View.OnClickListene
             record.setMobile(txt_mobile.getText().toString());
             record.setOfficeTel(txt_office_tel.getText().toString());
             record.setFullName(txt_full_name.getText().toString());
+            record.setDateOfSpiritualRebirth(txt_spiritual_rebirth_date.getText().toString());
             //
             String decisions = "";
             if (chk_talk_pastorate.isChecked()) {
