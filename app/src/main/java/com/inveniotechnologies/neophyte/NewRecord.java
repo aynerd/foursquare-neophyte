@@ -35,6 +35,7 @@ public class NewRecord extends AppCompatActivity implements View.OnClickListener
     private EditText txt_email;
     private EditText txt_invited_by;
     private EditText txt_comments;
+    private EditText txt_spiritual_rebirth_date;
     //
     private AppCompatSpinner cmb_title;
     private AppCompatSpinner cmb_age_group;
@@ -56,6 +57,7 @@ public class NewRecord extends AppCompatActivity implements View.OnClickListener
     private FirebaseDatabase database;
     //
     private DatePickerDialog dobPickerDialog;
+    private DatePickerDialog dsrPickerDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,6 +107,15 @@ public class NewRecord extends AppCompatActivity implements View.OnClickListener
             }
         }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
         //
+        dsrPickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                Calendar date = Calendar.getInstance();
+                date.set(year, month, day);
+                txt_spiritual_rebirth_date.setText(dateFormatter.format(date.getTime()));
+            }
+        }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+        //
         txt_dob.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -113,8 +124,6 @@ public class NewRecord extends AppCompatActivity implements View.OnClickListener
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // Do nothing
-
                 if(s.length() == 10) {
                     String yearString = s.toString().substring(0, 4);
                     int year = Integer.parseInt(yearString);
@@ -156,6 +165,10 @@ public class NewRecord extends AppCompatActivity implements View.OnClickListener
                 // Do nothing
             }
         });
+        //
+        txt_spiritual_rebirth_date = (EditText) findViewById(R.id.txt_spiritual_rebirth_date);
+        txt_spiritual_rebirth_date.setInputType(InputType.TYPE_NULL);
+        txt_spiritual_rebirth_date.setOnClickListener(this);
     }
 
     @Override
@@ -163,6 +176,9 @@ public class NewRecord extends AppCompatActivity implements View.OnClickListener
         switch (view.getId()) {
             case R.id.txt_birthday :
                 dobPickerDialog.show();
+                break;
+            case R.id.txt_spiritual_rebirth_date:
+                dsrPickerDialog.show();
                 break;
             case R.id.btn_save_record:
                 saveRecord();
@@ -184,6 +200,7 @@ public class NewRecord extends AppCompatActivity implements View.OnClickListener
             record.setMobile(txt_mobile.getText().toString());
             record.setOfficeTel(txt_office_tel.getText().toString());
             record.setFullName(txt_full_name.getText().toString());
+            record.setDateOfSpiritualRebirth(txt_spiritual_rebirth_date.getText().toString());
             //
             String decisions = "";
             if (chk_talk_pastorate.isChecked()) {
@@ -232,6 +249,7 @@ public class NewRecord extends AppCompatActivity implements View.OnClickListener
             txt_home_tel.setText("");
             txt_mobile.setText("");
             txt_office_tel.setText("");
+            txt_spiritual_rebirth_date.setText("");
             //
             chk_renew_commitment.setChecked(false);
             chk_become_member.setChecked(false);

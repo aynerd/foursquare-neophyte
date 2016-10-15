@@ -132,6 +132,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:text="Date of spiritual rebirth:"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="phone"
+                android:id="@+id/txt_spiritual_rebirth_date"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:text="Age Group:"/>
 
             <android.support.v7.widget.AppCompatSpinner
@@ -192,7 +204,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Comments:"/>
+                android:text="Comments/Prayer Points:"/>
 
             <EditText
                 android:layout_width="match_parent"

@@ -27,6 +27,7 @@ public class Details extends AppCompatActivity {
     private TextView lbl_email;
     private TextView lbl_invited_by;
     private TextView lbl_birthday;
+    private TextView lbl_spiritual_rebirth_date;
     //
     private TextView lbl_commit_life;
     private TextView lbl_renew_commitment;
@@ -60,6 +61,7 @@ public class Details extends AppCompatActivity {
         lbl_age_group = (TextView) findViewById(R.id.lbl_age_group);
         lbl_title = (TextView) findViewById(R.id.lbl_title);
         lbl_birthday = (TextView) findViewById(R.id.lbl_birthday);
+        lbl_spiritual_rebirth_date = (TextView) findViewById(R.id.lbl_spiritual_rebirth_date);
         //
         lbl_be_baptized = (TextView) findViewById(R.id.lbl_be_baptized);
         lbl_become_member = (TextView) findViewById(R.id.lbl_become_member);
@@ -97,6 +99,7 @@ public class Details extends AppCompatActivity {
                     lbl_mobile.setText(record.getMobile());
                     lbl_office_tel.setText(record.getOfficeTel());
                     lbl_invited_by.setText(record.getInvitedBy());
+                    lbl_spiritual_rebirth_date.setText(record.getDateOfSpiritualRebirth());
                     //
                     String[] decisions = record.getDecisions().split(";");
                     for(int i = 0; i < decisions.length; i++) {
