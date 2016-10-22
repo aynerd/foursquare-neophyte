@@ -6,7 +6,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatCheckBox;
 import android.support.v7.widget.AppCompatSpinner;
+import android.text.Editable;
 import android.text.InputType;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -27,8 +29,6 @@ import java.util.Date;
 import java.util.Locale;
 
 public class EditPerson extends AppCompatActivity implements View.OnClickListener {
-    private EditText txt_dob;
-    private EditText txt_save_date;
     private EditText txt_full_name;
     private EditText txt_home_address;
     private EditText txt_home_tel;
@@ -37,7 +37,6 @@ public class EditPerson extends AppCompatActivity implements View.OnClickListene
     private EditText txt_email;
     private EditText txt_invited_by;
     private EditText txt_comments;
-    private EditText txt_spiritual_rebirth_date;
     //
     private AppCompatSpinner cmb_title;
     private AppCompatSpinner cmb_age_group;
@@ -51,16 +50,13 @@ public class EditPerson extends AppCompatActivity implements View.OnClickListene
     private AppCompatCheckBox chk_discover_ministry;
     //
     private Button btn_update_record;
+    private Button btn_select_spiritual_rebirth;
+    private Button btn_select_dob;
+    private Button btn_select_save_date;
     //
     private ScrollView scrollViewer;
     //
-    private SimpleDateFormat dateFormatter;
-    //
     private FirebaseDatabase database;
-    //
-    private DatePickerDialog dobPickerDialog;
-    private DatePickerDialog saveDatePickerDialog;
-    private DatePickerDialog dsrPickerDialog;
     //
     String date;
     String Uid;
@@ -94,52 +90,66 @@ public class EditPerson extends AppCompatActivity implements View.OnClickListene
         chk_renew_commitment = (AppCompatCheckBox) findViewById(R.id.chk_renew_commitment);
         chk_talk_pastorate = (AppCompatCheckBox) findViewById(R.id.chk_talk_pastorate);
         //
+        btn_select_dob = (Button) findViewById(R.id.btn_select_dob);
+        btn_select_dob.setOnClickListener(this);
+        btn_select_save_date = (Button) findViewById(R.id.btn_select_save_date);
+        btn_select_save_date.setOnClickListener(this);
+        btn_select_spiritual_rebirth = (Button) findViewById(R.id.btn_spiritual_rebirth_date);
+        btn_select_spiritual_rebirth.setOnClickListener(this);
         btn_update_record = (Button) findViewById(R.id.btn_update_record);
         btn_update_record.setOnClickListener(this);
         //
         scrollViewer = (ScrollView) findViewById(R.id.mScrollView);
         //
-        dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
-        //
-        txt_dob = (EditText) findViewById(R.id.txt_birthday);
-        txt_dob.setInputType(InputType.TYPE_NULL);
-        txt_dob.setOnClickListener(this);
-        //
-        Calendar calendar = Calendar.getInstance();
-        dobPickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+        btn_select_dob.addTextChangedListener(new TextWatcher() {
             @Override
-            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                Calendar date = Calendar.getInstance();
-                date.set(year, month, day);
-                txt_dob.setText(dateFormatter.format(date.getTime()));
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // Do nothing
             }
-        }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
-        //
-        dsrPickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+
             @Override
-            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                Calendar date = Calendar.getInstance();
-                date.set(year, month, day);
-                txt_spiritual_rebirth_date.setText(dateFormatter.format(date.getTime()));
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(s.length() == 10) {
+                    String yearString = s.toString().substring(0, 4);
+                    int year = Integer.parseInt(yearString);
+                    int currentYear = Calendar.getInstance().get(Calendar.YEAR);
+                    int age = currentYear - year;
+                    //
+                    if(age > 60) {
+                        cmb_age_group.setSelection(8, true);
+                    }
+                    else if(age > 50 && age < 61) {
+                        cmb_age_group.setSelection(7, true);
+                    }
+                    else if(age > 45 && age < 51) {
+                        cmb_age_group.setSelection(6, true);
+                    }
+                    else if(age > 40 && age < 46) {
+                        cmb_age_group.setSelection(5, true);
+                    }
+                    else if(age > 35 && age < 41) {
+                        cmb_age_group.setSelection(4, true);
+                    }
+                    else if(age > 30 && age < 36) {
+                        cmb_age_group.setSelection(3, true);
+                    }
+                    else if(age > 25 && age < 31) {
+                        cmb_age_group.setSelection(2, true);
+                    }
+                    else if(age > 17 && age < 26) {
+                        cmb_age_group.setSelection(1, true);
+                    }
+                    else {
+                        cmb_age_group.setSelection(0, true);
+                    }
+                }
             }
-        }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
-        //
-        txt_save_date = (EditText) findViewById(R.id.txt_save_date);
-        txt_save_date.setInputType(InputType.TYPE_NULL);
-        txt_save_date.setOnClickListener(this);
-        //
-        txt_spiritual_rebirth_date = (EditText) findViewById(R.id.txt_spiritual_rebirth_date);
-        txt_spiritual_rebirth_date.setInputType(InputType.TYPE_NULL);
-        txt_spiritual_rebirth_date.setOnClickListener(this);
-        //
-        saveDatePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+
             @Override
-            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                Calendar date = Calendar.getInstance();
-                date.set(year, month, day);
-                txt_save_date.setText(dateFormatter.format(date.getTime()));
+            public void afterTextChanged(Editable s) {
+                // Do nothing
             }
-        }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+        });
         //
         database = FirebaseDatabase.getInstance();
         DatabaseReference membersRef = database.getReference("members");
@@ -150,8 +160,12 @@ public class EditPerson extends AppCompatActivity implements View.OnClickListene
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Record record = dataSnapshot.getValue(Record.class);
                 if(record != null) {
-                    txt_save_date.setText(date);
-                    txt_dob.setText(record.getBirthDay());
+                    btn_select_save_date.setText(date);
+                    if(record.getBirthDay() == null || record.getBirthDay().isEmpty()) {
+                        btn_select_dob.setText(record.getBirthDay());
+                    } else {
+                        btn_select_dob.setText("Select Date");
+                    }
                     txt_full_name.setText(record.getFullName());
                     txt_comments.setText(record.getComments());
                     txt_email.setText(record.getEmail());
@@ -160,7 +174,11 @@ public class EditPerson extends AppCompatActivity implements View.OnClickListene
                     txt_mobile.setText(record.getMobile());
                     txt_office_tel.setText(record.getOfficeTel());
                     txt_invited_by.setText(record.getInvitedBy());
-                    txt_spiritual_rebirth_date.setText(record.getDateOfSpiritualRebirth());
+                    if(record.getDateOfSpiritualRebirth() == null || record.getDateOfSpiritualRebirth().isEmpty()) {
+                        btn_select_spiritual_rebirth.setText("Select Date");
+                    } else {
+                        btn_select_spiritual_rebirth.setText(record.getDateOfSpiritualRebirth());
+                    }
                     //
                     String[] decisions = record.getDecisions().split(";");
                     for(int i = 0; i < decisions.length; i++) {
@@ -201,14 +219,14 @@ public class EditPerson extends AppCompatActivity implements View.OnClickListene
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.txt_birthday :
-                dobPickerDialog.show();
+            case R.id.btn_select_dob:
+                changeDOB();
                 break;
-            case R.id.txt_spiritual_rebirth_date:
-                dsrPickerDialog.show();
+            case R.id.btn_spiritual_rebirth_date:
+                changeSRB();
                 break;
-            case R.id.txt_save_date:
-                saveDatePickerDialog.show();
+            case R.id.btn_select_save_date:
+                changeSaveDate();
                 break;
             case R.id.btn_update_record:
                 updateRecord();
@@ -221,7 +239,11 @@ public class EditPerson extends AppCompatActivity implements View.OnClickListene
             Record record = new Record();
             record.setTitle(cmb_title.getSelectedItem().toString());
             record.setAgeGroup(cmb_age_group.getSelectedItem().toString());
-            record.setBirthDay(txt_dob.getText().toString());
+            if(btn_select_dob.getText().toString() == "Select Date") {
+                record.setBirthDay("");
+            } else  {
+                record.setBirthDay(btn_select_dob.getText().toString());
+            }
             record.setComments(txt_comments.getText().toString());
             record.setEmail(txt_email.getText().toString());
             record.setHomeAddress(txt_home_address.getText().toString());
@@ -230,7 +252,11 @@ public class EditPerson extends AppCompatActivity implements View.OnClickListene
             record.setMobile(txt_mobile.getText().toString());
             record.setOfficeTel(txt_office_tel.getText().toString());
             record.setFullName(txt_full_name.getText().toString());
-            record.setDateOfSpiritualRebirth(txt_spiritual_rebirth_date.getText().toString());
+            if(btn_select_spiritual_rebirth.getText().toString() == "Select Date") {
+                record.setDateOfSpiritualRebirth("");
+            } else {
+                record.setDateOfSpiritualRebirth(btn_select_spiritual_rebirth.getText().toString());
+            }
             //
             String decisions = "";
             if (chk_talk_pastorate.isChecked()) {
@@ -262,7 +288,7 @@ public class EditPerson extends AppCompatActivity implements View.OnClickListene
             DatabaseReference uidRef = dateRef.child(Uid);
             uidRef.removeValue();
             //
-            DatabaseReference newDateRef = membersRef.child(txt_save_date.getText().toString());
+            DatabaseReference newDateRef = membersRef.child(btn_select_save_date.getText().toString());
             newDateRef.push().setValue(record);
             scrollViewer.fullScroll(ScrollView.FOCUS_UP);
             //
@@ -271,5 +297,53 @@ public class EditPerson extends AppCompatActivity implements View.OnClickListene
         catch (Exception e){
             Toast.makeText(this, "An error occurred: " + e.getMessage(), Toast.LENGTH_LONG).show();
         }
+    }
+
+    private void changeDOB() {
+        final Calendar c = Calendar.getInstance();
+        int year = c.get(Calendar.YEAR);
+        int month = c.get(Calendar.MONTH);
+        int day = c.get(Calendar.DAY_OF_MONTH);
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this,
+                new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                        btn_select_dob.setText(year + "-" + String.format("%02d", (monthOfYear + 1)) + "-" + String.format("%02d", dayOfMonth));
+                    }
+                }, year, month, day);
+        datePickerDialog.show();
+    }
+
+    private void changeSRB() {
+        final Calendar c = Calendar.getInstance();
+        int year = c.get(Calendar.YEAR);
+        int month = c.get(Calendar.MONTH);
+        int day = c.get(Calendar.DAY_OF_MONTH);
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this,
+                new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                        btn_select_spiritual_rebirth.setText(year + "-" + String.format("%02d", (monthOfYear + 1)) + "-" + String.format("%02d", dayOfMonth));
+                    }
+                }, year, month, day);
+        datePickerDialog.show();
+    }
+
+    private void changeSaveDate() {
+        final Calendar c = Calendar.getInstance();
+        int year = c.get(Calendar.YEAR);
+        int month = c.get(Calendar.MONTH);
+        int day = c.get(Calendar.DAY_OF_MONTH);
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this,
+                new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                        btn_select_save_date.setText(year + "-" + String.format("%02d", (monthOfYear + 1)) + "-" + String.format("%02d", dayOfMonth));
+                    }
+                }, year, month, day);
+        datePickerDialog.show();
     }
 }
