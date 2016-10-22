@@ -122,11 +122,12 @@
                 android:layout_marginTop="10dp"
                 android:text="Birthday:"/>
 
-            <EditText
+            <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="phone"
-                android:id="@+id/txt_birthday"/>
+                android:layout_marginTop="10dp"
+                android:text="Select Date"
+                android:id="@+id/btn_select_dob"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -134,11 +135,12 @@
                 android:layout_marginTop="10dp"
                 android:text="Date of spiritual rebirth:"/>
 
-            <EditText
+            <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="phone"
-                android:id="@+id/txt_spiritual_rebirth_date"/>
+                android:layout_marginTop="10dp"
+                android:text="Select Date"
+                android:id="@+id/btn_spiritual_rebirth_date"/>
 
             <TextView
                 android:layout_width="wrap_content"
