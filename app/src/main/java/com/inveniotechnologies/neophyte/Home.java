@@ -1,11 +1,17 @@
 package com.inveniotechnologies.neophyte;
 
+import android.app.NotificationManager;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
+import android.service.notification.NotificationListenerService;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.NotificationCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
@@ -32,14 +38,8 @@ import com.inveniotechnologies.neophyte.Models.Release;
 import com.inveniotechnologies.neophyte.REST.ApiClient;
 import com.inveniotechnologies.neophyte.REST.ApiInterface;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,7 +47,12 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static android.R.attr.id;
+
 public class Home extends AppCompatActivity {
+    NotificationCompat.Builder notificationBuilder;
+    NotificationManager notificationManager;
+    //
     private RecyclerView lst_dates;
     private List<DateListItem> datesList = new ArrayList<>();
     private DateListAdapter datesAdapter;
@@ -71,8 +76,51 @@ public class Home extends AppCompatActivity {
         call.enqueue(new Callback<Release>() {
             @Override
             public void onResponse(Call<Release> call, Response<Release> response) {
-                Release release = response.body();
-
+                final Release release = response.body();
+                String tagName = release.getTagName();
+                String versionName = BuildConfig.VERSION_NAME;
+                if (!tagName.equals(versionName)) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(Home.this);
+                    builder.setMessage("There is a new version.\nName: " + release.getName() + "\nVersion: " + release.getTagName() + "\nDo you want to download it?").setCancelable(false).setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            if (release.getAssets().size() > 0) {
+                                String updateUrl = release.getAssets().get(0).getDownloadUrl();
+                                notificationBuilder = new NotificationCompat.Builder(Home.this);
+                                notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                                notificationBuilder.setContentTitle("Foursquare Update")
+                                        .setContentText("Download in progress")
+                                        .setSmallIcon(R.mipmap.ic_launcher);
+                                new Thread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        int incr;
+                                        for (incr = 0; incr <= 100; incr += 5) {
+                                            notificationBuilder.setProgress(100, incr, false);
+                                            notificationManager.notify(id, notificationBuilder.build());
+                                            try {
+                                                Thread.sleep(5 * 1000);
+                                            } catch (InterruptedException e) {
+                                                Log.d("Updater:", "sleep failure");
+                                            }
+                                        }
+                                        notificationBuilder.setContentText("Download complete")
+                                                .setProgress(0, 0, false);
+                                        notificationManager.notify(id, notificationBuilder.build());
+                                    }
+                                }).start();
+                            }
+                        }
+                    }).setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Log.d("Updater:", "Declined to update.");
+                        }
+                    });
+                    AlertDialog alertDialog = builder.create();
+                    alertDialog.setTitle("Update App");
+                    alertDialog.show();
+                }
             }
 
             @Override
