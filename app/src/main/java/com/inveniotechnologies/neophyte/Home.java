@@ -11,6 +11,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -27,6 +28,9 @@ import com.inveniotechnologies.neophyte.Extras.DividerItemDecoration;
 import com.inveniotechnologies.neophyte.ListAdapters.DateListAdapter;
 import com.inveniotechnologies.neophyte.ListItems.DateListItem;
 import com.inveniotechnologies.neophyte.Models.Record;
+import com.inveniotechnologies.neophyte.Models.Release;
+import com.inveniotechnologies.neophyte.REST.ApiClient;
+import com.inveniotechnologies.neophyte.REST.ApiInterface;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -38,6 +42,10 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class Home extends AppCompatActivity {
     private RecyclerView lst_dates;
@@ -58,12 +66,20 @@ public class Home extends AppCompatActivity {
             database = FirebaseDatabase.getInstance();
         }
         /* Check for updates */
-        new Thread(new Runnable() {
+        ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
+        Call<Release> call = apiInterface.getReleases();
+        call.enqueue(new Callback<Release>() {
             @Override
-            public void run() {
-                runUpdater();
+            public void onResponse(Call<Release> call, Response<Release> response) {
+                Release release = response.body();
+
             }
-        }).start();
+
+            @Override
+            public void onFailure(Call<Release> call, Throwable t) {
+                Log.d("Updater Error:", t.toString());
+            }
+        });
         //
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -169,29 +185,6 @@ public class Home extends AppCompatActivity {
                 popupMenu.show();
             }
         }));
-    }
-
-    private void runUpdater() {
-        try {
-            URL url = new URL("https://api.github.com/repos/bolorundurowb/Foursquare-Neophyte/releases/latest");
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("GET");
-            connection.connect();
-
-            InputStream inputStream = connection.getInputStream();
-            StringBuffer stringBuffer = new StringBuffer();
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-
-            // Make things readable
-            String responseString;
-            while ((responseString = bufferedReader.readLine()) != null) {
-                stringBuffer.append(responseString);
-            }
-            System.out.println(stringBuffer.toString());
-        } catch (IOException ex) {
-            System.out.println("The URL was malformed. " + ex.getMessage());
-        }
-
     }
 
     private void createCSV(DateListItem item) {
