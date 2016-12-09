@@ -28,8 +28,14 @@ import com.inveniotechnologies.neophyte.ListAdapters.DateListAdapter;
 import com.inveniotechnologies.neophyte.ListItems.DateListItem;
 import com.inveniotechnologies.neophyte.Models.Record;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,6 +50,20 @@ public class Home extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        /* Enable disk persistence */
+        if (savedInstanceState == null) {
+            database = FirebaseDatabase.getInstance();
+            FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+        } else {
+            database = FirebaseDatabase.getInstance();
+        }
+        /* Check for updates */
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                runUpdater();
+            }
+        }).start();
         //
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -67,7 +87,7 @@ public class Home extends AppCompatActivity {
         lst_dates.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
         lst_dates.setAdapter(datesAdapter);
         //
-        database = FirebaseDatabase.getInstance();
+//        database = FirebaseDatabase.getInstance();
         //
         DatabaseReference membersRef = database.getReference("members");
         membersRef.addChildEventListener(new ChildEventListener() {
@@ -149,6 +169,29 @@ public class Home extends AppCompatActivity {
                 popupMenu.show();
             }
         }));
+    }
+
+    private void runUpdater() {
+        try {
+            URL url = new URL("https://api.github.com/repos/bolorundurowb/Foursquare-Neophyte/releases/latest");
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+            connection.connect();
+
+            InputStream inputStream = connection.getInputStream();
+            StringBuffer stringBuffer = new StringBuffer();
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+
+            // Make things readable
+            String responseString;
+            while ((responseString = bufferedReader.readLine()) != null) {
+                stringBuffer.append(responseString);
+            }
+            System.out.println(stringBuffer.toString());
+        } catch (IOException ex) {
+            System.out.println("The URL was malformed. " + ex.getMessage());
+        }
+
     }
 
     private void createCSV(DateListItem item) {
