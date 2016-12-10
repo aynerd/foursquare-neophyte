@@ -107,7 +107,6 @@ public class Home extends AppCompatActivity {
                                             urlConnection.connect();
                                             //
                                             int fileLength = urlConnection.getContentLength();
-                                            Log.d("Updater:", "File length " + fileLength);
                                             //
                                             InputStream inputStream = new BufferedInputStream(url.openStream());
                                             final File folder = new File(Environment.getExternalStorageDirectory() + "/FoursquareNewcomers/Updates");
