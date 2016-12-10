@@ -2,14 +2,12 @@ package com.inveniotechnologies.neophyte;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.service.notification.NotificationListenerService;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -30,6 +28,7 @@ import android.widget.Toast;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseException;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
@@ -55,7 +54,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static android.R.attr.configChanges;
 import static android.R.attr.id;
 
 public class Home extends AppCompatActivity {
@@ -72,100 +70,103 @@ public class Home extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        //
+        database = FirebaseDatabase.getInstance();
         /* Enable disk persistence */
         if (savedInstanceState == null) {
-            database = FirebaseDatabase.getInstance();
-            FirebaseDatabase.getInstance().setPersistenceEnabled(true);
-        } else {
-            database = FirebaseDatabase.getInstance();
-        }
+            try {
+                database.setPersistenceEnabled(true);
+            } catch (DatabaseException ex) {
+                Log.e("Firebase", "An error occurs " + ex.getMessage());
+            }
         /* Check for updates */
-        ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
-        Call<Release> call = apiInterface.getReleases();
-        call.enqueue(new Callback<Release>() {
-            @Override
-            public void onResponse(Call<Release> call, Response<Release> response) {
-                final Release release = response.body();
-                String tagName = release.getTagName();
-                final String versionName = BuildConfig.VERSION_NAME;
-                if (!tagName.equals(versionName)) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(Home.this);
-                    builder.setMessage("There is a new version.\nName: " + release.getName() + "\nVersion: " + release.getTagName() + "\nDo you want to download it?").setCancelable(false).setPositiveButton("YES", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            if (release.getAssets().size() > 0) {
-                                final String updateUrl = release.getAssets().get(0).getDownloadUrl();
-                                notificationBuilder = new NotificationCompat.Builder(Home.this);
-                                notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-                                notificationBuilder.setContentTitle("Foursquare Update")
-                                        .setContentText("Download in progress")
-                                        .setSmallIcon(R.mipmap.ic_launcher);
-                                new Thread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        try {
-                                            int count;
-                                            URL url = new URL(updateUrl);
-                                            URLConnection urlConnection = url.openConnection();
-                                            urlConnection.connect();
-                                            //
-                                            int fileLength = urlConnection.getContentLength();
-                                            //
-                                            InputStream inputStream = new BufferedInputStream(url.openStream());
-                                            final File folder = new File(Environment.getExternalStorageDirectory() + "/FoursquareNewcomers/Updates");
-                                            if (!folder.exists())
-                                                folder.mkdir();
-                                            final File file = new File(folder.getAbsolutePath() + "/" + versionName + ".apk");
-                                            if (!file.exists())
-                                                file.createNewFile();
-                                            OutputStream outputStream = new FileOutputStream(file);
+            ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
+            Call<Release> call = apiInterface.getReleases();
+            call.enqueue(new Callback<Release>() {
+                @Override
+                public void onResponse(Call<Release> call, Response<Release> response) {
+                    final Release release = response.body();
+                    final String tagName = release.getTagName();
+                    final String versionName = BuildConfig.VERSION_NAME;
+                    if (!tagName.equals(versionName)) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(Home.this);
+                        builder.setMessage("There is a new version.\nName: " + release.getName() + "\nVersion: " + release.getTagName() + "\nDo you want to download it?").setCancelable(false).setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                if (release.getAssets().size() > 0) {
+                                    final String updateUrl = release.getAssets().get(0).getDownloadUrl();
+                                    notificationBuilder = new NotificationCompat.Builder(Home.this);
+                                    notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                                    notificationBuilder.setContentTitle("Foursquare Update")
+                                            .setContentText("Download in progress")
+                                            .setSmallIcon(R.mipmap.ic_launcher);
+                                    new Thread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            try {
+                                                int count;
+                                                URL url = new URL(updateUrl);
+                                                URLConnection urlConnection = url.openConnection();
+                                                urlConnection.connect();
+                                                //
+                                                int fileLength = urlConnection.getContentLength();
+                                                //
+                                                InputStream inputStream = new BufferedInputStream(url.openStream());
+                                                final File folder = new File(Environment.getExternalStorageDirectory() + "/FoursquareNewcomers/Updates");
+                                                if (!folder.exists())
+                                                    folder.mkdir();
+                                                final File file = new File(folder.getAbsolutePath() + "/" + tagName + ".apk");
+                                                if (!file.exists())
+                                                    file.createNewFile();
+                                                OutputStream outputStream = new FileOutputStream(file);
 
-                                            byte data[] = new byte[1024];
-                                            long total = 0;
-                                            while ((count = inputStream.read(data)) != -1) {
-                                                total += count;
-                                                notificationBuilder.setProgress(100, (int) ((total * 100) / fileLength), false);
+                                                byte data[] = new byte[1024];
+                                                long total = 0;
+                                                while ((count = inputStream.read(data)) != -1) {
+                                                    total += count;
+                                                    notificationBuilder.setProgress(100, (int) ((total * 100) / fileLength), false);
+                                                    notificationManager.notify(id, notificationBuilder.build());
+                                                    outputStream.write(data, 0, count);
+                                                }
+                                                outputStream.flush();
+                                                outputStream.close();
+                                                inputStream.close();
+                                                //
+                                                Intent intent = new Intent();
+                                                intent.setAction(Intent.ACTION_VIEW);
+                                                intent.setDataAndType(Uri.fromFile(file), MimeTypeMap.getSingleton().getMimeTypeFromExtension("apk"));
+                                                PendingIntent pendingIntent = PendingIntent.getActivity(Home.this, 0, intent, 0);
+                                                //
+                                                notificationBuilder.setContentText("Download complete")
+                                                        .setProgress(0, 0, false)
+                                                        .setContentIntent(pendingIntent)
+                                                        .setAutoCancel(true);
                                                 notificationManager.notify(id, notificationBuilder.build());
-                                                outputStream.write(data, 0, count);
+                                            } catch (Exception e) {
+                                                Log.e("Updater:", "Error occurred.");
                                             }
-                                            outputStream.flush();
-                                            outputStream.close();
-                                            inputStream.close();
-                                            //
-                                            Intent intent = new Intent();
-                                            intent.setAction(Intent.ACTION_VIEW);
-                                            intent.setDataAndType(Uri.fromFile(file), MimeTypeMap.getSingleton().getMimeTypeFromExtension("apk"));
-                                            PendingIntent pendingIntent = PendingIntent.getActivity(Home.this, 0, intent, 0);
-                                            //
-                                            notificationBuilder.setContentText("Download complete")
-                                                    .setProgress(0, 0, false)
-                                                    .setContentIntent(pendingIntent)
-                                                    .setAutoCancel(true);
-                                            notificationManager.notify(id, notificationBuilder.build());
-                                        } catch (Exception e) {
-                                            Log.e("Updater:", "Error occurred.");
                                         }
-                                    }
-                                }).start();
+                                    }).start();
+                                }
                             }
-                        }
-                    }).setNegativeButton("NO", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            Log.d("Updater:", "Declined to update.");
-                        }
-                    });
-                    AlertDialog alertDialog = builder.create();
-                    alertDialog.setTitle("Update App");
-                    alertDialog.show();
+                        }).setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Log.d("Updater:", "Declined to update.");
+                            }
+                        });
+                        AlertDialog alertDialog = builder.create();
+                        alertDialog.setTitle("Update App");
+                        alertDialog.show();
+                    }
                 }
-            }
 
-            @Override
-            public void onFailure(Call<Release> call, Throwable t) {
-                Log.d("Updater Error:", t.toString());
-            }
-        });
+                @Override
+                public void onFailure(Call<Release> call, Throwable t) {
+                    Log.d("Updater Error:", t.toString());
+                }
+            });
+        }
         //
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -188,8 +189,6 @@ public class Home extends AppCompatActivity {
         lst_dates.setItemAnimator(new DefaultItemAnimator());
         lst_dates.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
         lst_dates.setAdapter(datesAdapter);
-        //
-//        database = FirebaseDatabase.getInstance();
         //
         DatabaseReference membersRef = database.getReference("members");
         membersRef.addChildEventListener(new ChildEventListener() {
