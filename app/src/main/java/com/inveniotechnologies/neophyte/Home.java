@@ -38,8 +38,13 @@ import com.inveniotechnologies.neophyte.Models.Release;
 import com.inveniotechnologies.neophyte.REST.ApiClient;
 import com.inveniotechnologies.neophyte.REST.ApiInterface;
 
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,6 +52,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static android.R.attr.configChanges;
 import static android.R.attr.id;
 
 public class Home extends AppCompatActivity {
@@ -78,14 +84,14 @@ public class Home extends AppCompatActivity {
             public void onResponse(Call<Release> call, Response<Release> response) {
                 final Release release = response.body();
                 String tagName = release.getTagName();
-                String versionName = BuildConfig.VERSION_NAME;
+                final String versionName = BuildConfig.VERSION_NAME;
                 if (!tagName.equals(versionName)) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(Home.this);
                     builder.setMessage("There is a new version.\nName: " + release.getName() + "\nVersion: " + release.getTagName() + "\nDo you want to download it?").setCancelable(false).setPositiveButton("YES", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             if (release.getAssets().size() > 0) {
-                                String updateUrl = release.getAssets().get(0).getDownloadUrl();
+                                final String updateUrl = release.getAssets().get(0).getDownloadUrl();
                                 notificationBuilder = new NotificationCompat.Builder(Home.this);
                                 notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
                                 notificationBuilder.setContentTitle("Foursquare Update")
@@ -94,19 +100,42 @@ public class Home extends AppCompatActivity {
                                 new Thread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        int incr;
-                                        for (incr = 0; incr <= 100; incr += 5) {
-                                            notificationBuilder.setProgress(100, incr, false);
-                                            notificationManager.notify(id, notificationBuilder.build());
-                                            try {
-                                                Thread.sleep(5 * 1000);
-                                            } catch (InterruptedException e) {
-                                                Log.d("Updater:", "sleep failure");
+                                        try {
+                                            int count;
+                                            URL url = new URL(updateUrl);
+                                            URLConnection urlConnection = url.openConnection();
+                                            urlConnection.connect();
+                                            //
+                                            int fileLength = urlConnection.getContentLength();
+                                            Log.d("Updater:", "File length " + fileLength);
+                                            //
+                                            InputStream inputStream = new BufferedInputStream(url.openStream());
+                                            final File folder = new File(Environment.getExternalStorageDirectory() + "/FoursquareNewcomers/Updates");
+                                            if (!folder.exists())
+                                                folder.mkdir();
+                                            final File file = new File(folder.getAbsolutePath() + "/" + versionName + ".apk");
+                                            if (!file.exists())
+                                                file.createNewFile();
+                                            OutputStream outputStream = new FileOutputStream(file);
+
+                                            byte data[] = new byte[1024];
+                                            long total = 0;
+                                            while ((count = inputStream.read(data)) != -1) {
+                                                total += count;
+                                                notificationBuilder.setProgress(100, (int) ((total * 100) / fileLength), false);
+                                                notificationManager.notify(id, notificationBuilder.build());
+                                                outputStream.write(data, 0, count);
                                             }
+                                            outputStream.flush();
+                                            outputStream.close();
+                                            inputStream.close();
+                                            //
+                                            notificationBuilder.setContentText("Download complete")
+                                                    .setProgress(0, 0, false);
+                                            notificationManager.notify(id, notificationBuilder.build());
+                                        } catch (Exception e) {
+                                            Log.d("Updater:", "Error occurred.");
                                         }
-                                        notificationBuilder.setContentText("Download complete")
-                                                .setProgress(0, 0, false);
-                                        notificationManager.notify(id, notificationBuilder.build());
                                     }
                                 }).start();
                             }
