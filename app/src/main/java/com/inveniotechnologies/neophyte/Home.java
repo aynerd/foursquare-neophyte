@@ -1,10 +1,12 @@
 package com.inveniotechnologies.neophyte;
 
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.service.notification.NotificationListenerService;
@@ -22,6 +24,7 @@ import android.view.GestureDetector;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.webkit.MimeTypeMap;
 import android.widget.Toast;
 
 import com.google.firebase.database.ChildEventListener;
@@ -129,11 +132,18 @@ public class Home extends AppCompatActivity {
                                             outputStream.close();
                                             inputStream.close();
                                             //
+                                            Intent intent = new Intent();
+                                            intent.setAction(Intent.ACTION_VIEW);
+                                            intent.setDataAndType(Uri.fromFile(file), MimeTypeMap.getSingleton().getMimeTypeFromExtension("apk"));
+                                            PendingIntent pendingIntent = PendingIntent.getActivity(Home.this, 0, intent, 0);
+                                            //
                                             notificationBuilder.setContentText("Download complete")
-                                                    .setProgress(0, 0, false);
+                                                    .setProgress(0, 0, false)
+                                                    .setContentIntent(pendingIntent)
+                                                    .setAutoCancel(true);
                                             notificationManager.notify(id, notificationBuilder.build());
                                         } catch (Exception e) {
-                                            Log.d("Updater:", "Error occurred.");
+                                            Log.e("Updater:", "Error occurred.");
                                         }
                                     }
                                 }).start();
