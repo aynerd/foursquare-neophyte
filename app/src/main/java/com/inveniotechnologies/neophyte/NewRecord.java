@@ -32,7 +32,7 @@ public class NewRecord extends AppCompatActivity implements View.OnClickListener
     private EditText txt_office_tel;
     private EditText txt_mobile;
     private EditText txt_email;
-    private EditText txt_invited_by;
+    private EditText txt_how_you_found_us;
     private EditText txt_comments;
     //
     private AppCompatSpinner cmb_title;
@@ -65,7 +65,7 @@ public class NewRecord extends AppCompatActivity implements View.OnClickListener
         txt_office_tel = (EditText) findViewById(R.id.txt_office_tel);
         txt_mobile = (EditText) findViewById(R.id.txt_mobile);
         txt_email = (EditText) findViewById(R.id.txt_email);
-        txt_invited_by = (EditText) findViewById(R.id.txt_invited_by);
+        txt_how_you_found_us = (EditText) findViewById(R.id.txt_how_you_found_us);
         txt_comments = (EditText) findViewById(R.id.txt_comments);
         //
         cmb_age_group = (AppCompatSpinner) findViewById(R.id.cmb_age_group);
@@ -170,7 +170,7 @@ public class NewRecord extends AppCompatActivity implements View.OnClickListener
             record.setEmail(txt_email.getText().toString());
             record.setHomeAddress(txt_home_address.getText().toString());
             record.setHomeTel(txt_home_tel.getText().toString());
-            record.setInvitedBy(txt_invited_by.getText().toString());
+            record.setInvitedBy(txt_how_you_found_us.getText().toString());
             record.setMobile(txt_mobile.getText().toString());
             record.setOfficeTel(txt_office_tel.getText().toString());
             record.setFullName(txt_full_name.getText().toString());
@@ -220,7 +220,7 @@ public class NewRecord extends AppCompatActivity implements View.OnClickListener
             //Clear the input boxes
             txt_comments.setText("");
             btn_select_dob.setText("Select Date");
-            txt_invited_by.setText("");
+            txt_how_you_found_us.setText("");
             txt_email.setText("");
             txt_full_name.setText("");
             txt_home_address.setText("");

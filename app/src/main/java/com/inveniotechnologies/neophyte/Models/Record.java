@@ -8,10 +8,10 @@ public class Record {
     private String HomeAddress;
     private String HomeTel;
     private String OfficeTel;
-    private  String Mobile;
+    private String Mobile;
     private String Email;
     private String InvitedBy;
-    private  String BirthDay;
+    private String BirthDay;
     private String AgeGroup;
     private String Decisions;
     private String Comments;
