@@ -90,13 +90,24 @@ public class Home extends AppCompatActivity {
                     final String versionName = BuildConfig.VERSION_NAME;
                     if (!tagName.equals(versionName)) {
                         AlertDialog.Builder builder = new AlertDialog.Builder(Home.this);
-                        builder.setMessage("There is a new version.\nName: " + release.getName() + "\nVersion: " + release.getTagName() + "\nDo you want to download it?").setCancelable(false).setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                        builder.setMessage(
+                                "There is a new version.\nName: "
+                                        + release.getName()
+                                        + "\nVersion: "
+                                        + release.getTagName()
+                                        + "\nDo you want to download it?"
+                        )
+                                .setCancelable(false)
+                                .setPositiveButton("YES", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 if (release.getAssets().size() > 0) {
-                                    final String updateUrl = release.getAssets().get(0).getDownloadUrl();
+                                    final String updateUrl = release.getAssets()
+                                            .get(0).getDownloadUrl();
                                     notificationBuilder = new NotificationCompat.Builder(Home.this);
-                                    notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                                    notificationManager = (NotificationManager) getSystemService(
+                                            Context.NOTIFICATION_SERVICE
+                                    );
                                     notificationBuilder.setContentTitle("Foursquare Update")
                                             .setContentText("Download in progress")
                                             .setSmallIcon(R.mipmap.ic_launcher);
@@ -111,21 +122,39 @@ public class Home extends AppCompatActivity {
                                                 //
                                                 int fileLength = urlConnection.getContentLength();
                                                 //
-                                                InputStream inputStream = new BufferedInputStream(url.openStream());
-                                                final File folder = new File(Environment.getExternalStorageDirectory() + "/FoursquareNewcomers/Updates");
+                                                InputStream inputStream = new BufferedInputStream(
+                                                        url.openStream()
+                                                );
+                                                final File folder = new File(
+                                                        Environment.getExternalStorageDirectory()
+                                                                + "/FoursquareNewcomers/Updates"
+                                                );
                                                 if (!folder.exists())
                                                     folder.mkdir();
-                                                final File file = new File(folder.getAbsolutePath() + "/" + tagName + ".apk");
+                                                final File file = new File(
+                                                        folder.getAbsolutePath()
+                                                                + "/" + tagName
+                                                                + ".apk"
+                                                );
                                                 if (!file.exists())
                                                     file.createNewFile();
-                                                OutputStream outputStream = new FileOutputStream(file);
+                                                OutputStream outputStream = new FileOutputStream(
+                                                        file
+                                                );
 
                                                 byte data[] = new byte[1024];
                                                 long total = 0;
                                                 while ((count = inputStream.read(data)) != -1) {
                                                     total += count;
-                                                    notificationBuilder.setProgress(100, (int) ((total * 100) / fileLength), false);
-                                                    notificationManager.notify(id, notificationBuilder.build());
+                                                    notificationBuilder.setProgress(
+                                                            100,
+                                                            (int) ((total * 100) / fileLength),
+                                                            false
+                                                    );
+                                                    notificationManager.notify(
+                                                            id,
+                                                            notificationBuilder.build()
+                                                    );
                                                     outputStream.write(data, 0, count);
                                                 }
                                                 outputStream.flush();
@@ -133,15 +162,31 @@ public class Home extends AppCompatActivity {
                                                 inputStream.close();
                                                 //
                                                 Intent intent = new Intent();
-                                                intent.setAction(Intent.ACTION_VIEW);
-                                                intent.setDataAndType(Uri.fromFile(file), MimeTypeMap.getSingleton().getMimeTypeFromExtension("apk"));
-                                                PendingIntent pendingIntent = PendingIntent.getActivity(Home.this, 0, intent, 0);
+                                                intent.setAction(
+                                                        Intent.ACTION_VIEW
+                                                );
+                                                intent.setDataAndType(
+                                                        Uri.fromFile(file),
+                                                        MimeTypeMap.getSingleton()
+                                                                .getMimeTypeFromExtension("apk")
+                                                );
+                                                PendingIntent pendingIntent = PendingIntent
+                                                        .getActivity(
+                                                                Home.this,
+                                                                0,
+                                                                intent,
+                                                                0
+                                                        );
                                                 //
-                                                notificationBuilder.setContentText("Download complete")
+                                                notificationBuilder
+                                                        .setContentText("Download complete")
                                                         .setProgress(0, 0, false)
                                                         .setContentIntent(pendingIntent)
                                                         .setAutoCancel(true);
-                                                notificationManager.notify(id, notificationBuilder.build());
+                                                notificationManager.notify(
+                                                        id,
+                                                        notificationBuilder.build()
+                                                );
                                             } catch (Exception e) {
                                                 Log.e("Updater:", "Error occurred.");
                                             }
@@ -235,12 +280,19 @@ public class Home extends AppCompatActivity {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(Home.this, "Sorry, an error occurred while trying to read data.", Toast.LENGTH_LONG).show();
+                Toast.makeText(
+                        Home.this,
+                        "Sorry, an error occurred while trying to read data.",
+                        Toast.LENGTH_LONG
+                ).show();
                 finish();
             }
         });
 
-        lst_dates.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), lst_dates, new ClickListener() {
+        lst_dates.addOnItemTouchListener(new RecyclerTouchListener(
+                getApplicationContext(),
+                lst_dates,
+                new ClickListener() {
             @Override
             public void onClick(View view, int position) {
                 DateListItem item = datesList.get(position);
@@ -273,7 +325,10 @@ public class Home extends AppCompatActivity {
     }
 
     private void createCSV(DateListItem item) {
-        final File folder = new File(Environment.getExternalStorageDirectory() + "/FoursquareNewcomers");
+        final File folder = new File(
+                Environment.getExternalStorageDirectory()
+                        + "/FoursquareNewcomers"
+        );
         if (!folder.exists())
             folder.mkdir();
         final String filename = item.getDate() + ".csv";
@@ -373,16 +428,29 @@ public class Home extends AppCompatActivity {
                         outputStream.write(csvBuilder.toString().getBytes());
                         outputStream.close();
                         //
-                        Toast.makeText(Home.this, "File successfully exported. " + filename, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(
+                                Home.this,
+                                "File successfully exported. "
+                                        + filename,
+                                Toast.LENGTH_SHORT
+                        ).show();
                     } catch (Exception e) {
-                        Toast.makeText(Home.this, "Sorry, could not write the file.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(
+                                Home.this,
+                                "Sorry, could not write the file.",
+                                Toast.LENGTH_SHORT
+                        ).show();
                     }
                 }
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(Home.this, "Sorry, an error occured and the data was not exported.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(
+                        Home.this,
+                        "Sorry, an error occured and the data was not exported.",
+                        Toast.LENGTH_SHORT
+                ).show();
             }
         });
     }
@@ -398,9 +466,14 @@ public class Home extends AppCompatActivity {
         private GestureDetector gestureDetector;
         private Home.ClickListener clickListener;
 
-        public RecyclerTouchListener(Context context, final RecyclerView recyclerView, final Home.ClickListener clickListener) {
+        public RecyclerTouchListener(
+                Context context,
+                final RecyclerView recyclerView,
+                final Home.ClickListener clickListener) {
             this.clickListener = clickListener;
-            gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
+            gestureDetector = new GestureDetector(
+                    context,
+                    new GestureDetector.SimpleOnGestureListener() {
                 @Override
                 public boolean onSingleTapUp(MotionEvent e) {
                     return true;
