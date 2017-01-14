@@ -381,7 +381,7 @@ public class Home extends AppCompatActivity {
                     for(DataSnapshot personShot : dataSnapshot.getChildren()) {
                         Record record = personShot.getValue(Record.class);
                         //
-                        csvBuilder.append(record.getFullName());
+                        csvBuilder.append(record.getFullName().replace(",", ""));
                         csvBuilder.append('\t');
 
                         csvBuilder.append(record.getAgeGroup());
@@ -390,16 +390,16 @@ public class Home extends AppCompatActivity {
                         csvBuilder.append(record.getBirthDay());
                         csvBuilder.append('\t');
 
-                        csvBuilder.append(record.getComments());
+                        csvBuilder.append(record.getComments().replace(",", ""));
                         csvBuilder.append('\t');
 
-                        csvBuilder.append(record.getDecisions());
+                        csvBuilder.append(record.getDecisions().replace(",", ""));
                         csvBuilder.append('\t');
 
                         csvBuilder.append(record.getEmail());
                         csvBuilder.append('\t');
 
-                        csvBuilder.append(record.getHomeAddress());
+                        csvBuilder.append(record.getHomeAddress().replace(",", ""));
                         csvBuilder.append('\t');
 
                         csvBuilder.append(record.getHomeTel());
