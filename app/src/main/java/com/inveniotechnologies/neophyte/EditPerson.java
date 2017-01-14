@@ -29,13 +29,16 @@ import java.util.Date;
 import java.util.Locale;
 
 public class EditPerson extends AppCompatActivity implements View.OnClickListener {
+    //
+    String date;
+    String Uid;
     private EditText txt_full_name;
     private EditText txt_home_address;
     private EditText txt_home_tel;
     private EditText txt_office_tel;
     private EditText txt_mobile;
     private EditText txt_email;
-    private EditText txt_invited_by;
+    private EditText txt_how_you_found_us;
     private EditText txt_comments;
     //
     private AppCompatSpinner cmb_title;
@@ -57,9 +60,6 @@ public class EditPerson extends AppCompatActivity implements View.OnClickListene
     private ScrollView scrollViewer;
     //
     private FirebaseDatabase database;
-    //
-    String date;
-    String Uid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +76,7 @@ public class EditPerson extends AppCompatActivity implements View.OnClickListene
         txt_office_tel = (EditText) findViewById(R.id.txt_office_tel);
         txt_mobile = (EditText) findViewById(R.id.txt_mobile);
         txt_email = (EditText) findViewById(R.id.txt_email);
-        txt_invited_by = (EditText) findViewById(R.id.txt_invited_by);
+        txt_how_you_found_us = (EditText) findViewById(R.id.txt_how_you_found_us);
         txt_comments = (EditText) findViewById(R.id.txt_comments);
         //
         cmb_age_group = (AppCompatSpinner) findViewById(R.id.cmb_age_group);
@@ -173,8 +173,9 @@ public class EditPerson extends AppCompatActivity implements View.OnClickListene
                     txt_home_tel.setText(record.getHomeTel());
                     txt_mobile.setText(record.getMobile());
                     txt_office_tel.setText(record.getOfficeTel());
-                    txt_invited_by.setText(record.getInvitedBy());
-                    if(record.getDateOfSpiritualRebirth() == null || record.getDateOfSpiritualRebirth().isEmpty()) {
+                    txt_how_you_found_us.setText(record.getInvitedBy());
+                    if (record.getDateOfSpiritualRebirth() == null ||
+                            record.getDateOfSpiritualRebirth().isEmpty()) {
                         btn_select_spiritual_rebirth.setText("Select Date");
                     } else {
                         btn_select_spiritual_rebirth.setText(record.getDateOfSpiritualRebirth());
@@ -210,7 +211,11 @@ public class EditPerson extends AppCompatActivity implements View.OnClickListene
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(EditPerson.this, "An error occurred and the app has to close.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(
+                        EditPerson.this,
+                        "An error occurred and the app has to close.",
+                        Toast.LENGTH_SHORT
+                ).show();
                 finish();
             }
         });
@@ -248,7 +253,7 @@ public class EditPerson extends AppCompatActivity implements View.OnClickListene
             record.setEmail(txt_email.getText().toString());
             record.setHomeAddress(txt_home_address.getText().toString());
             record.setHomeTel(txt_home_tel.getText().toString());
-            record.setInvitedBy(txt_invited_by.getText().toString());
+            record.setInvitedBy(txt_how_you_found_us.getText().toString());
             record.setMobile(txt_mobile.getText().toString());
             record.setOfficeTel(txt_office_tel.getText().toString());
             record.setFullName(txt_full_name.getText().toString());
@@ -288,7 +293,9 @@ public class EditPerson extends AppCompatActivity implements View.OnClickListene
             DatabaseReference uidRef = dateRef.child(Uid);
             uidRef.removeValue();
             //
-            DatabaseReference newDateRef = membersRef.child(btn_select_save_date.getText().toString());
+            DatabaseReference newDateRef = membersRef.child(
+                    btn_select_save_date.getText().toString()
+            );
             newDateRef.push().setValue(record);
             scrollViewer.fullScroll(ScrollView.FOCUS_UP);
             //
@@ -309,9 +316,19 @@ public class EditPerson extends AppCompatActivity implements View.OnClickListene
                 new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                        btn_select_dob.setText(year + "-" + String.format("%02d", (monthOfYear + 1)) + "-" + String.format("%02d", dayOfMonth));
+                        btn_select_dob.setText(
+                                year
+                                        + "-"
+                                        + String.format("%02d", (monthOfYear + 1))
+                                        + "-"
+                                        + String.format("%02d", dayOfMonth)
+                        );
                     }
-                }, year, month, day);
+                },
+                year,
+                month,
+                day
+        );
         datePickerDialog.show();
     }
 
@@ -325,9 +342,19 @@ public class EditPerson extends AppCompatActivity implements View.OnClickListene
                 new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                        btn_select_spiritual_rebirth.setText(year + "-" + String.format("%02d", (monthOfYear + 1)) + "-" + String.format("%02d", dayOfMonth));
+                        btn_select_spiritual_rebirth.setText(
+                                year
+                                        + "-"
+                                        + String.format("%02d", (monthOfYear + 1))
+                                        + "-"
+                                        + String.format("%02d", dayOfMonth)
+                        );
                     }
-                }, year, month, day);
+                },
+                year,
+                month,
+                day
+        );
         datePickerDialog.show();
     }
 
@@ -341,9 +368,19 @@ public class EditPerson extends AppCompatActivity implements View.OnClickListene
                 new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                        btn_select_save_date.setText(year + "-" + String.format("%02d", (monthOfYear + 1)) + "-" + String.format("%02d", dayOfMonth));
+                        btn_select_save_date.setText(
+                                year
+                                        + "-"
+                                        + String.format("%02d", (monthOfYear + 1))
+                                        + "-"
+                                        + String.format("%02d", dayOfMonth)
+                        );
                     }
-                }, year, month, day);
+                },
+                year,
+                month,
+                day
+        );
         datePickerDialog.show();
     }
 }

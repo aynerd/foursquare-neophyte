@@ -25,7 +25,7 @@ public class Details extends AppCompatActivity {
     private TextView lbl_mobile;
     private TextView lbl_office_tel;
     private TextView lbl_email;
-    private TextView lbl_invited_by;
+    private TextView lbl_how_you_found_us;
     private TextView lbl_birthday;
     private TextView lbl_spiritual_rebirth_date;
     //
@@ -56,7 +56,7 @@ public class Details extends AppCompatActivity {
         lbl_office_tel = (TextView) findViewById(R.id.lbl_office_tel);
         lbl_mobile = (TextView) findViewById(R.id.lbl_mobile);
         lbl_email = (TextView) findViewById(R.id.lbl_email_address);
-        lbl_invited_by = (TextView) findViewById(R.id.lbl_invited_by);
+        lbl_how_you_found_us = (TextView) findViewById(R.id.lbl_how_you_found_us);
         lbl_comments = (TextView) findViewById(R.id.lbl_comments);
         lbl_age_group = (TextView) findViewById(R.id.lbl_age_group);
         lbl_title = (TextView) findViewById(R.id.lbl_title);
@@ -98,7 +98,7 @@ public class Details extends AppCompatActivity {
                     lbl_home_tel.setText(record.getHomeTel());
                     lbl_mobile.setText(record.getMobile());
                     lbl_office_tel.setText(record.getOfficeTel());
-                    lbl_invited_by.setText(record.getInvitedBy());
+                    lbl_how_you_found_us.setText(record.getInvitedBy());
                     lbl_spiritual_rebirth_date.setText(record.getDateOfSpiritualRebirth());
                     //
                     String[] decisions = record.getDecisions().split(";");
@@ -131,7 +131,10 @@ public class Details extends AppCompatActivity {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(Details.this, "An error occurred and the app has to close.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(
+                        Details.this,
+                        "An error occurred and the app has to close.",
+                        Toast.LENGTH_SHORT).show();
                 finish();
             }
         });

@@ -10,16 +10,16 @@
     tools:context="com.inveniotechnologies.neophyte.Details">
 
     <ScrollView
+        android:id="@+id/mScrollView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/mScrollView">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:focusable="true"
-            android:focusableInTouchMode="true">
+            android:focusableInTouchMode="true"
+            android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -27,14 +27,14 @@
                 android:text="Title:"/>
 
             <TextView
+                android:id="@+id/lbl_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#000000"
-                android:maxLines="1"
-                android:textSize="16sp"
                 android:layout_marginTop="5dp"
-                android:textStyle="bold"
-                android:id="@+id/lbl_title"/>
+                android:maxLines="1"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -43,14 +43,14 @@
                 android:text="Full Name:"/>
 
             <TextView
+                android:id="@+id/lbl_full_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#000000"
-                android:maxLines="1"
-                android:textSize="16sp"
                 android:layout_marginTop="5dp"
-                android:textStyle="bold"
-                android:id="@+id/lbl_full_name"/>
+                android:maxLines="1"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -59,14 +59,14 @@
                 android:text="Home Address:"/>
 
             <TextView
+                android:id="@+id/lbl_home_address"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#000000"
-                android:maxLines="1"
-                android:textSize="16sp"
                 android:layout_marginTop="5dp"
-                android:textStyle="bold"
-                android:id="@+id/lbl_home_address"/>
+                android:maxLines="1"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -75,14 +75,14 @@
                 android:text="Home Tel:"/>
 
             <TextView
+                android:id="@+id/lbl_home_tel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#000000"
-                android:maxLines="1"
-                android:textSize="16sp"
                 android:layout_marginTop="5dp"
-                android:textStyle="bold"
-                android:id="@+id/lbl_home_tel"/>
+                android:maxLines="1"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -91,14 +91,14 @@
                 android:text="Office Tel:"/>
 
             <TextView
+                android:id="@+id/lbl_office_tel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#000000"
-                android:maxLines="1"
-                android:textSize="16sp"
                 android:layout_marginTop="5dp"
-                android:textStyle="bold"
-                android:id="@+id/lbl_office_tel"/>
+                android:maxLines="1"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -107,46 +107,46 @@
                 android:text="Mobile:"/>
 
             <TextView
+                android:id="@+id/lbl_mobile"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#000000"
-                android:maxLines="1"
-                android:textSize="16sp"
                 android:layout_marginTop="5dp"
-                android:textStyle="bold"
-                android:id="@+id/lbl_mobile"/>
+                android:maxLines="1"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="EmailAddress:"/>
+                android:text="Email Address:" />
 
             <TextView
+                android:id="@+id/lbl_email_address"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#000000"
-                android:maxLines="1"
-                android:textSize="16sp"
                 android:layout_marginTop="5dp"
-                android:textStyle="bold"
-                android:id="@+id/lbl_email_address"/>
+                android:maxLines="1"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Invited By:"/>
+                android:text="How did you find out about us:" />
 
             <TextView
+                android:id="@+id/lbl_how_you_found_us"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#000000"
-                android:maxLines="1"
-                android:textSize="16sp"
                 android:layout_marginTop="5dp"
-                android:textStyle="bold"
-                android:id="@+id/lbl_invited_by"/>
+                android:maxLines="1"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -155,14 +155,14 @@
                 android:text="Birthday:"/>
 
             <TextView
+                android:id="@+id/lbl_birthday"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#000000"
-                android:maxLines="1"
-                android:textSize="16sp"
                 android:layout_marginTop="5dp"
-                android:textStyle="bold"
-                android:id="@+id/lbl_birthday"/>
+                android:maxLines="1"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -171,14 +171,14 @@
                 android:text="Spiritual Rebirth Date:"/>
 
             <TextView
+                android:id="@+id/lbl_spiritual_rebirth_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#000000"
-                android:maxLines="1"
-                android:textSize="16sp"
                 android:layout_marginTop="5dp"
-                android:textStyle="bold"
-                android:id="@+id/lbl_spiritual_rebirth_date"/>
+                android:maxLines="1"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -187,84 +187,84 @@
                 android:text="Age Group:"/>
 
             <TextView
+                android:id="@+id/lbl_age_group"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#000000"
-                android:maxLines="1"
-                android:textSize="16sp"
                 android:layout_marginTop="5dp"
-                android:textStyle="bold"
-                android:id="@+id/lbl_age_group"/>
+                android:maxLines="1"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
             <TextView
-                android:layout_marginTop="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:text="My decision today:"/>
 
             <TextView
-                android:layout_marginTop="5dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:id="@+id/lbl_commit_life"
-                android:visibility="gone"
-                android:layout_marginLeft="5dp"
-                android:textColor="#000000"
-                android:text="I want to commit my life to Christ."/>
-
-            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                android:text="I want to commit my life to Christ."
+                android:textColor="#000000"
+                android:visibility="gone" />
+
+            <TextView
                 android:id="@+id/lbl_renew_commitment"
-                android:visibility="gone"
-                android:layout_marginLeft="5dp"
-                android:textColor="#000000"
-                android:text="I want to renew my commitment to Christ."/>
-
-            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:text="I want to renew my commitment to Christ."
+                android:textColor="#000000"
+                android:visibility="gone" />
+
+            <TextView
                 android:id="@+id/lbl_be_baptized"
-                android:visibility="gone"
-                android:layout_marginLeft="5dp"
-                android:textColor="#000000"
-                android:text="I want to be baptized."/>
-
-            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:text="I want to be baptized."
+                android:textColor="#000000"
+                android:visibility="gone" />
+
+            <TextView
                 android:id="@+id/lbl_talk_pastorate"
-                android:visibility="gone"
-                android:layout_marginLeft="5dp"
-                android:textColor="#000000"
-                android:text="I want to talk to members of the pastorate."/>
-
-            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:text="I want to talk to members of the pastorate."
+                android:textColor="#000000"
+                android:visibility="gone" />
+
+            <TextView
                 android:id="@+id/lbl_become_member"
-                android:visibility="gone"
-                android:layout_marginLeft="5dp"
-                android:textColor="#000000"
-                android:text="I want to become a member of this Church."/>
-
-            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:text="I want to become a member of this Church."
+                android:textColor="#000000"
+                android:visibility="gone" />
+
+            <TextView
                 android:id="@+id/lbl_discover_maturity"
-                android:layout_marginLeft="5dp"
-                android:visibility="gone"
-                android:textColor="#000000"
-                android:text="I want to discover spiritual maturity."/>
-
-            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/lbl_discover_ministry"
-                android:visibility="gone"
                 android:layout_marginLeft="5dp"
+                android:text="I want to discover spiritual maturity."
                 android:textColor="#000000"
-                android:text="I want to discover my ministry."/>
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/lbl_discover_ministry"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:text="I want to discover my ministry."
+                android:textColor="#000000"
+                android:visibility="gone" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -273,24 +273,24 @@
                 android:text="Comments/Prayer Points:"/>
 
             <TextView
+                android:id="@+id/lbl_comments"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
                 android:textColor="#000000"
                 android:textSize="16sp"
-                android:layout_marginTop="5dp"
-                android:textStyle="bold"
-                android:id="@+id/lbl_comments"/>
+                android:textStyle="bold" />
 
             <Button
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="10dp"
+                android:id="@+id/btn_close"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:text="Close"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
                 android:background="@color/colorAccent"
-                android:textColor="#FFFFFF"
-                android:id="@+id/btn_close"/>
+                android:text="Close"
+                android:textColor="#FFFFFF" />
         </LinearLayout>
     </ScrollView>
 </RelativeLayout>
