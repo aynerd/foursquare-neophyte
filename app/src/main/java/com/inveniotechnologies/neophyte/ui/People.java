@@ -30,10 +30,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class People extends AppCompatActivity {
-    private FirebaseDatabase database;
-
     @BindView(R.id.lst_people)
-    private RecyclerView lst_people;
+    RecyclerView lst_people;
+    private FirebaseDatabase database;
     //
     private List<PersonListItem> personsList = new ArrayList<>();
     private PersonListAdapter personsAdapter;

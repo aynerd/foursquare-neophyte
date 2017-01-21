@@ -65,7 +65,7 @@ public class Home extends AppCompatActivity {
     NotificationManager notificationManager;
 
     @BindView(R.id.lst_dates)
-    private RecyclerView lst_dates;
+    RecyclerView lst_dates;
 
     private List<DateListItem> datesList = new ArrayList<>();
     private DateListAdapter datesAdapter;

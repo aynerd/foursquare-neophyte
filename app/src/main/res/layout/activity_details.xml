@@ -88,7 +88,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Office Tel:"/>
+                android:text="@string/text_title_office_tel" />
 
             <TextView
                 android:id="@+id/lbl_office_tel"
@@ -104,7 +104,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Mobile:"/>
+                android:text="@string/text_title_mobile" />
 
             <TextView
                 android:id="@+id/lbl_mobile"
