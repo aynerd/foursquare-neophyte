@@ -26,9 +26,13 @@ import com.inveniotechnologies.neophyte.R;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class People extends AppCompatActivity {
     private FirebaseDatabase database;
-    //
+
+    @BindView(R.id.lst_people)
     private RecyclerView lst_people;
     //
     private List<PersonListItem> personsList = new ArrayList<>();
@@ -41,12 +45,12 @@ public class People extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_people);
         //
+        ButterKnife.bind(this);
+        //
         Intent intent = getIntent();
         date = intent.getStringExtra("date");
         //
         personsAdapter = new PersonListAdapter(personsList);
-        //
-        lst_people = (RecyclerView) findViewById(R.id.lst_people);
         //
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         lst_people.setLayoutManager(layoutManager);
@@ -121,12 +125,19 @@ public class People extends AppCompatActivity {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(People.this, "Sorry, an error occurred while trying to read data.", Toast.LENGTH_LONG).show();
+                Toast.makeText(
+                        People.this,
+                        "Sorry, an error occurred while trying to read data.",
+                        Toast.LENGTH_LONG
+                ).show();
                 finish();
             }
         });
 
-        lst_people.addOnItemTouchListener(new Home.RecyclerTouchListener(getApplicationContext(), lst_people, new Home.ClickListener() {
+        lst_people.addOnItemTouchListener(
+                new Home.RecyclerTouchListener(getApplicationContext(),
+                        lst_people,
+                        new Home.ClickListener() {
             @Override
             public void onClick(View view, int position) {
                 PersonListItem item = personsList.get(position);
@@ -151,16 +162,26 @@ public class People extends AppCompatActivity {
                                 AlertDialog.Builder builder = new AlertDialog.Builder(People.this);
                                 builder.setCancelable(true);
                                 builder.setMessage("Are you sure you want to delete this person?");
-                                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                builder.setPositiveButton(
+                                        "Yes",
+                                        new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i) {
-                                        DatabaseReference membersRef = database.getReference("members");
+                                        DatabaseReference membersRef = database
+                                                .getReference("members");
                                         DatabaseReference dateRef = membersRef.child(date);
                                         DatabaseReference idRef = dateRef.child(item.getUID());
-                                        idRef.removeValue(new DatabaseReference.CompletionListener() {
+                                        idRef.removeValue(
+                                                new DatabaseReference.CompletionListener() {
                                             @Override
-                                            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                                                Toast.makeText(People.this, "Record has been deleted.", Toast.LENGTH_SHORT).show();
+                                            public void onComplete(
+                                                    DatabaseError databaseError,
+                                                    DatabaseReference databaseReference) {
+                                                Toast.makeText(
+                                                        People.this,
+                                                        "Record has been deleted.",
+                                                        Toast.LENGTH_SHORT
+                                                ).show();
                                             }
                                         });
                                     }
@@ -176,7 +197,10 @@ public class People extends AppCompatActivity {
                                 alertDialog.show();
                                 break;
                             case  R.id.menu_edit:
-                                Intent intent = new Intent(getApplicationContext(), EditPerson.class);
+                                Intent intent = new Intent(
+                                        getApplicationContext(),
+                                        EditPerson.class
+                                );
                                 intent.putExtra("date", date);
                                 intent.putExtra("Uid", item.getUID());
                                 startActivity(intent);
