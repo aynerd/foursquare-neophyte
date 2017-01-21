@@ -36,7 +36,7 @@ public class NewRecord extends AppCompatActivity implements View.OnClickListener
     @BindView(R.id.txt_home_tel)
     EditText txt_home_tel;
 
-    @BindView(R.id.lbl_office_tel)
+    @BindView(R.id.txt_office_tel)
     EditText txt_office_tel;
 
     @BindView(R.id.txt_mobile)
