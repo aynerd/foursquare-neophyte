@@ -1,4 +1,4 @@
-package com.inveniotechnologies.neophyte.ListItems;
+package com.inveniotechnologies.neophyte.ui.listitems;
 
 /**
  * Created by bolorundurowb on 27-Aug-16.

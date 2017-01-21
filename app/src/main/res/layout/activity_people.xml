@@ -7,10 +7,10 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="5dp"
-    tools:context="com.inveniotechnologies.neophyte.People">
+    tools:context="com.inveniotechnologies.neophyte.ui.People">
 
     <android.support.v7.widget.RecyclerView
+        android:id="@+id/lst_people"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/lst_people"/>
+        android:layout_height="match_parent" />
 </RelativeLayout>

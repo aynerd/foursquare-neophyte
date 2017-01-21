@@ -1,4 +1,4 @@
-package com.inveniotechnologies.neophyte;
+package com.inveniotechnologies.neophyte.ui;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -32,13 +32,15 @@ import com.google.firebase.database.DatabaseException;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.inveniotechnologies.neophyte.Extras.DividerItemDecoration;
-import com.inveniotechnologies.neophyte.ListAdapters.DateListAdapter;
-import com.inveniotechnologies.neophyte.ListItems.DateListItem;
-import com.inveniotechnologies.neophyte.Models.Record;
-import com.inveniotechnologies.neophyte.Models.Release;
-import com.inveniotechnologies.neophyte.REST.ApiClient;
-import com.inveniotechnologies.neophyte.REST.ApiInterface;
+import com.inveniotechnologies.neophyte.BuildConfig;
+import com.inveniotechnologies.neophyte.ui.extras.DividerItemDecoration;
+import com.inveniotechnologies.neophyte.ui.adapters.DateListAdapter;
+import com.inveniotechnologies.neophyte.ui.listitems.DateListItem;
+import com.inveniotechnologies.neophyte.R;
+import com.inveniotechnologies.neophyte.network.models.Record;
+import com.inveniotechnologies.neophyte.network.models.Release;
+import com.inveniotechnologies.neophyte.network.clients.ApiClient;
+import com.inveniotechnologies.neophyte.network.interfaces.ApiInterface;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -50,6 +52,8 @@ import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -59,8 +63,10 @@ import static android.R.attr.id;
 public class Home extends AppCompatActivity {
     NotificationCompat.Builder notificationBuilder;
     NotificationManager notificationManager;
-    //
-    private RecyclerView lst_dates;
+
+    @BindView(R.id.lst_dates)
+    RecyclerView lst_dates;
+
     private List<DateListItem> datesList = new ArrayList<>();
     private DateListAdapter datesAdapter;
     //
@@ -71,146 +77,17 @@ public class Home extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         //
+        ButterKnife.bind(this);
+        //
         database = FirebaseDatabase.getInstance();
         /* Enable disk persistence */
         if (savedInstanceState == null) {
             try {
                 database.setPersistenceEnabled(true);
             } catch (DatabaseException ex) {
-                Log.e("Firebase", "An error occurs " + ex.getMessage());
+                Log.e("Firebase", "An error occurs while persisting storage " + ex.getMessage());
             }
-        /* Check for updates */
-            ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
-            Call<Release> call = apiInterface.getReleases();
-            call.enqueue(new Callback<Release>() {
-                @Override
-                public void onResponse(Call<Release> call, Response<Release> response) {
-                    final Release release = response.body();
-                    final String tagName = release.getTagName();
-                    final String versionName = BuildConfig.VERSION_NAME;
-                    if (!tagName.equals(versionName)) {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(Home.this);
-                        builder.setMessage(
-                                "There is a new version.\nName: "
-                                        + release.getName()
-                                        + "\nVersion: "
-                                        + release.getTagName()
-                                        + "\nDo you want to download it?"
-                        )
-                                .setCancelable(false)
-                                .setPositiveButton("YES", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                if (release.getAssets().size() > 0) {
-                                    final String updateUrl = release.getAssets()
-                                            .get(0).getDownloadUrl();
-                                    notificationBuilder = new NotificationCompat.Builder(Home.this);
-                                    notificationManager = (NotificationManager) getSystemService(
-                                            Context.NOTIFICATION_SERVICE
-                                    );
-                                    notificationBuilder.setContentTitle("Foursquare Update")
-                                            .setContentText("Download in progress")
-                                            .setSmallIcon(R.mipmap.ic_launcher);
-                                    new Thread(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            try {
-                                                int count;
-                                                URL url = new URL(updateUrl);
-                                                URLConnection urlConnection = url.openConnection();
-                                                urlConnection.connect();
-                                                //
-                                                int fileLength = urlConnection.getContentLength();
-                                                //
-                                                InputStream inputStream = new BufferedInputStream(
-                                                        url.openStream()
-                                                );
-                                                final File folder = new File(
-                                                        Environment.getExternalStorageDirectory()
-                                                                + "/FoursquareNewcomers/Updates"
-                                                );
-                                                if (!folder.exists())
-                                                    folder.mkdir();
-                                                final File file = new File(
-                                                        folder.getAbsolutePath()
-                                                                + "/" + tagName
-                                                                + ".apk"
-                                                );
-                                                if (!file.exists())
-                                                    file.createNewFile();
-                                                OutputStream outputStream = new FileOutputStream(
-                                                        file
-                                                );
-
-                                                byte data[] = new byte[1024];
-                                                long total = 0;
-                                                while ((count = inputStream.read(data)) != -1) {
-                                                    total += count;
-                                                    notificationBuilder.setProgress(
-                                                            100,
-                                                            (int) ((total * 100) / fileLength),
-                                                            false
-                                                    );
-                                                    notificationManager.notify(
-                                                            id,
-                                                            notificationBuilder.build()
-                                                    );
-                                                    outputStream.write(data, 0, count);
-                                                }
-                                                outputStream.flush();
-                                                outputStream.close();
-                                                inputStream.close();
-                                                //
-                                                Intent intent = new Intent();
-                                                intent.setAction(
-                                                        Intent.ACTION_VIEW
-                                                );
-                                                intent.setDataAndType(
-                                                        Uri.fromFile(file),
-                                                        MimeTypeMap.getSingleton()
-                                                                .getMimeTypeFromExtension("apk")
-                                                );
-                                                PendingIntent pendingIntent = PendingIntent
-                                                        .getActivity(
-                                                                Home.this,
-                                                                0,
-                                                                intent,
-                                                                0
-                                                        );
-                                                //
-                                                notificationBuilder
-                                                        .setContentText("Download complete")
-                                                        .setProgress(0, 0, false)
-                                                        .setContentIntent(pendingIntent)
-                                                        .setAutoCancel(true);
-                                                notificationManager.notify(
-                                                        id,
-                                                        notificationBuilder.build()
-                                                );
-                                            } catch (Exception e) {
-                                                Log.e("Updater:", "Error occurred.");
-                                            }
-                                        }
-                                    }).start();
-                                }
-                            }
-                        }).setNegativeButton("NO", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                Log.d("Updater:", "Declined to update.");
-                            }
-                        });
-                        AlertDialog alertDialog = builder.create();
-                        alertDialog.setTitle("Update App");
-                        alertDialog.show();
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<Release> call, Throwable t) {
-                    Log.d("Updater Error:", t.toString());
-                }
-            });
+            checkForUpdates();
         }
         //
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -322,6 +199,146 @@ public class Home extends AppCompatActivity {
                 popupMenu.show();
             }
         }));
+    }
+
+    private void checkForUpdates() {
+        ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
+        Call<Release> call = apiInterface.getReleases();
+        call.enqueue(new Callback<Release>() {
+            @Override
+            public void onResponse(Call<Release> call, Response<Release> response) {
+                final Release release = response.body();
+                final String tagName = release.getTagName();
+                final String versionName = BuildConfig.VERSION_NAME;
+                if (!tagName.equals(versionName)) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(Home.this);
+                    builder.setMessage(
+                            "There is a new version.\nName: "
+                                    + release.getName()
+                                    + "\nVersion: "
+                                    + release.getTagName()
+                                    + "\nDo you want to download it?"
+                    )
+                            .setCancelable(false)
+                            .setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    downloadUpdate(release);
+                                }
+                            }).setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Log.d("Updater:", "Declined to update.");
+                        }
+                    });
+                    AlertDialog alertDialog = builder.create();
+                    alertDialog.setTitle("Update App");
+                    alertDialog.show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Release> call, Throwable t) {
+                Log.d("Updater Error:", t.toString());
+            }
+        });
+    }
+
+    private void downloadUpdate(Release release) {
+        if (release.getAssets().size() > 0) {
+            final String tagName = release.getTagName();
+            final String updateUrl = release.getAssets()
+                    .get(0).getDownloadUrl();
+            notificationBuilder = new NotificationCompat.Builder(Home.this);
+            notificationManager = (NotificationManager) getSystemService(
+                    Context.NOTIFICATION_SERVICE
+            );
+            notificationBuilder.setContentTitle("Foursquare Update")
+                    .setContentText("Download in progress")
+                    .setSmallIcon(R.mipmap.ic_launcher);
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        int count;
+                        URL url = new URL(updateUrl);
+                        URLConnection urlConnection = url.openConnection();
+                        urlConnection.connect();
+                        // Get the file length
+                        int fileLength = urlConnection.getContentLength();
+                        //
+                        InputStream inputStream = new BufferedInputStream(
+                                url.openStream()
+                        );
+                        final File folder = new File(
+                                Environment.getExternalStorageDirectory()
+                                        + "/FoursquareNewcomers/Updates"
+                        );
+                        if (!folder.exists())
+                            folder.mkdir();
+                        final File file = new File(
+                                folder.getAbsolutePath()
+                                        + "/" + tagName
+                                        + ".apk"
+                        );
+                        if (!file.exists())
+                            file.createNewFile();
+                        OutputStream outputStream = new FileOutputStream(
+                                file
+                        );
+                        // Download the file and update the notification
+                        byte data[] = new byte[1024];
+                        long total = 0;
+                        while ((count = inputStream.read(data)) != -1) {
+                            total += count;
+                            notificationBuilder.setProgress(
+                                    100,
+                                    (int) ((total * 100) / fileLength),
+                                    false
+                            );
+                            notificationManager.notify(
+                                    id,
+                                    notificationBuilder.build()
+                            );
+                            outputStream.write(data, 0, count);
+                        }
+                        // Clean up
+                        outputStream.flush();
+                        outputStream.close();
+                        inputStream.close();
+                        // Open the installer
+                        Intent intent = new Intent();
+                        intent.setAction(
+                                Intent.ACTION_VIEW
+                        );
+                        intent.setDataAndType(
+                                Uri.fromFile(file),
+                                MimeTypeMap.getSingleton()
+                                        .getMimeTypeFromExtension("apk")
+                        );
+                        PendingIntent pendingIntent = PendingIntent
+                                .getActivity(
+                                        Home.this,
+                                        0,
+                                        intent,
+                                        0
+                                );
+                        // Display the new status
+                        notificationBuilder
+                                .setContentText("Download complete")
+                                .setProgress(0, 0, false)
+                                .setContentIntent(pendingIntent)
+                                .setAutoCancel(true);
+                        notificationManager.notify(
+                                id,
+                                notificationBuilder.build()
+                        );
+                    } catch (Exception e) {
+                        Log.e("Updater:", "Error occurred.");
+                    }
+                }
+            }).start();
+        }
     }
 
     private void createCSV(DateListItem item) {

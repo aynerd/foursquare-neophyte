@@ -7,7 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.inveniotechnologies.neophyte.NewRecord">
+    tools:context="com.inveniotechnologies.neophyte.ui.NewRecord">
 
     <ScrollView
         android:id="@+id/mScrollView"
@@ -24,7 +24,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Title:"/>
+                android:layout_marginTop="10dp"
+                android:text="@string/text_title" />
 
             <android.support.v7.widget.AppCompatSpinner
                 android:id="@+id/cmb_title"
@@ -36,7 +37,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Full Name:"/>
+                android:text="@string/text_full_name" />
 
             <EditText
                 android:id="@+id/txt_full_name"
@@ -48,7 +49,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Home Address:"/>
+                android:text="@string/text_home_address" />
 
             <EditText
                 android:id="@+id/txt_home_address"
@@ -60,7 +61,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Mobile:"/>
+                android:text="@string/text_mobile" />
 
             <EditText
                 android:id="@+id/txt_mobile"
@@ -72,7 +73,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Home Tel:"/>
+                android:text="@string/text_home_tel" />
 
             <EditText
                 android:id="@+id/txt_home_tel"
@@ -84,7 +85,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Office Tel:"/>
+                android:text="@string/text_office_tel" />
 
             <EditText
                 android:id="@+id/txt_office_tel"
@@ -96,7 +97,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Email Address:" />
+                android:text="@string/text_email_address" />
 
             <EditText
                 android:id="@+id/txt_email"
@@ -108,7 +109,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="How did you find out about us:" />
+                android:text="@string/text_how_find" />
 
             <EditText
                 android:id="@+id/txt_how_you_found_us"
@@ -120,33 +121,31 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Birthday:"/>
+                android:text="@string/text_birthday" />
 
             <Button
                 android:id="@+id/btn_select_dob"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="Select Date" />
+                android:text="@string/text_select_date" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Date of spiritual rebirth:"/>
+                android:text="@string/text_spiritual_rebirth_date" />
 
             <Button
                 android:id="@+id/btn_spiritual_rebirth_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="Select Date" />
+                android:text="@string/text_select_date" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Age Group:"/>
+                android:text="@string/text_age_group" />
 
             <android.support.v7.widget.AppCompatSpinner
                 android:id="@+id/cmb_age_group"
@@ -158,55 +157,55 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="My decision today:"/>
+                android:text="@string/text_my_decision_today" />
 
             <android.support.v7.widget.AppCompatCheckBox
                 android:id="@+id/chk_commit_life"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="I want to commit my life to Christ."/>
+                android:text="@string/text_commit_life" />
 
             <android.support.v7.widget.AppCompatCheckBox
                 android:id="@+id/chk_renew_commitment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="I want to renew my commitment to Christ."/>
+                android:text="@string/text_renew_commitment" />
 
             <android.support.v7.widget.AppCompatCheckBox
                 android:id="@+id/chk_be_baptized"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="I want to be baptized."/>
+                android:text="@string/text_want_baptized" />
 
             <android.support.v7.widget.AppCompatCheckBox
                 android:id="@+id/chk_talk_pastorate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="I want to talk to members of the pastorate."/>
+                android:text="@string/text_talk_pastorate" />
 
             <android.support.v7.widget.AppCompatCheckBox
                 android:id="@+id/chk_become_member"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="I want to become a member of this Church."/>
+                android:text="@string/text_member_church" />
 
             <android.support.v7.widget.AppCompatCheckBox
                 android:id="@+id/chk_discover_maturity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="I want to discover spiritual maturity."/>
+                android:text="@string/text_discover_maturity" />
 
             <android.support.v7.widget.AppCompatCheckBox
                 android:id="@+id/chk_discover_ministry"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="I want to discover my ministry."/>
+                android:text="@string/text_discover_ministry" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Comments/Prayer Points:"/>
+                android:text="@string/text_comments_prayer_points" />
 
             <EditText
                 android:id="@+id/txt_comments"

@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".Home"
+            android:name=".ui.Home"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -23,16 +23,16 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".NewRecord"
+            android:name=".ui.NewRecord"
             android:label="Register" />
         <activity
-            android:name=".People"
+            android:name=".ui.People"
             android:label="People" />
         <activity
-            android:name=".Details"
+            android:name=".ui.Details"
             android:label="Details" />
         <activity
-            android:name=".EditPerson"
+            android:name=".ui.EditPerson"
             android:label="Edit Details"/>
     </application>
 

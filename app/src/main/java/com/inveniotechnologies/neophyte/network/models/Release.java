@@ -1,4 +1,4 @@
-package com.inveniotechnologies.neophyte.Models;
+package com.inveniotechnologies.neophyte.network.models;
 
 import com.google.gson.annotations.SerializedName;
 

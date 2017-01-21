@@ -1,4 +1,4 @@
-package com.inveniotechnologies.neophyte.ListAdapters;
+package com.inveniotechnologies.neophyte.ui.adapters;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -6,7 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.inveniotechnologies.neophyte.ListItems.DateListItem;
+import com.inveniotechnologies.neophyte.ui.listitems.DateListItem;
 import com.inveniotechnologies.neophyte.R;
 
 import java.util.List;
@@ -16,17 +16,6 @@ import java.util.List;
  */
 public class DateListAdapter extends RecyclerView.Adapter<DateListAdapter.DateListViewHolder>{
     private List<DateListItem> datesList;
-
-    public class DateListViewHolder extends RecyclerView.ViewHolder {
-        public TextView date;
-        public TextView dayRep;
-
-        public DateListViewHolder(View view) {
-            super(view);
-            date = (TextView) view.findViewById(R.id.lbl_date);
-            dayRep = (TextView) view.findViewById(R.id.lbl_day_string);
-        }
-    }
 
     public DateListAdapter(List<DateListItem> dateList) {
         this.datesList = dateList;
@@ -48,6 +37,17 @@ public class DateListAdapter extends RecyclerView.Adapter<DateListAdapter.DateLi
     @Override
     public int getItemCount(){
         return  datesList.size();
+    }
+
+    public class DateListViewHolder extends RecyclerView.ViewHolder {
+        public TextView date;
+        public TextView dayRep;
+
+        public DateListViewHolder(View view) {
+            super(view);
+            date = (TextView) view.findViewById(R.id.lbl_date);
+            dayRep = (TextView) view.findViewById(R.id.lbl_day_string);
+        }
     }
 }
 

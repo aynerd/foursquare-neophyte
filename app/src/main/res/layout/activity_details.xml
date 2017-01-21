@@ -7,7 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.inveniotechnologies.neophyte.Details">
+    tools:context="com.inveniotechnologies.neophyte.ui.Details">
 
     <ScrollView
         android:id="@+id/mScrollView"
@@ -24,7 +24,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Title:"/>
+                android:text="@string/text_title" />
 
             <TextView
                 android:id="@+id/lbl_title"
@@ -40,7 +40,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Full Name:"/>
+                android:text="@string/text_full_name" />
 
             <TextView
                 android:id="@+id/lbl_full_name"
@@ -56,7 +56,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Home Address:"/>
+                android:text="@string/text_home_address" />
 
             <TextView
                 android:id="@+id/lbl_home_address"
@@ -72,7 +72,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Home Tel:"/>
+                android:text="@string/text_home_tel" />
 
             <TextView
                 android:id="@+id/lbl_home_tel"
@@ -88,7 +88,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Office Tel:"/>
+                android:text="@string/text_office_tel" />
 
             <TextView
                 android:id="@+id/lbl_office_tel"
@@ -104,7 +104,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Mobile:"/>
+                android:text="@string/text_mobile" />
 
             <TextView
                 android:id="@+id/lbl_mobile"
@@ -120,7 +120,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Email Address:" />
+                android:text="@string/text_email_address" />
 
             <TextView
                 android:id="@+id/lbl_email_address"
@@ -136,7 +136,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="How did you find out about us:" />
+                android:text="@string/text_how_find" />
 
             <TextView
                 android:id="@+id/lbl_how_you_found_us"
@@ -152,7 +152,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Birthday:"/>
+                android:text="@string/text_birthday" />
 
             <TextView
                 android:id="@+id/lbl_birthday"
@@ -168,7 +168,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Spiritual Rebirth Date:"/>
+                android:text="@string/text_spiritual_rebirth_date" />
 
             <TextView
                 android:id="@+id/lbl_spiritual_rebirth_date"
@@ -184,7 +184,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Age Group:"/>
+                android:text="@string/text_age_group" />
 
             <TextView
                 android:id="@+id/lbl_age_group"
@@ -200,15 +200,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="My decision today:"/>
+                android:text="@string/text_my_decision_today" />
 
             <TextView
                 android:id="@+id/lbl_commit_life"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
                 android:layout_marginTop="5dp"
-                android:text="I want to commit my life to Christ."
+                android:text="@string/text_commit_life"
                 android:textColor="#000000"
                 android:visibility="gone" />
 
@@ -217,7 +218,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
-                android:text="I want to renew my commitment to Christ."
+                android:layout_marginStart="5dp"
+                android:text="@string/text_renew_commitment"
                 android:textColor="#000000"
                 android:visibility="gone" />
 
@@ -226,7 +228,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
-                android:text="I want to be baptized."
+                android:layout_marginStart="5dp"
+                android:text="@string/text_want_baptized"
                 android:textColor="#000000"
                 android:visibility="gone" />
 
@@ -235,7 +238,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
-                android:text="I want to talk to members of the pastorate."
+                android:layout_marginStart="5dp"
+                android:text="@string/text_talk_pastorate"
                 android:textColor="#000000"
                 android:visibility="gone" />
 
@@ -244,7 +248,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
-                android:text="I want to become a member of this Church."
+                android:layout_marginStart="5dp"
+                android:text="@string/text_member_church"
                 android:textColor="#000000"
                 android:visibility="gone" />
 
@@ -253,7 +258,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
-                android:text="I want to discover spiritual maturity."
+                android:layout_marginStart="5dp"
+                android:text="@string/text_discover_maturity"
                 android:textColor="#000000"
                 android:visibility="gone" />
 
@@ -262,7 +268,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
-                android:text="I want to discover my ministry."
+                android:layout_marginStart="5dp"
+                android:text="@string/text_discover_ministry"
                 android:textColor="#000000"
                 android:visibility="gone" />
 
@@ -270,7 +277,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Comments/Prayer Points:"/>
+                android:text="@string/text_comments_prayer_points" />
 
             <TextView
                 android:id="@+id/lbl_comments"
@@ -286,10 +293,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
+                android:layout_marginEnd="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
                 android:background="@color/colorAccent"
-                android:text="Close"
+                android:text="@string/button_close"
                 android:textColor="#FFFFFF" />
         </LinearLayout>
     </ScrollView>

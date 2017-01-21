@@ -1,4 +1,4 @@
-package com.inveniotechnologies.neophyte.Models;
+package com.inveniotechnologies.neophyte.network.models;
 
 /**
  * Created by bolorundurowb on 24-Aug-16.
