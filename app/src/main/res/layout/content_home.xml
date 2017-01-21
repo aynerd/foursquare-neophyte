@@ -9,20 +9,20 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.inveniotechnologies.neophyte.Home"
+    tools:context="com.inveniotechnologies.neophyte.ui.Home"
     tools:showIn="@layout/activity_home">
 
     <TextView
+        android:id="@+id/lbl_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Records by Date"
         android:textSize="18sp"
-        android:textStyle="bold"
-        android:id="@+id/lbl_description"/>
+        android:textStyle="bold" />
 
     <android.support.v7.widget.RecyclerView
+        android:id="@+id/lst_dates"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/lbl_description"
-        android:id="@+id/lst_dates"/>
+        android:layout_below="@+id/lbl_description" />
 </RelativeLayout>

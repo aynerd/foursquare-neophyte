@@ -1,4 +1,4 @@
-package com.inveniotechnologies.neophyte;
+package com.inveniotechnologies.neophyte.ui;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -32,13 +32,15 @@ import com.google.firebase.database.DatabaseException;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.inveniotechnologies.neophyte.Extras.DividerItemDecoration;
-import com.inveniotechnologies.neophyte.ListAdapters.DateListAdapter;
-import com.inveniotechnologies.neophyte.ListItems.DateListItem;
-import com.inveniotechnologies.neophyte.Models.Record;
-import com.inveniotechnologies.neophyte.Models.Release;
-import com.inveniotechnologies.neophyte.REST.ApiClient;
-import com.inveniotechnologies.neophyte.REST.ApiInterface;
+import com.inveniotechnologies.neophyte.BuildConfig;
+import com.inveniotechnologies.neophyte.ui.extras.DividerItemDecoration;
+import com.inveniotechnologies.neophyte.ui.adapters.DateListAdapter;
+import com.inveniotechnologies.neophyte.ui.listitems.DateListItem;
+import com.inveniotechnologies.neophyte.R;
+import com.inveniotechnologies.neophyte.network.models.Record;
+import com.inveniotechnologies.neophyte.network.models.Release;
+import com.inveniotechnologies.neophyte.network.clients.ApiClient;
+import com.inveniotechnologies.neophyte.network.interfaces.ApiInterface;
 
 import java.io.BufferedInputStream;
 import java.io.File;

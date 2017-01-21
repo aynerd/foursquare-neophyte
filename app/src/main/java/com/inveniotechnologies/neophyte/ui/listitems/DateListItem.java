@@ -1,4 +1,4 @@
-package com.inveniotechnologies.neophyte.ListItems;
+package com.inveniotechnologies.neophyte.ui.listitems;
 
 import java.text.DateFormat;
 import java.text.Format;

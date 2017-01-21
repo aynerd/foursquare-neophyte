@@ -1,8 +1,7 @@
-package com.inveniotechnologies.neophyte;
+package com.inveniotechnologies.neophyte.ui;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.provider.ContactsContract;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,9 +9,6 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
-import android.view.ContextMenu;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -22,10 +18,10 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.inveniotechnologies.neophyte.Extras.DividerItemDecoration;
-import com.inveniotechnologies.neophyte.ListAdapters.PersonListAdapter;
-import com.inveniotechnologies.neophyte.ListItems.DateListItem;
-import com.inveniotechnologies.neophyte.ListItems.PersonListItem;
+import com.inveniotechnologies.neophyte.ui.extras.DividerItemDecoration;
+import com.inveniotechnologies.neophyte.ui.adapters.PersonListAdapter;
+import com.inveniotechnologies.neophyte.ui.listitems.PersonListItem;
+import com.inveniotechnologies.neophyte.R;
 
 import java.util.ArrayList;
 import java.util.List;

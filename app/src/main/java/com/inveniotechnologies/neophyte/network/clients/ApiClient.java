@@ -1,4 +1,4 @@
-package com.inveniotechnologies.neophyte.REST;
+package com.inveniotechnologies.neophyte.network.clients;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;

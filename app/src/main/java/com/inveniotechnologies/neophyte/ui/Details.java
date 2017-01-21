@@ -1,4 +1,4 @@
-package com.inveniotechnologies.neophyte;
+package com.inveniotechnologies.neophyte.ui;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -13,7 +13,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.inveniotechnologies.neophyte.Models.Record;
+import com.inveniotechnologies.neophyte.R;
+import com.inveniotechnologies.neophyte.network.models.Record;
 
 public class Details extends AppCompatActivity {
     private TextView lbl_title;

@@ -1,4 +1,4 @@
-package com.inveniotechnologies.neophyte.ListAdapters;
+package com.inveniotechnologies.neophyte.ui.adapters;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -6,7 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.inveniotechnologies.neophyte.ListItems.PersonListItem;
+import com.inveniotechnologies.neophyte.ui.listitems.PersonListItem;
 import com.inveniotechnologies.neophyte.R;
 
 import java.util.List;
@@ -16,17 +16,6 @@ import java.util.List;
  */
 public class PersonListAdapter extends RecyclerView.Adapter<PersonListAdapter.PersonListViewHolder> {
     private List<PersonListItem> personsList;
-
-    public class PersonListViewHolder extends RecyclerView.ViewHolder {
-        public TextView fullname;
-        public TextView mobile;
-
-        public PersonListViewHolder(View view) {
-            super(view);
-            fullname = (TextView) view.findViewById(R.id.lbl_full_name);
-            mobile = (TextView) view.findViewById(R.id.lbl_mobile);
-        }
-    }
 
     public PersonListAdapter(List<PersonListItem> personsList) {
         this.personsList = personsList;
@@ -48,5 +37,16 @@ public class PersonListAdapter extends RecyclerView.Adapter<PersonListAdapter.Pe
     @Override
     public int getItemCount() {
         return personsList.size();
+    }
+
+    public class PersonListViewHolder extends RecyclerView.ViewHolder {
+        public TextView fullname;
+        public TextView mobile;
+
+        public PersonListViewHolder(View view) {
+            super(view);
+            fullname = (TextView) view.findViewById(R.id.lbl_full_name);
+            mobile = (TextView) view.findViewById(R.id.lbl_mobile);
+        }
     }
 }

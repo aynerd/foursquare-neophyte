@@ -1,6 +1,6 @@
-package com.inveniotechnologies.neophyte.REST;
+package com.inveniotechnologies.neophyte.network.interfaces;
 
-import com.inveniotechnologies.neophyte.Models.Release;
+import com.inveniotechnologies.neophyte.network.models.Release;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

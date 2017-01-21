@@ -1,4 +1,4 @@
-package com.inveniotechnologies.neophyte;
+package com.inveniotechnologies.neophyte.ui;
 
 import android.app.DatePickerDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -6,24 +6,22 @@ import android.os.Bundle;
 import android.support.v7.widget.AppCompatCheckBox;
 import android.support.v7.widget.AppCompatSpinner;
 import android.text.Editable;
-import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.inveniotechnologies.neophyte.Models.Record;
+import com.inveniotechnologies.neophyte.R;
+import com.inveniotechnologies.neophyte.network.models.Record;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
 
 public class NewRecord extends AppCompatActivity implements View.OnClickListener {
     private EditText txt_full_name;
