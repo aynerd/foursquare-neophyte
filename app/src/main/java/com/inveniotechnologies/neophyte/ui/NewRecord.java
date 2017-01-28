@@ -51,6 +51,12 @@ public class NewRecord extends AppCompatActivity implements View.OnClickListener
     @BindView(R.id.txt_comments)
     EditText txt_comments;
 
+    @BindView(R.id.txt_month)
+    EditText txt_month;
+
+    @BindView(R.id.txt_day)
+    EditText txt_day;
+
     @BindView(R.id.cmb_title)
     AppCompatSpinner cmb_title;
 
@@ -84,9 +90,6 @@ public class NewRecord extends AppCompatActivity implements View.OnClickListener
     @BindView(R.id.btn_spiritual_rebirth_date)
     Button btn_select_spiritual_rebirth;
 
-    @BindView(R.id.btn_select_dob)
-    Button btn_select_dob;
-
     @BindView(R.id.mScrollView)
     ScrollView scrollViewer;
 
@@ -99,28 +102,10 @@ public class NewRecord extends AppCompatActivity implements View.OnClickListener
         //
         ButterKnife.bind(this);
         //
-        btn_select_dob.setOnClickListener(this);
         btn_save_record.setOnClickListener(this);
         btn_select_spiritual_rebirth.setOnClickListener(this);
         //
         database= FirebaseDatabase.getInstance();
-        //
-        btn_select_dob.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                // Do nothing
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                setAgeGroup(s);
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                // Do nothing
-            }
-        });
     }
 
     @Override
@@ -128,9 +113,6 @@ public class NewRecord extends AppCompatActivity implements View.OnClickListener
         switch (view.getId()) {
             case R.id.btn_save_record:
                 saveRecord();
-                break;
-            case R.id.btn_select_dob:
-                changeDOB();
                 break;
             case R.id.btn_spiritual_rebirth_date:
                 changeSRB();
@@ -172,11 +154,7 @@ public class NewRecord extends AppCompatActivity implements View.OnClickListener
             Record record = new Record();
             record.setTitle(cmb_title.getSelectedItem().toString());
             record.setAgeGroup(cmb_age_group.getSelectedItem().toString());
-            if(btn_select_dob.getText().toString() == "Select Date") {
-                record.setBirthDay("");
-            } else  {
-                record.setBirthDay(btn_select_dob.getText().toString());
-            }
+            record.setBirthDay(txt_day.getText().toString() + ";" + txt_month.getText().toString());
             record.setComments(txt_comments.getText().toString());
             record.setEmail(txt_email.getText().toString());
             record.setHomeAddress(txt_home_address.getText().toString());
@@ -207,49 +185,13 @@ public class NewRecord extends AppCompatActivity implements View.OnClickListener
             DatabaseReference dateBackupRef = membersBackupRef.child(currentDate);
             dateBackupRef.push().setValue(record);
             //
-            //Clear the input boxes
-            txt_comments.setText("");
-            btn_select_dob.setText("Select Date");
-            txt_how_you_found_us.setText("");
-            txt_email.setText("");
-            txt_full_name.setText("");
-            txt_home_address.setText("");
-            txt_home_tel.setText("");
-            txt_mobile.setText("");
-            txt_office_tel.setText("");
-            btn_select_spiritual_rebirth.setText("Select Date");
-            //
-            chk_renew_commitment.setChecked(false);
-            chk_become_member.setChecked(false);
-            chk_commit_life.setChecked(false);
-            chk_discover_ministry.setChecked(false);
-            chk_discover_maturity.setChecked(false);
-            chk_talk_pastorate.setChecked(false);
-            chk_be_baptized.setChecked(false);
-            //
-            scrollViewer.fullScroll(ScrollView.FOCUS_UP);
+            clearInputs();
             //
             Toast.makeText(this, "Record successfully saved!", Toast.LENGTH_SHORT).show();
         }
         catch (Exception e){
             Toast.makeText(this, "An error occurred: " + e.getMessage(), Toast.LENGTH_LONG).show();
         }
-    }
-
-    private void changeDOB() {
-        final Calendar c = Calendar.getInstance();
-        int year = c.get(Calendar.YEAR);
-        int month = c.get(Calendar.MONTH);
-        int day = c.get(Calendar.DAY_OF_MONTH);
-
-        DatePickerDialog datePickerDialog = new DatePickerDialog(this,
-                new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                        btn_select_dob.setText(year + "-" + String.format("%02d", (monthOfYear + 1)) + "-" + String.format("%02d", dayOfMonth));
-                    }
-                }, year, month, day);
-        datePickerDialog.show();
     }
 
     private void changeSRB() {
@@ -292,5 +234,30 @@ public class NewRecord extends AppCompatActivity implements View.OnClickListener
             decisions += chk_discover_ministry.getText().toString() + " ; ";
         }
         return decisions;
+    }
+
+    private void clearInputs() {
+        //Clear the input boxes
+        txt_month.setText("");
+        txt_day.setText("");
+        txt_comments.setText("");
+        txt_how_you_found_us.setText("");
+        txt_email.setText("");
+        txt_full_name.setText("");
+        txt_home_address.setText("");
+        txt_home_tel.setText("");
+        txt_mobile.setText("");
+        txt_office_tel.setText("");
+        btn_select_spiritual_rebirth.setText("Select Date");
+        //
+        chk_renew_commitment.setChecked(false);
+        chk_become_member.setChecked(false);
+        chk_commit_life.setChecked(false);
+        chk_discover_ministry.setChecked(false);
+        chk_discover_maturity.setChecked(false);
+        chk_talk_pastorate.setChecked(false);
+        chk_be_baptized.setChecked(false);
+        //
+        scrollViewer.fullScroll(ScrollView.FOCUS_UP);
     }
 }
