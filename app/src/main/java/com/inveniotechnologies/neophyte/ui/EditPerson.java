@@ -56,6 +56,12 @@ public class EditPerson extends AppCompatActivity implements View.OnClickListene
     @BindView(R.id.txt_comments)
     EditText txt_comments;
 
+    @BindView(R.id.txt_month)
+    EditText txt_month;
+
+    @BindView(R.id.txt_day)
+    EditText txt_day;
+
     @BindView(R.id.cmb_title)
     AppCompatSpinner cmb_title;
 
@@ -89,9 +95,6 @@ public class EditPerson extends AppCompatActivity implements View.OnClickListene
     @BindView(R.id.btn_spiritual_rebirth_date)
     Button btn_select_spiritual_rebirth;
 
-    @BindView(R.id.btn_select_dob)
-    Button btn_select_dob;
-
     @BindView(R.id.btn_select_save_date)
     Button btn_select_save_date;
 
@@ -109,27 +112,9 @@ public class EditPerson extends AppCompatActivity implements View.OnClickListene
         //
         retrieveIntentData();
         //
-        btn_select_dob.setOnClickListener(this);
         btn_select_save_date.setOnClickListener(this);
         btn_select_spiritual_rebirth.setOnClickListener(this);
         btn_update_record.setOnClickListener(this);
-        //
-        btn_select_dob.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                // Do nothing
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                setAgeGroup(s);
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                // Do nothing
-            }
-        });
         //
         database = FirebaseDatabase.getInstance();
         DatabaseReference membersRef = database.getReference("members");
@@ -157,9 +142,6 @@ public class EditPerson extends AppCompatActivity implements View.OnClickListene
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.btn_select_dob:
-                changeDOB();
-                break;
             case R.id.btn_spiritual_rebirth_date:
                 changeSRB();
                 break;
@@ -175,10 +157,10 @@ public class EditPerson extends AppCompatActivity implements View.OnClickListene
     private void writeRecordToUi(Record record) {
         if (record != null) {
             btn_select_save_date.setText(date);
-            if (record.getBirthDay() == null || record.getBirthDay().isEmpty()) {
-                btn_select_dob.setText(record.getBirthDay());
-            } else {
-                btn_select_dob.setText("Select Date");
+            if (record.getBirthDay() != null && !record.getBirthDay().isEmpty()) {
+                String[] components = record.getBirthDay().split(";");
+                txt_day.setText(components[0]);
+                txt_month.setText(components[1]);
             }
             txt_full_name.setText(record.getFullName());
             txt_comments.setText(record.getComments());
@@ -251,11 +233,7 @@ public class EditPerson extends AppCompatActivity implements View.OnClickListene
             Record record = new Record();
             record.setTitle(cmb_title.getSelectedItem().toString());
             record.setAgeGroup(cmb_age_group.getSelectedItem().toString());
-            if(btn_select_dob.getText().toString() == "Select Date") {
-                record.setBirthDay("");
-            } else  {
-                record.setBirthDay(btn_select_dob.getText().toString());
-            }
+            record.setBirthDay(txt_day.getText().toString() + ";" + txt_month.getText().toString());
             record.setComments(txt_comments.getText().toString());
             record.setEmail(txt_email.getText().toString());
             record.setHomeAddress(txt_home_address.getText().toString());
@@ -311,32 +289,6 @@ public class EditPerson extends AppCompatActivity implements View.OnClickListene
         catch (Exception e){
             Toast.makeText(this, "An error occurred: " + e.getMessage(), Toast.LENGTH_LONG).show();
         }
-    }
-
-    private void changeDOB() {
-        final Calendar c = Calendar.getInstance();
-        int year = c.get(Calendar.YEAR);
-        int month = c.get(Calendar.MONTH);
-        int day = c.get(Calendar.DAY_OF_MONTH);
-
-        DatePickerDialog datePickerDialog = new DatePickerDialog(this,
-                new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                        btn_select_dob.setText(
-                                year
-                                        + "-"
-                                        + String.format("%02d", (monthOfYear + 1))
-                                        + "-"
-                                        + String.format("%02d", dayOfMonth)
-                        );
-                    }
-                },
-                year,
-                month,
-                day
-        );
-        datePickerDialog.show();
     }
 
     private void changeSRB() {
