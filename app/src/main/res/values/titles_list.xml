@@ -7,5 +7,8 @@
         <item>Mr</item>
         <item>Mrs</item>
         <item>Miss</item>
+        <item>Pastor</item>
+        <item>Reverend</item>
+        <item>Bishop</item>
     </string-array>
 </resources>
