@@ -1,9 +1,11 @@
 package com.inveniotechnologies.neophyte.ui;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -93,7 +95,7 @@ public class Home extends AppCompatActivity {
         membersRef.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                if(dataSnapshot != null){
+                if (dataSnapshot != null) {
                     String date = dataSnapshot.getKey();
                     //
                     DateListItem item = new DateListItem();
@@ -105,16 +107,17 @@ public class Home extends AppCompatActivity {
             }
 
             @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {}
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+            }
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-                if(dataSnapshot != null) {
+                if (dataSnapshot != null) {
                     String date = dataSnapshot.getKey();
 
                     DateListItem item = new DateListItem();
                     for (int i = 0; i < datesList.size(); i++) {
-                        if(datesList.get(i).getDate().equals(date)) {
+                        if (datesList.get(i).getDate().equals(date)) {
                             item = datesList.get(i);
                             break;
                         }
@@ -145,35 +148,35 @@ public class Home extends AppCompatActivity {
                 getApplicationContext(),
                 lst_dates,
                 new ClickListener() {
-            @Override
-            public void onClick(View view, int position) {
-                DateListItem item = datesList.get(position);
-
-                Intent intent = new Intent(getApplicationContext(), People.class);
-                intent.putExtra("date", item.getDate());
-                startActivity(intent);
-            }
-
-            @Override
-            public void onLongClick(View view, int position) {
-                final DateListItem item = datesList.get(position);
-
-                PopupMenu popupMenu = new PopupMenu(view.getContext(), view);
-                Home.this.getMenuInflater().inflate(R.menu.menu_day, popupMenu.getMenu());
-                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
-                    public boolean onMenuItemClick(MenuItem menuItem) {
-                        switch (menuItem.getItemId()) {
-                            case R.id.menu_export:
-                                createCSV(item);
-                                break;
-                        }
-                        return  true;
+                    public void onClick(View view, int position) {
+                        DateListItem item = datesList.get(position);
+
+                        Intent intent = new Intent(getApplicationContext(), People.class);
+                        intent.putExtra("date", item.getDate());
+                        startActivity(intent);
                     }
-                });
-                popupMenu.show();
-            }
-        }));
+
+                    @Override
+                    public void onLongClick(View view, int position) {
+                        final DateListItem item = datesList.get(position);
+
+                        PopupMenu popupMenu = new PopupMenu(view.getContext(), view);
+                        Home.this.getMenuInflater().inflate(R.menu.menu_day, popupMenu.getMenu());
+                        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                            @Override
+                            public boolean onMenuItemClick(MenuItem menuItem) {
+                                switch (menuItem.getItemId()) {
+                                    case R.id.menu_export:
+                                        createCSV(item);
+                                        break;
+                                }
+                                return true;
+                            }
+                        });
+                        popupMenu.show();
+                    }
+                }));
     }
 
     private void checkForUpdates() {
@@ -189,118 +192,30 @@ public class Home extends AppCompatActivity {
         if (!folder.exists())
             folder.mkdir();
         final String filename = item.getDate() + ".csv";
-        final StringBuilder csvBuilder = new StringBuilder();
         //
         DatabaseReference membersRef = database.getReference("members");
         DatabaseReference dateRef = membersRef.child(item.getDate());
         dateRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if(dataSnapshot != null) {
-                    //
-                    csvBuilder.append("Full Name");
-                    csvBuilder.append('\t');
+                if (dataSnapshot != null) {
+                    final StringBuilder csvBuilder = getCsvFromSnapshot(dataSnapshot);
 
-                    csvBuilder.append("Age Group");
-                    csvBuilder.append('\t');
+                    writeCsvToFile(folder, filename, csvBuilder);
 
-                    csvBuilder.append("Birthday");
-                    csvBuilder.append('\t');
-
-                    csvBuilder.append("Comments");
-                    csvBuilder.append('\t');
-
-                    csvBuilder.append("Decisions");
-                    csvBuilder.append('\t');
-
-                    csvBuilder.append("Email");
-                    csvBuilder.append('\t');
-
-                    csvBuilder.append("Home Address");
-                    csvBuilder.append('\t');
-
-                    csvBuilder.append("Home Tel");
-                    csvBuilder.append('\t');
-
-                    csvBuilder.append("Invited By");
-                    csvBuilder.append('\t');
-
-                    csvBuilder.append("Mobile");
-                    csvBuilder.append('\t');
-
-                    csvBuilder.append("Office Tel");
-                    csvBuilder.append('\t');
-
-                    csvBuilder.append("Title");
-
-                    csvBuilder.append('\n');
-                    //
-                    for(DataSnapshot personShot : dataSnapshot.getChildren()) {
-                        Record record = personShot.getValue(Record.class);
-                        //
-                        csvBuilder.append(record.getFullName().replace(",", ""));
-                        csvBuilder.append('\t');
-
-                        csvBuilder.append(record.getAgeGroup());
-                        csvBuilder.append('\t');
-
-                        csvBuilder.append(record.getBirthDay());
-                        csvBuilder.append('\t');
-
-                        csvBuilder.append(record.getComments().replace(",", ""));
-                        csvBuilder.append('\t');
-
-                        csvBuilder.append(record.getDecisions().replace(",", ""));
-                        csvBuilder.append('\t');
-
-                        csvBuilder.append(record.getEmail());
-                        csvBuilder.append('\t');
-
-                        csvBuilder.append(record.getHomeAddress().replace(",", ""));
-                        csvBuilder.append('\t');
-
-                        csvBuilder.append(record.getHomeTel());
-                        csvBuilder.append('\t');
-
-                        csvBuilder.append(record.getInvitedBy());
-                        csvBuilder.append('\t');
-
-                        csvBuilder.append(record.getMobile());
-                        csvBuilder.append('\t');
-
-                        csvBuilder.append(record.getOfficeTel());
-                        csvBuilder.append('\t');
-
-                        csvBuilder.append(record.getTitle());
-                        //
-                        csvBuilder.append('\n');
-                    }
-
-                    uploadCsvToDrive(filename, csvBuilder.toString());
-
-                    FileOutputStream outputStream;
-                    try {
-                        File file = new File(folder, filename);
-                        if(file.exists()) {
-                            file.delete();
-                        }
-                        outputStream = new FileOutputStream(file);
-                        outputStream.write(csvBuilder.toString().getBytes());
-                        outputStream.close();
-                        //
-                        Toast.makeText(
-                                Home.this,
-                                "File successfully exported. "
-                                        + filename,
-                                Toast.LENGTH_SHORT
-                        ).show();
-                    } catch (Exception e) {
-                        Toast.makeText(
-                                Home.this,
-                                "Sorry, could not write the file.",
-                                Toast.LENGTH_SHORT
-                        ).show();
-                    }
+                    AlertDialog alertDialog = new AlertDialog.Builder(Home.this)
+                            .setTitle("Upload to Drive")
+                            .setMessage("Do you want to upload the generated data to Google Drive?")
+                            .setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    uploadCsvToDrive(filename, csvBuilder.toString());
+                                }
+                            })
+                            .setNegativeButton("NO", null)
+                            .setCancelable(true)
+                            .create();
+                    alertDialog.show();
                 }
             }
 
@@ -318,6 +233,115 @@ public class Home extends AppCompatActivity {
     private void uploadCsvToDrive(String filename, String s) {
         Uploader uploader = new Uploader(this);
         uploader.uploadFile(filename, s);
+    }
+
+    private StringBuilder getCsvFromSnapshot(DataSnapshot dataSnapshot) {
+        StringBuilder csvBuilder = new StringBuilder();
+
+        csvBuilder.append("Full Name");
+        csvBuilder.append('\t');
+
+        csvBuilder.append("Age Group");
+        csvBuilder.append('\t');
+
+        csvBuilder.append("Birthday");
+        csvBuilder.append('\t');
+
+        csvBuilder.append("Comments");
+        csvBuilder.append('\t');
+
+        csvBuilder.append("Decisions");
+        csvBuilder.append('\t');
+
+        csvBuilder.append("Email");
+        csvBuilder.append('\t');
+
+        csvBuilder.append("Home Address");
+        csvBuilder.append('\t');
+
+        csvBuilder.append("Home Tel");
+        csvBuilder.append('\t');
+
+        csvBuilder.append("Invited By");
+        csvBuilder.append('\t');
+
+        csvBuilder.append("Mobile");
+        csvBuilder.append('\t');
+
+        csvBuilder.append("Office Tel");
+        csvBuilder.append('\t');
+
+        csvBuilder.append("Title");
+
+        csvBuilder.append('\n');
+        //
+        for (DataSnapshot personShot : dataSnapshot.getChildren()) {
+            Record record = personShot.getValue(Record.class);
+            //
+            csvBuilder.append(record.getFullName().replace(",", ""));
+            csvBuilder.append('\t');
+
+            csvBuilder.append(record.getAgeGroup());
+            csvBuilder.append('\t');
+
+            csvBuilder.append(record.getBirthDay());
+            csvBuilder.append('\t');
+
+            csvBuilder.append(record.getComments().replace(",", ""));
+            csvBuilder.append('\t');
+
+            csvBuilder.append(record.getDecisions().replace(",", ""));
+            csvBuilder.append('\t');
+
+            csvBuilder.append(record.getEmail());
+            csvBuilder.append('\t');
+
+            csvBuilder.append(record.getHomeAddress().replace(",", ""));
+            csvBuilder.append('\t');
+
+            csvBuilder.append(record.getHomeTel());
+            csvBuilder.append('\t');
+
+            csvBuilder.append(record.getInvitedBy());
+            csvBuilder.append('\t');
+
+            csvBuilder.append(record.getMobile());
+            csvBuilder.append('\t');
+
+            csvBuilder.append(record.getOfficeTel());
+            csvBuilder.append('\t');
+
+            csvBuilder.append(record.getTitle());
+            //
+            csvBuilder.append('\n');
+        }
+        return csvBuilder;
+    }
+
+    private void writeCsvToFile(File folder, String filename, StringBuilder csvBuilder) {
+        FileOutputStream outputStream;
+        try {
+            File file = new File(folder, filename);
+            if (file.exists()) {
+                file.delete();
+            }
+            outputStream = new FileOutputStream(file);
+            outputStream.write(csvBuilder.toString().getBytes());
+            outputStream.close();
+            //
+            Toast.makeText(
+                    Home.this,
+                    "File successfully exported. "
+                            + filename,
+                    Toast.LENGTH_SHORT
+            ).show();
+        } catch (Exception e) {
+            Toast.makeText(
+                    Home.this,
+                    "Sorry, could not write the file.",
+                    Toast.LENGTH_SHORT
+            ).show();
+        }
     }
 }
 

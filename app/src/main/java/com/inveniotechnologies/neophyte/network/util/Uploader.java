@@ -36,6 +36,8 @@ public class Uploader implements GoogleApiClient.ConnectionCallbacks, GoogleApiC
         public void onResult(@NonNull DriveFolder.DriveFileResult driveFileResult) {
             if (driveFileResult.getStatus().isSuccess()) {
                 Toast.makeText(mContext, "File " + driveFileResult.getDriveFile().getDriveId() + " written successfully.", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(mContext, "File " + driveFileResult.getDriveFile().getDriveId() + " not written.", Toast.LENGTH_LONG).show();
             }
         }
     };
@@ -74,20 +76,11 @@ public class Uploader implements GoogleApiClient.ConnectionCallbacks, GoogleApiC
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        // Called whenever the API client fails to connect.
         Log.i(TAG, "GoogleApiClient connection failed: " + connectionResult.toString());
-
         if (!connectionResult.hasResolution()) {
-            // show the localized error dialog.
             GoogleApiAvailability.getInstance().getErrorDialog(mContext, connectionResult.getErrorCode(), 0).show();
             return;
         }
-
-        /**
-         *  The failure has a resolution. Resolve it.
-         *  Called typically when the app is not yet authorized, and an  authorization
-         *  dialog is displayed to the user.
-         */
 
         try {
             connectionResult.startResolutionForResult(mContext, 1001);
@@ -123,7 +116,7 @@ public class Uploader implements GoogleApiClient.ConnectionCallbacks, GoogleApiC
                         .setTitle(mFileName)
                         .setMimeType("text/plain")
                         .build();
-                Drive.DriveApi.getAppFolder(mGoogleApiClient)
+                Drive.DriveApi.getRootFolder(mGoogleApiClient)
                         .createFile(mGoogleApiClient, changeSet, driveContents)
                         .setResultCallback(fileCallback);
             }
