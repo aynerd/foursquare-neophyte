@@ -33,14 +33,14 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.inveniotechnologies.neophyte.BuildConfig;
-import com.inveniotechnologies.neophyte.ui.extras.DividerItemDecoration;
-import com.inveniotechnologies.neophyte.ui.adapters.DateListAdapter;
-import com.inveniotechnologies.neophyte.ui.listitems.DateListItem;
 import com.inveniotechnologies.neophyte.R;
-import com.inveniotechnologies.neophyte.network.models.Record;
-import com.inveniotechnologies.neophyte.network.models.Release;
 import com.inveniotechnologies.neophyte.network.clients.ApiClient;
 import com.inveniotechnologies.neophyte.network.interfaces.ApiInterface;
+import com.inveniotechnologies.neophyte.network.models.Record;
+import com.inveniotechnologies.neophyte.network.models.Release;
+import com.inveniotechnologies.neophyte.ui.adapters.DateListAdapter;
+import com.inveniotechnologies.neophyte.ui.extras.DividerItemDecoration;
+import com.inveniotechnologies.neophyte.ui.listitems.DateListItem;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -208,32 +208,34 @@ public class Home extends AppCompatActivity {
             @Override
             public void onResponse(Call<Release> call, Response<Release> response) {
                 final Release release = response.body();
-                final String tagName = release.getTagName();
-                final String versionName = BuildConfig.VERSION_NAME;
-                if (!tagName.equals(versionName)) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(Home.this);
-                    builder.setMessage(
-                            "There is a new version.\nName: "
-                                    + release.getName()
-                                    + "\nVersion: "
-                                    + release.getTagName()
-                                    + "\nDo you want to download it?"
-                    )
-                            .setCancelable(false)
-                            .setPositiveButton("YES", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    downloadUpdate(release);
-                                }
-                            }).setNegativeButton("NO", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            Log.d("Updater:", "Declined to update.");
-                        }
-                    });
-                    AlertDialog alertDialog = builder.create();
-                    alertDialog.setTitle("Update App");
-                    alertDialog.show();
+                if (release != null) {
+                    final String tagName = release.getTagName();
+                    final String versionName = BuildConfig.VERSION_NAME;
+                    if (!tagName.equals(versionName)) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(Home.this);
+                        builder.setMessage(
+                                "There is a new version.\nName: "
+                                        + release.getName()
+                                        + "\nVersion: "
+                                        + release.getTagName()
+                                        + "\nDo you want to download it?"
+                        )
+                                .setCancelable(false)
+                                .setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        downloadUpdate(release);
+                                    }
+                                }).setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Log.d("Updater:", "Declined to update.");
+                            }
+                        });
+                        AlertDialog alertDialog = builder.create();
+                        alertDialog.setTitle("Update App");
+                        alertDialog.show();
+                    }
                 }
             }
 
@@ -472,18 +474,18 @@ public class Home extends AppCompatActivity {
         });
     }
 
-    public interface ClickListener {
+    private interface ClickListener {
         void onClick(View view, int position);
 
         void onLongClick(View view, int position);
     }
 
-    public static class RecyclerTouchListener implements RecyclerView.OnItemTouchListener {
+    private static class RecyclerTouchListener implements RecyclerView.OnItemTouchListener {
 
         private GestureDetector gestureDetector;
         private Home.ClickListener clickListener;
 
-        public RecyclerTouchListener(
+        private RecyclerTouchListener(
                 Context context,
                 final RecyclerView recyclerView,
                 final Home.ClickListener clickListener) {
