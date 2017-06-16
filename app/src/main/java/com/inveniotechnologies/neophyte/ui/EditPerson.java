@@ -2,12 +2,10 @@ package com.inveniotechnologies.neophyte.ui;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatCheckBox;
 import android.support.v7.widget.AppCompatSpinner;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -31,7 +29,7 @@ import butterknife.ButterKnife;
 public class EditPerson extends AppCompatActivity implements View.OnClickListener {
     String date;
     String Uid;
-    //
+
     @BindView(R.id.txt_full_name)
     EditText txt_full_name;
 
@@ -107,15 +105,15 @@ public class EditPerson extends AppCompatActivity implements View.OnClickListene
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_person);
-        //
+
         ButterKnife.bind(this);
-        //
+
         retrieveIntentData();
-        //
+
         btn_select_save_date.setOnClickListener(this);
         btn_select_spiritual_rebirth.setOnClickListener(this);
         btn_update_record.setOnClickListener(this);
-        //
+
         database = FirebaseDatabase.getInstance();
         DatabaseReference membersRef = database.getReference("members");
         DatabaseReference dateRef = membersRef.child(date);
@@ -159,8 +157,15 @@ public class EditPerson extends AppCompatActivity implements View.OnClickListene
             btn_select_save_date.setText(date);
             if (record.getBirthDay() != null && !record.getBirthDay().isEmpty()) {
                 String[] components = record.getBirthDay().split(";");
-                txt_day.setText(components[0]);
-                txt_month.setText(components[1]);
+                if (components.length == 2) {
+                    txt_day.setText(components[0]);
+                    txt_month.setText(components[1]);
+                } else {
+                    String birthday = components[0];
+                    components = birthday.split("-");
+                    txt_day.setText(components[2]);
+                    txt_month.setText(components[1]);
+                }
             }
             txt_full_name.setText(record.getFullName());
             txt_comments.setText(record.getComments());
@@ -176,7 +181,7 @@ public class EditPerson extends AppCompatActivity implements View.OnClickListene
             } else {
                 btn_select_spiritual_rebirth.setText(record.getDateOfSpiritualRebirth());
             }
-            //
+
             String[] decisions = record.getDecisions().split(";");
             for (int i = 0; i < decisions.length; i++) {
                 String decision = decisions[i];
