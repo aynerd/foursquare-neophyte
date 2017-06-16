@@ -96,7 +96,7 @@ public class Uploader implements GoogleApiClient.ConnectionCallbacks, GoogleApiC
         }
     }
 
-    private void createFile(String fileName, String csvString) {
+    public void uploadFile(String fileName, String csvString) {
         mCsvString = csvString;
         mFileName = fileName;
 
