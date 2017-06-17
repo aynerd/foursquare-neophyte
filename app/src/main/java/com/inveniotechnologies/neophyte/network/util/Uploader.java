@@ -27,46 +27,94 @@ import java.io.Writer;
  * Created by winner-timothybolorunduro on 16/06/2017.
  */
 
-public class Uploader implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+public class Uploader implements
+        GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener {
+    protected static final int REQUEST_CODE_RESOLUTION = 1;
     private final String TAG = "Neophyte: ";
     private GoogleApiClient mGoogleApiClient;
     private Activity mContext;
-    private final ResultCallback<DriveFolder.DriveFileResult> fileCallback = new ResultCallback<DriveFolder.DriveFileResult>() {
-        @Override
-        public void onResult(@NonNull DriveFolder.DriveFileResult driveFileResult) {
-            if (driveFileResult.getStatus().isSuccess()) {
-                Toast.makeText(mContext, "File " + driveFileResult.getDriveFile().getDriveId() + " written successfully.", Toast.LENGTH_LONG).show();
-            } else {
-                Toast.makeText(mContext, "File " + driveFileResult.getDriveFile().getDriveId() + " not written.", Toast.LENGTH_LONG).show();
-            }
-        }
-    };
+    final private ResultCallback<DriveFolder.DriveFileResult> fileCallback = new
+            ResultCallback<DriveFolder.DriveFileResult>() {
+                @Override
+                public void onResult(@NonNull DriveFolder.DriveFileResult result) {
+                    if (!result.getStatus().isSuccess()) {
+                        showMessage("Error while trying to create the file");
+                        return;
+                    }
+                    showMessage("Created a file with content: " + result.getDriveFile().getDriveId());
+                }
+            };
     private String mCsvString;
     private String mFileName;
-    private final ResultCallback<DriveApi.DriveContentsResult> driveContentsResultResultCallback
-            = new ResultCallback<DriveApi.DriveContentsResult>() {
+    final private ResultCallback<DriveApi.DriveContentsResult> driveContentsCallback =
+            new ResultCallback<DriveApi.DriveContentsResult>() {
         @Override
-        public void onResult(@NonNull DriveApi.DriveContentsResult driveContentsResult) {
-            if (driveContentsResult.getStatus().isSuccess()) {
-                createFileOnDrive(driveContentsResult);
+        public void onResult(@NonNull DriveApi.DriveContentsResult result) {
+            if (!result.getStatus().isSuccess()) {
+                showMessage("Error while trying to create new file contents");
+                return;
             }
+            final DriveContents driveContents = result.getDriveContents();
+
+            // Perform I/O off the UI thread.
+            new Thread() {
+                @Override
+                public void run() {
+                    // write content to DriveContents
+                    OutputStream outputStream = driveContents.getOutputStream();
+                    Writer writer = new OutputStreamWriter(outputStream);
+                    try {
+                        writer.write(mCsvString);
+                        writer.close();
+                    } catch (IOException e) {
+                        Log.e(TAG, e.getMessage());
+                    }
+
+                    MetadataChangeSet changeSet = new MetadataChangeSet.Builder()
+                            .setTitle(mFileName)
+                            .setMimeType("text/plain")
+                            .setStarred(true)
+                            .build();
+
+                    // create a file on root folder
+                    Drive.DriveApi.getRootFolder(mGoogleApiClient)
+                            .createFile(mGoogleApiClient, changeSet, driveContents)
+                            .setResultCallback(fileCallback);
+                }
+            }.start();
         }
     };
 
     public Uploader(Activity context) {
         mContext = context;
-        mGoogleApiClient = new GoogleApiClient.Builder(context)
-                .addApi(Drive.API)
-                .addScope(Drive.SCOPE_FILE)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .build();
+        if (mGoogleApiClient == null) {
+            mGoogleApiClient = new GoogleApiClient.Builder(mContext)
+                    .addApi(Drive.API)
+                    .addScope(Drive.SCOPE_FILE)
+                    .addScope(Drive.SCOPE_APPFOLDER)
+                    .addConnectionCallbacks(this)
+                    .addOnConnectionFailedListener(this)
+                    .build();
+        }
         mGoogleApiClient.connect();
+    }
+
+    public void uploadFile(String fileName, String csvString) {
+        mCsvString = csvString;
+        mFileName = fileName;
+
+        Drive.DriveApi.newDriveContents(mGoogleApiClient)
+                .setResultCallback(driveContentsCallback);
+    }
+
+    public void showMessage(String message) {
+        Toast.makeText(mContext, message, Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
-        Toast.makeText(mContext, "Google connected", Toast.LENGTH_SHORT).show();
+        Log.i(TAG, "GoogleApiClient connected");
     }
 
     @Override
@@ -75,51 +123,16 @@ public class Uploader implements GoogleApiClient.ConnectionCallbacks, GoogleApiC
     }
 
     @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        Log.i(TAG, "GoogleApiClient connection failed: " + connectionResult.toString());
-        if (!connectionResult.hasResolution()) {
-            GoogleApiAvailability.getInstance().getErrorDialog(mContext, connectionResult.getErrorCode(), 0).show();
+    public void onConnectionFailed(@NonNull ConnectionResult result) {
+        Log.i(TAG, "GoogleApiClient connection failed: " + result.toString());
+        if (!result.hasResolution()) {
+            GoogleApiAvailability.getInstance().getErrorDialog(mContext, result.getErrorCode(), 0).show();
             return;
         }
-
         try {
-            connectionResult.startResolutionForResult(mContext, 1001);
+            result.startResolutionForResult(mContext, REQUEST_CODE_RESOLUTION);
         } catch (IntentSender.SendIntentException e) {
             Log.e(TAG, "Exception while starting resolution activity", e);
         }
-    }
-
-    public void uploadFile(String fileName, String csvString) {
-        mCsvString = csvString;
-        mFileName = fileName;
-
-        Drive.DriveApi.newDriveContents(mGoogleApiClient)
-                .setResultCallback(driveContentsResultResultCallback);
-    }
-
-    private void createFileOnDrive(DriveApi.DriveContentsResult result) {
-        final DriveContents driveContents = result.getDriveContents();
-        new Thread() {
-            @Override
-            public void run() {
-                OutputStream outputStream = driveContents.getOutputStream();
-                Writer writer = new OutputStreamWriter(outputStream);
-
-                try {
-                    writer.write(mCsvString);
-                    writer.close();
-                } catch (IOException e) {
-                    Log.e(TAG, e.getMessage());
-                }
-
-                MetadataChangeSet changeSet = new MetadataChangeSet.Builder()
-                        .setTitle(mFileName)
-                        .setMimeType("text/plain")
-                        .build();
-                Drive.DriveApi.getRootFolder(mGoogleApiClient)
-                        .createFile(mGoogleApiClient, changeSet, driveContents)
-                        .setResultCallback(fileCallback);
-            }
-        };
     }
 }
