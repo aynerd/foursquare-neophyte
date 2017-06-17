@@ -108,7 +108,7 @@ public class Uploader implements
                 .setResultCallback(driveContentsCallback);
     }
 
-    public void showMessage(String message) {
+    private void showMessage(String message) {
         Toast.makeText(mContext, message, Toast.LENGTH_LONG).show();
     }
 
