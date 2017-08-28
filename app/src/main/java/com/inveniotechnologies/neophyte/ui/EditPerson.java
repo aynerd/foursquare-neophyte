@@ -160,7 +160,7 @@ public class EditPerson extends AppCompatActivity implements View.OnClickListene
                 if (components.length == 2) {
                     txt_day.setText(components[0]);
                     txt_month.setText(components[1]);
-                } else {
+                } else if (components.length == 3) {
                     String birthday = components[0];
                     components = birthday.split("-");
                     txt_day.setText(components[2]);
