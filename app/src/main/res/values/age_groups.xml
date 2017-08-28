@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="ageGroupList">
+        <item>Select</item>
         <item>11 - 17</item>
         <item>18 - 24</item>
         <item>25 - 30</item>

@@ -208,7 +208,18 @@ public class EditPerson extends AppCompatActivity implements View.OnClickListene
                     chk_be_baptized.setChecked(true);
                 }
             }
+
+            writeAgeGroupToUi(record.getAgeGroup());
+            writeTitleToUi(record.getTitle());
         }
+    }
+
+    private void writeAgeGroupToUi(String ageGroup) {
+
+    }
+
+    private void writeTitleToUi(String title) {
+
     }
 
     private void updateRecord() {
@@ -253,20 +264,20 @@ public class EditPerson extends AppCompatActivity implements View.OnClickListene
             if (chk_discover_ministry.isChecked()) {
                 decisions += chk_discover_ministry.getText().toString() + " ; ";
             }
-            //
+
             record.setDecisions(decisions);
-            //
+
             DatabaseReference membersRef = database.getReference("members");
             DatabaseReference dateRef = membersRef.child(date);
             DatabaseReference uidRef = dateRef.child(Uid);
             uidRef.removeValue();
-            //
+
             DatabaseReference newDateRef = membersRef.child(
                     btn_select_save_date.getText().toString()
             );
             newDateRef.push().setValue(record);
             scrollViewer.fullScroll(ScrollView.FOCUS_UP);
-            //
+
             Toast.makeText(this, "Record successfully updated!", Toast.LENGTH_SHORT).show();
         }
         catch (Exception e){
