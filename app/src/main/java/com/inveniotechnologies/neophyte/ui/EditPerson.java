@@ -160,10 +160,17 @@ public class EditPerson extends AppCompatActivity implements View.OnClickListene
                 if (components.length == 2) {
                     txt_day.setText(components[0]);
                     txt_month.setText(components[1]);
-                } else {
+                }
+                // cater to the old date system
+                else if (components.length == 1 && components[0].contains("-")) {
                     String birthday = components[0];
                     components = birthday.split("-");
-                    txt_day.setText(components[2]);
+                    // cater to the year first or last mode
+                    if (components[0].length() == 4) {
+                        txt_day.setText(components[2]);
+                    } else {
+                        txt_day.setText(components[0]);
+                    }
                     txt_month.setText(components[1]);
                 }
             }
