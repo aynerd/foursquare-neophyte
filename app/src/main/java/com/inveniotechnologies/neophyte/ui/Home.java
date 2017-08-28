@@ -97,18 +97,15 @@ public class Home extends AppCompatActivity {
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 if (dataSnapshot != null) {
                     String date = dataSnapshot.getKey();
-                    //
                     DateListItem item = new DateListItem();
                     item.setDate(date);
-                    //
                     datesList.add(item);
                     datesAdapter.notifyDataSetChanged();
                 }
             }
 
             @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-            }
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) { }
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
@@ -135,11 +132,7 @@ public class Home extends AppCompatActivity {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(
-                        Home.this,
-                        "Sorry, an error occurred while trying to read data.",
-                        Toast.LENGTH_LONG
-                ).show();
+                displayToast("Sorry, an error occurred while trying to read data.");
                 finish();
             }
         });
@@ -221,11 +214,7 @@ public class Home extends AppCompatActivity {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(
-                        Home.this,
-                        "Sorry, an error occured and the data was not exported.",
-                        Toast.LENGTH_SHORT
-                ).show();
+                displayToast("Sorry, an error occured and the data was not exported.");
             }
         });
     }
@@ -238,19 +227,13 @@ public class Home extends AppCompatActivity {
     private StringBuilder getCsvFromSnapshot(DataSnapshot dataSnapshot) {
         StringBuilder csvBuilder = new StringBuilder();
 
+        csvBuilder.append("Title");
+        csvBuilder.append('\t');
+
         csvBuilder.append("Full Name");
         csvBuilder.append('\t');
 
-        csvBuilder.append("Age Group");
-        csvBuilder.append('\t');
-
-        csvBuilder.append("Birthday");
-        csvBuilder.append('\t');
-
-        csvBuilder.append("Comments");
-        csvBuilder.append('\t');
-
-        csvBuilder.append("Decisions");
+        csvBuilder.append("Mobile");
         csvBuilder.append('\t');
 
         csvBuilder.append("Email");
@@ -259,38 +242,38 @@ public class Home extends AppCompatActivity {
         csvBuilder.append("Home Address");
         csvBuilder.append('\t');
 
+        csvBuilder.append("Birthday");
+        csvBuilder.append('\t');
+
+        csvBuilder.append("Age Group");
+        csvBuilder.append('\t');
+
         csvBuilder.append("Home Tel");
-        csvBuilder.append('\t');
-
-        csvBuilder.append("Invited By");
-        csvBuilder.append('\t');
-
-        csvBuilder.append("Mobile");
         csvBuilder.append('\t');
 
         csvBuilder.append("Office Tel");
         csvBuilder.append('\t');
 
-        csvBuilder.append("Title");
+        csvBuilder.append("Invited By");
+        csvBuilder.append('\t');
+
+        csvBuilder.append("Comments");
+        csvBuilder.append('\t');
+
+        csvBuilder.append("Decisions");
 
         csvBuilder.append('\n');
-        //
+
         for (DataSnapshot personShot : dataSnapshot.getChildren()) {
             Record record = personShot.getValue(Record.class);
-            //
+
+            csvBuilder.append(record.getTitle());
+            csvBuilder.append('\t');
+
             csvBuilder.append(record.getFullName().replace(",", ""));
             csvBuilder.append('\t');
 
-            csvBuilder.append(record.getAgeGroup());
-            csvBuilder.append('\t');
-
-            csvBuilder.append(record.getBirthDay());
-            csvBuilder.append('\t');
-
-            csvBuilder.append(record.getComments().replace(",", ""));
-            csvBuilder.append('\t');
-
-            csvBuilder.append(record.getDecisions().replace(",", ""));
+            csvBuilder.append(record.getMobile());
             csvBuilder.append('\t');
 
             csvBuilder.append(record.getEmail());
@@ -299,20 +282,27 @@ public class Home extends AppCompatActivity {
             csvBuilder.append(record.getHomeAddress().replace(",", ""));
             csvBuilder.append('\t');
 
+            csvBuilder.append(record.getBirthDay());
+            csvBuilder.append('\t');
+
+            csvBuilder.append(record.getAgeGroup());
+            csvBuilder.append('\t');
+
             csvBuilder.append(record.getHomeTel());
-            csvBuilder.append('\t');
-
-            csvBuilder.append(record.getInvitedBy());
-            csvBuilder.append('\t');
-
-            csvBuilder.append(record.getMobile());
             csvBuilder.append('\t');
 
             csvBuilder.append(record.getOfficeTel());
             csvBuilder.append('\t');
 
-            csvBuilder.append(record.getTitle());
-            //
+            csvBuilder.append(record.getInvitedBy());
+            csvBuilder.append('\t');
+
+            csvBuilder.append(record.getComments().replace(",", ""));
+            csvBuilder.append('\t');
+
+            csvBuilder.append(record.getDecisions().replace(",", ""));
+            csvBuilder.append('\t');
+
             csvBuilder.append('\n');
         }
         return csvBuilder;
@@ -328,20 +318,20 @@ public class Home extends AppCompatActivity {
             outputStream = new FileOutputStream(file);
             outputStream.write(csvBuilder.toString().getBytes());
             outputStream.close();
-            //
-            Toast.makeText(
-                    Home.this,
-                    "File successfully exported. "
-                            + filename,
-                    Toast.LENGTH_SHORT
-            ).show();
+
+            displayToast("File successfully exported. "
+                    + filename);
         } catch (Exception e) {
-            Toast.makeText(
-                    Home.this,
-                    "Sorry, could not write the file.",
-                    Toast.LENGTH_SHORT
-            ).show();
+            displayToast("Sorry, could not write the file.");
         }
+    }
+
+    private void displayToast(String message) {
+        Toast.makeText(
+                Home.this,
+                message,
+                Toast.LENGTH_SHORT
+        ).show();
     }
 }
 

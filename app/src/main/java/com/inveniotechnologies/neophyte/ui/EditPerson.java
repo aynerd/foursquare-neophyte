@@ -211,35 +211,6 @@ public class EditPerson extends AppCompatActivity implements View.OnClickListene
         }
     }
 
-    private void setAgeGroup(CharSequence dobString) {
-        if (dobString.length() == 10) {
-            String yearString = dobString.toString().substring(0, 4);
-            int year = Integer.parseInt(yearString);
-            int currentYear = Calendar.getInstance().get(Calendar.YEAR);
-            int age = currentYear - year;
-            //
-            if (age > 60) {
-                cmb_age_group.setSelection(8, true);
-            } else if (age > 50 && age < 61) {
-                cmb_age_group.setSelection(7, true);
-            } else if (age > 45 && age < 51) {
-                cmb_age_group.setSelection(6, true);
-            } else if (age > 40 && age < 46) {
-                cmb_age_group.setSelection(5, true);
-            } else if (age > 35 && age < 41) {
-                cmb_age_group.setSelection(4, true);
-            } else if (age > 30 && age < 36) {
-                cmb_age_group.setSelection(3, true);
-            } else if (age > 25 && age < 31) {
-                cmb_age_group.setSelection(2, true);
-            } else if (age > 17 && age < 26) {
-                cmb_age_group.setSelection(1, true);
-            } else {
-                cmb_age_group.setSelection(0, true);
-            }
-        }
-    }
-
     private void updateRecord() {
         try {
             Record record = new Record();
