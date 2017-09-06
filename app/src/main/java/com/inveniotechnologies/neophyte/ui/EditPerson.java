@@ -215,7 +215,27 @@ public class EditPerson extends AppCompatActivity implements View.OnClickListene
     }
 
     private void writeAgeGroupToUi(String ageGroup) {
-
+        if (ageGroup == null || ageGroup.equals("") || ageGroup.equals("Select")) {
+            cmb_age_group.setSelection(0);
+        } else if (ageGroup.equals("11 - 17")) {
+            cmb_age_group.setSelection(1);
+        } else if (ageGroup.equals("18 - 24")) {
+            cmb_age_group.setSelection(2);
+        } else if (ageGroup.equals("25 - 30")) {
+            cmb_age_group.setSelection(3);
+        } else if (ageGroup.equals("31 - 35")) {
+            cmb_age_group.setSelection(4);
+        } else if (ageGroup.equals("36 - 40")) {
+            cmb_age_group.setSelection(5);
+        } else if (ageGroup.equals("41 - 45")) {
+            cmb_age_group.setSelection(6);
+        } else if (ageGroup.equals("46 - 50")) {
+            cmb_age_group.setSelection(7);
+        } else if (ageGroup.equals("51 - 60")) {
+            cmb_age_group.setSelection(8);
+        } else if (ageGroup.equals("61+")) {
+            cmb_age_group.setSelection(9);
+        }
     }
 
     private void writeTitleToUi(String title) {
