@@ -208,6 +208,59 @@ public class EditPerson extends AppCompatActivity implements View.OnClickListene
                     chk_be_baptized.setChecked(true);
                 }
             }
+
+            writeAgeGroupToUi(record.getAgeGroup());
+            writeTitleToUi(record.getTitle());
+        }
+    }
+
+    private void writeAgeGroupToUi(String ageGroup) {
+        if (ageGroup == null || ageGroup.equals("") || ageGroup.equals("Select")) {
+            cmb_age_group.setSelection(0);
+        } else if (ageGroup.equals("11 - 17")) {
+            cmb_age_group.setSelection(1);
+        } else if (ageGroup.equals("18 - 24")) {
+            cmb_age_group.setSelection(2);
+        } else if (ageGroup.equals("25 - 30")) {
+            cmb_age_group.setSelection(3);
+        } else if (ageGroup.equals("31 - 35")) {
+            cmb_age_group.setSelection(4);
+        } else if (ageGroup.equals("36 - 40")) {
+            cmb_age_group.setSelection(5);
+        } else if (ageGroup.equals("41 - 45")) {
+            cmb_age_group.setSelection(6);
+        } else if (ageGroup.equals("46 - 50")) {
+            cmb_age_group.setSelection(7);
+        } else if (ageGroup.equals("51 - 60")) {
+            cmb_age_group.setSelection(8);
+        } else if (ageGroup.equals("61+")) {
+            cmb_age_group.setSelection(9);
+        }
+    }
+
+    private void writeTitleToUi(String title) {
+        if (title == null || title.equals("") || title.equals("Select")) {
+            cmb_title.setSelection(0);
+        } else if (title.equals("Mr")) {
+            cmb_title.setSelection(1);
+        } else if (title.equals("Mrs")) {
+            cmb_title.setSelection(2);
+        } else if (title.equals("Miss")) {
+            cmb_title.setSelection(3);
+        } else if (title.equals("Ms")) {
+            cmb_title.setSelection(4);
+        } else if (title.equals("Dr")) {
+            cmb_title.setSelection(5);
+        } else if (title.equals("Chief")) {
+            cmb_title.setSelection(6);
+        } else if (title.equals("Prof")) {
+            cmb_title.setSelection(7);
+        } else if (title.equals("Pastor")) {
+            cmb_title.setSelection(8);
+        } else if (title.equals("Reverend")) {
+            cmb_title.setSelection(9);
+        } else if (title.equals("Bishop")) {
+            cmb_title.setSelection(10);
         }
     }
 
@@ -253,20 +306,20 @@ public class EditPerson extends AppCompatActivity implements View.OnClickListene
             if (chk_discover_ministry.isChecked()) {
                 decisions += chk_discover_ministry.getText().toString() + " ; ";
             }
-            //
+
             record.setDecisions(decisions);
-            //
+
             DatabaseReference membersRef = database.getReference("members");
             DatabaseReference dateRef = membersRef.child(date);
             DatabaseReference uidRef = dateRef.child(Uid);
             uidRef.removeValue();
-            //
+
             DatabaseReference newDateRef = membersRef.child(
                     btn_select_save_date.getText().toString()
             );
             newDateRef.push().setValue(record);
             scrollViewer.fullScroll(ScrollView.FOCUS_UP);
-            //
+
             Toast.makeText(this, "Record successfully updated!", Toast.LENGTH_SHORT).show();
         }
         catch (Exception e){

@@ -1,12 +1,10 @@
 package com.inveniotechnologies.neophyte.ui;
 
 import android.app.DatePickerDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatCheckBox;
 import android.support.v7.widget.AppCompatSpinner;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -99,13 +97,13 @@ public class NewRecord extends AppCompatActivity implements View.OnClickListener
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_record);
-        //
+
         ButterKnife.bind(this);
-        //
+
         btn_save_record.setOnClickListener(this);
         btn_select_spiritual_rebirth.setOnClickListener(this);
-        //
-        database= FirebaseDatabase.getInstance();
+
+        database = FirebaseDatabase.getInstance();
     }
 
     @Override
@@ -117,35 +115,6 @@ public class NewRecord extends AppCompatActivity implements View.OnClickListener
             case R.id.btn_spiritual_rebirth_date:
                 changeSRB();
                 break;
-        }
-    }
-
-    private void setAgeGroup(CharSequence dobString) {
-        if (dobString.length() == 10) {
-            String yearString = dobString.toString().substring(0, 4);
-            int year = Integer.parseInt(yearString);
-            int currentYear = Calendar.getInstance().get(Calendar.YEAR);
-            int age = currentYear - year;
-            //
-            if (age > 60) {
-                cmb_age_group.setSelection(8, true);
-            } else if (age > 50 && age < 61) {
-                cmb_age_group.setSelection(7, true);
-            } else if (age > 45 && age < 51) {
-                cmb_age_group.setSelection(6, true);
-            } else if (age > 40 && age < 46) {
-                cmb_age_group.setSelection(5, true);
-            } else if (age > 35 && age < 41) {
-                cmb_age_group.setSelection(4, true);
-            } else if (age > 30 && age < 36) {
-                cmb_age_group.setSelection(3, true);
-            } else if (age > 25 && age < 31) {
-                cmb_age_group.setSelection(2, true);
-            } else if (age > 17 && age < 26) {
-                cmb_age_group.setSelection(1, true);
-            } else {
-                cmb_age_group.setSelection(0, true);
-            }
         }
     }
 
@@ -168,25 +137,25 @@ public class NewRecord extends AppCompatActivity implements View.OnClickListener
             } else {
                 record.setDateOfSpiritualRebirth(btn_select_spiritual_rebirth.getText().toString());
             }
-            //
+
             String decisions = getDecisions();
-            //
+
             record.setDecisions(decisions);
-            //
+
             Date date = new Date();
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
             String currentDate = formatter.format(date);
-            //
+
             DatabaseReference membersRef = database.getReference("members");
             DatabaseReference dateRef = membersRef.child(currentDate);
             dateRef.push().setValue(record);
-            //
+
             DatabaseReference membersBackupRef = database.getReference("members_backup");
             DatabaseReference dateBackupRef = membersBackupRef.child(currentDate);
             dateBackupRef.push().setValue(record);
-            //
+
             clearInputs();
-            //
+
             Toast.makeText(this, "Record successfully saved!", Toast.LENGTH_SHORT).show();
         }
         catch (Exception e){
@@ -237,7 +206,6 @@ public class NewRecord extends AppCompatActivity implements View.OnClickListener
     }
 
     private void clearInputs() {
-        //Clear the input boxes
         txt_month.setText("");
         txt_day.setText("");
         txt_comments.setText("");
@@ -249,7 +217,10 @@ public class NewRecord extends AppCompatActivity implements View.OnClickListener
         txt_mobile.setText("");
         txt_office_tel.setText("");
         btn_select_spiritual_rebirth.setText("Select Date");
-        //
+
+        cmb_age_group.setSelection(0);
+        cmb_title.setSelection(0);
+
         chk_renew_commitment.setChecked(false);
         chk_become_member.setChecked(false);
         chk_commit_life.setChecked(false);
@@ -257,7 +228,7 @@ public class NewRecord extends AppCompatActivity implements View.OnClickListener
         chk_discover_maturity.setChecked(false);
         chk_talk_pastorate.setChecked(false);
         chk_be_baptized.setChecked(false);
-        //
+
         scrollViewer.fullScroll(ScrollView.FOCUS_UP);
     }
 }
