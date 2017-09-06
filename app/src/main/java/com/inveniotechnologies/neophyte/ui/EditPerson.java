@@ -239,7 +239,29 @@ public class EditPerson extends AppCompatActivity implements View.OnClickListene
     }
 
     private void writeTitleToUi(String title) {
-
+        if (title == null || title.equals("") || title.equals("Select")) {
+            cmb_title.setSelection(0);
+        } else if (title.equals("Mr")) {
+            cmb_title.setSelection(1);
+        } else if (title.equals("Mrs")) {
+            cmb_title.setSelection(2);
+        } else if (title.equals("Miss")) {
+            cmb_title.setSelection(3);
+        } else if (title.equals("Ms")) {
+            cmb_title.setSelection(4);
+        } else if (title.equals("Dr")) {
+            cmb_title.setSelection(5);
+        } else if (title.equals("Chief")) {
+            cmb_title.setSelection(6);
+        } else if (title.equals("Prof")) {
+            cmb_title.setSelection(7);
+        } else if (title.equals("Pastor")) {
+            cmb_title.setSelection(8);
+        } else if (title.equals("Reverend")) {
+            cmb_title.setSelection(9);
+        } else if (title.equals("Bishop")) {
+            cmb_title.setSelection(10);
+        }
     }
 
     private void updateRecord() {

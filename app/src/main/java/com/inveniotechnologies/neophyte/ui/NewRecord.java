@@ -218,6 +218,9 @@ public class NewRecord extends AppCompatActivity implements View.OnClickListener
         txt_office_tel.setText("");
         btn_select_spiritual_rebirth.setText("Select Date");
 
+        cmb_age_group.setSelection(0);
+        cmb_title.setSelection(0);
+
         chk_renew_commitment.setChecked(false);
         chk_become_member.setChecked(false);
         chk_commit_life.setChecked(false);
