@@ -26,7 +26,7 @@ dependencies {
     // UI Elements
     compile 'com.android.support:appcompat-v7:26.1.0'
     compile 'com.android.support:design:26.1.0'
-    compile 'com.android.support:recyclerview-v7:26.1.0.'
+    compile 'com.android.support:recyclerview-v7:26.0.0.'
     compile 'de.hdodenhof:circleimageview:2.1.0'
     // Firebase
     compile 'com.google.firebase:firebase-database:11.6.0'
