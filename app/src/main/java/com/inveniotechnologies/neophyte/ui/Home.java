@@ -69,10 +69,10 @@ public class Home extends AppCompatActivity {
             checkForUpdates();
         }
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -81,7 +81,7 @@ public class Home extends AppCompatActivity {
             }
         });
 
-        lst_dates = (RecyclerView) findViewById(R.id.lst_dates);
+        lst_dates = findViewById(R.id.lst_dates);
 
         datesAdapter = new DateListAdapter(datesList);
 
@@ -90,7 +90,7 @@ public class Home extends AppCompatActivity {
         lst_dates.setItemAnimator(new DefaultItemAnimator());
         lst_dates.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
         lst_dates.setAdapter(datesAdapter);
-        //
+
         DatabaseReference membersRef = database.getReference("members");
         membersRef.addChildEventListener(new ChildEventListener() {
             @Override
