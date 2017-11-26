@@ -164,7 +164,7 @@ public class EditPerson extends AppCompatActivity implements View.OnClickListene
                     cmb_day.setSelection(Integer.parseInt(components[1].trim()) - 1);
                     cmb_month.setSelection(Arrays.binarySearch(months, components[0]));
                 }
-                // cater to the immediate deprecated system
+                //cater to the immediate deprecated system
                 else if (components.length == 1 && components[0].contains(";")) {
                     components = components[0].split(";");
                     cmb_day.setSelection(Integer.parseInt(components[0].trim()) - 1);
@@ -292,7 +292,7 @@ public class EditPerson extends AppCompatActivity implements View.OnClickListene
             } else {
                 record.setDateOfSpiritualRebirth(btn_select_spiritual_rebirth.getText().toString());
             }
-            //
+
             String decisions = "";
             if (chk_talk_pastorate.isChecked()) {
                 decisions += chk_talk_pastorate.getText().toString() + " ; ";

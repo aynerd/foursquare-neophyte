@@ -35,30 +35,30 @@ public class People extends AppCompatActivity {
     @BindView(R.id.lst_people)
     RecyclerView lst_people;
     private FirebaseDatabase database;
-    //
+
     private List<PersonListItem> personsList = new ArrayList<>();
     private PersonListAdapter personsAdapter;
-    //
+
     private String date;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_people);
-        //
+
         ButterKnife.bind(this);
-        //
+
         Intent intent = getIntent();
         date = intent.getStringExtra("date");
-        //
+
         personsAdapter = new PersonListAdapter(personsList);
-        //
+
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         lst_people.setLayoutManager(layoutManager);
         lst_people.setItemAnimator(new DefaultItemAnimator());
         lst_people.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
         lst_people.setAdapter(personsAdapter);
-        //
+
         database = FirebaseDatabase.getInstance();
         DatabaseReference membersRef = database.getReference("members");
         DatabaseReference dateRef = membersRef.child(date);
@@ -69,12 +69,12 @@ public class People extends AppCompatActivity {
                     String key = dataSnapshot.getKey();
                     String fullName = dataSnapshot.child("fullName").getValue().toString();
                     String mobile = dataSnapshot.child("mobile").getValue().toString();
-                    //
+
                     PersonListItem item = new PersonListItem();
                     item.setMobile(mobile);
                     item.setFullName(fullName);
                     item.setUID(key);
-                    //
+
                     personsList.add(item);
                     personsAdapter.notifyDataSetChanged();
                 }
@@ -86,7 +86,7 @@ public class People extends AppCompatActivity {
                     String key = dataSnapshot.getKey();
                     String fullName = dataSnapshot.child("fullName").getValue().toString();
                     String mobile = dataSnapshot.child("mobile").getValue().toString();
-                    //
+
                     PersonListItem item = new PersonListItem();
                     for (int i = 0; i < personsList.size(); i++) {
                         if(personsList.get(i).getUID().equals(key)) {
@@ -96,7 +96,7 @@ public class People extends AppCompatActivity {
                     }
                     item.setFullName(fullName);
                     item.setMobile(mobile);
-                    //
+
                     personsAdapter.notifyDataSetChanged();
                 }
             }
@@ -105,7 +105,7 @@ public class People extends AppCompatActivity {
             public void onChildRemoved(DataSnapshot dataSnapshot) {
                 if(dataSnapshot != null) {
                     String key = dataSnapshot.getKey();
-                    //
+
                     PersonListItem item = new PersonListItem();
                     for (int i = 0; i < personsList.size(); i++) {
                         if(personsList.get(i).getUID().equals(key)) {
@@ -113,7 +113,7 @@ public class People extends AppCompatActivity {
                             break;
                         }
                     }
-                    //
+
                     personsList.remove(item);
                     personsAdapter.notifyDataSetChanged();
                 }
@@ -142,7 +142,7 @@ public class People extends AppCompatActivity {
             @Override
             public void onClick(View view, int position) {
                 PersonListItem item = personsList.get(position);
-                //
+
                 Intent intent = new Intent(getApplicationContext(), Details.class);
                 intent.putExtra("date", date);
                 intent.putExtra("Uid", item.getUID());
@@ -152,7 +152,7 @@ public class People extends AppCompatActivity {
             @Override
             public void onLongClick(View view, int position) {
                 final PersonListItem item = personsList.get(position);
-                //
+
                 PopupMenu popupMenu = new PopupMenu(view.getContext(), view);
                 People.this.getMenuInflater().inflate(R.menu.menu_person, popupMenu.getMenu());
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -187,13 +187,8 @@ public class People extends AppCompatActivity {
                                         });
                                     }
                                 });
-                                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                        //Do nothing
-                                    }
-                                });
-                                //
+                                builder.setNegativeButton("No", null);
+                                
                                 AlertDialog alertDialog = builder.create();
                                 alertDialog.show();
                                 break;
