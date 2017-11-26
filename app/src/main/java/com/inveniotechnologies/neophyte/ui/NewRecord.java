@@ -1,10 +1,13 @@
 package com.inveniotechnologies.neophyte.ui;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatCheckBox;
 import android.support.v7.widget.AppCompatSpinner;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -230,5 +233,25 @@ public class NewRecord extends AppCompatActivity implements View.OnClickListener
         chk_be_baptized.setChecked(false);
 
         scrollViewer.fullScroll(ScrollView.FOCUS_UP);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (!TextUtils.isEmpty(txt_full_name.getText().toString()) || !TextUtils.isEmpty(txt_home_address.getText().toString()) || !TextUtils.isEmpty(txt_email.getText().toString())) {
+            AlertDialog alertDialog = new AlertDialog.Builder(this)
+                    .setCancelable(false)
+                    .setMessage("You appear to have unsaved changes. Do you want to close this page?")
+                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            NewRecord.super.onBackPressed();
+                        }
+                    })
+                    .setNegativeButton("No", null)
+                    .create();
+            alertDialog.show();
+        } else {
+            super.onBackPressed();
+        }
     }
 }
