@@ -21,6 +21,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.inveniotechnologies.neophyte.R;
 import com.inveniotechnologies.neophyte.network.models.Record;
 
+import java.util.Arrays;
 import java.util.Calendar;
 
 import butterknife.BindView;
@@ -54,11 +55,11 @@ public class EditPerson extends AppCompatActivity implements View.OnClickListene
     @BindView(R.id.txt_comments)
     EditText txt_comments;
 
-    @BindView(R.id.txt_month)
-    EditText txt_month;
+    @BindView(R.id.cmb_month)
+    AppCompatSpinner cmb_month;
 
-    @BindView(R.id.txt_day)
-    EditText txt_day;
+    @BindView(R.id.cmb_day)
+    AppCompatSpinner cmb_day;
 
     @BindView(R.id.cmb_title)
     AppCompatSpinner cmb_title;
@@ -153,13 +154,21 @@ public class EditPerson extends AppCompatActivity implements View.OnClickListene
     }
 
     private void writeRecordToUi(Record record) {
+        String[] months = new String[]{"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
+
         if (record != null) {
             btn_select_save_date.setText(date);
             if (record.getBirthDay() != null && !record.getBirthDay().isEmpty()) {
-                String[] components = record.getBirthDay().split(";");
+                String[] components = record.getBirthDay().split(" ");
                 if (components.length == 2) {
-                    txt_day.setText(components[0]);
-                    txt_month.setText(components[1]);
+                    cmb_day.setSelection(Integer.parseInt(components[1].trim()) - 1);
+                    cmb_month.setSelection(Arrays.binarySearch(months, components[0]));
+                }
+                // cater to the immediate deprecated system
+                else if (components.length == 1 && components[0].contains(";")) {
+                    components = components[0].split(";");
+                    cmb_day.setSelection(Integer.parseInt(components[0].trim()) - 1);
+                    cmb_month.setSelection(Integer.parseInt(components[1].trim()) - 1);
                 }
                 // cater to the old date system
                 else if (components.length == 1 && components[0].contains("-")) {
@@ -167,11 +176,11 @@ public class EditPerson extends AppCompatActivity implements View.OnClickListene
                     components = birthday.split("-");
                     // cater to the year first or last mode
                     if (components[0].length() == 4) {
-                        txt_day.setText(components[2]);
+                        cmb_day.setSelection(Integer.parseInt(components[2].trim()) - 1);
                     } else {
-                        txt_day.setText(components[0]);
+                        cmb_day.setSelection(Integer.parseInt(components[0].trim()) - 1);
                     }
-                    txt_month.setText(components[1]);
+                    cmb_month.setSelection(Integer.parseInt(components[1].trim()) - 1);
                 }
             }
             txt_full_name.setText(record.getFullName());
@@ -269,7 +278,7 @@ public class EditPerson extends AppCompatActivity implements View.OnClickListene
             Record record = new Record();
             record.setTitle(cmb_title.getSelectedItem().toString());
             record.setAgeGroup(cmb_age_group.getSelectedItem().toString());
-            record.setBirthDay(txt_day.getText().toString() + ";" + txt_month.getText().toString());
+            record.setBirthDay(cmb_month.getSelectedItem().toString() + " " + cmb_day.getSelectedItem().toString());
             record.setComments(txt_comments.getText().toString());
             record.setEmail(txt_email.getText().toString());
             record.setHomeAddress(txt_home_address.getText().toString());
@@ -338,11 +347,7 @@ public class EditPerson extends AppCompatActivity implements View.OnClickListene
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                         btn_select_spiritual_rebirth.setText(
-                                year
-                                        + "-"
-                                        + String.format("%02d", (monthOfYear + 1))
-                                        + "-"
-                                        + String.format("%02d", dayOfMonth)
+                                new StringBuilder().append(year).append("-").append(String.format("%02d", (monthOfYear + 1))).append("-").append(String.format("%02d", dayOfMonth)).toString()
                         );
                     }
                 },
@@ -364,11 +369,7 @@ public class EditPerson extends AppCompatActivity implements View.OnClickListene
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                         btn_select_save_date.setText(
-                                year
-                                        + "-"
-                                        + String.format("%02d", (monthOfYear + 1))
-                                        + "-"
-                                        + String.format("%02d", dayOfMonth)
+                                new StringBuilder().append(year).append("-").append(String.format("%02d", (monthOfYear + 1))).append("-").append(String.format("%02d", dayOfMonth)).toString()
                         );
                     }
                 },

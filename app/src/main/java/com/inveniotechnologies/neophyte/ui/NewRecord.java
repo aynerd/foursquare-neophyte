@@ -49,11 +49,11 @@ public class NewRecord extends AppCompatActivity implements View.OnClickListener
     @BindView(R.id.txt_comments)
     EditText txt_comments;
 
-    @BindView(R.id.txt_month)
-    EditText txt_month;
+    @BindView(R.id.cmb_month)
+    AppCompatSpinner cmb_month;
 
-    @BindView(R.id.txt_day)
-    EditText txt_day;
+    @BindView(R.id.cmb_day)
+    AppCompatSpinner cmb_day;
 
     @BindView(R.id.cmb_title)
     AppCompatSpinner cmb_title;
@@ -123,7 +123,7 @@ public class NewRecord extends AppCompatActivity implements View.OnClickListener
             Record record = new Record();
             record.setTitle(cmb_title.getSelectedItem().toString());
             record.setAgeGroup(cmb_age_group.getSelectedItem().toString());
-            record.setBirthDay(txt_day.getText().toString() + ";" + txt_month.getText().toString());
+            record.setBirthDay(cmb_month.getSelectedItem().toString() + " " + cmb_day.getSelectedItem().toString());
             record.setComments(txt_comments.getText().toString());
             record.setEmail(txt_email.getText().toString());
             record.setHomeAddress(txt_home_address.getText().toString());
@@ -206,8 +206,6 @@ public class NewRecord extends AppCompatActivity implements View.OnClickListener
     }
 
     private void clearInputs() {
-        txt_month.setText("");
-        txt_day.setText("");
         txt_comments.setText("");
         txt_how_you_found_us.setText("");
         txt_email.setText("");
@@ -220,6 +218,8 @@ public class NewRecord extends AppCompatActivity implements View.OnClickListener
 
         cmb_age_group.setSelection(0);
         cmb_title.setSelection(0);
+        cmb_day.setSelection(0);
+        cmb_month.setSelection(0);
 
         chk_renew_commitment.setChecked(false);
         chk_become_member.setChecked(false);
