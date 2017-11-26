@@ -96,6 +96,22 @@ public class NewRecord extends AppCompatActivity implements View.OnClickListener
 
     private FirebaseDatabase database;
 
+    public static String toTitleCase(String s) {
+        final String DELIMITERS = " '-/";
+
+        StringBuilder sb = new StringBuilder();
+        boolean capNext = true;
+
+        for (char c : s.toCharArray()) {
+            c = (capNext)
+                    ? Character.toUpperCase(c)
+                    : Character.toLowerCase(c);
+            sb.append(c);
+            capNext = (DELIMITERS.indexOf((int) c) >= 0);
+        }
+        return sb.toString();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -134,7 +150,7 @@ public class NewRecord extends AppCompatActivity implements View.OnClickListener
             record.setInvitedBy(txt_how_you_found_us.getText().toString());
             record.setMobile(txt_mobile.getText().toString());
             record.setOfficeTel(txt_office_tel.getText().toString());
-            record.setFullName(txt_full_name.getText().toString());
+            record.setFullName(toTitleCase(txt_full_name.getText().toString()));
             if(btn_select_spiritual_rebirth.getText().toString() == "Select Date") {
                 record.setDateOfSpiritualRebirth("");
             } else {
