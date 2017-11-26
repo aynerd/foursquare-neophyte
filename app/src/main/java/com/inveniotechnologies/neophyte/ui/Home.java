@@ -85,7 +85,10 @@ public class Home extends AppCompatActivity {
 
         datesAdapter = new DateListAdapter(datesList);
 
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+        layoutManager.setReverseLayout(true);
+        layoutManager.setStackFromEnd(true);
+
         lst_dates.setLayoutManager(layoutManager);
         lst_dates.setItemAnimator(new DefaultItemAnimator());
         lst_dates.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
