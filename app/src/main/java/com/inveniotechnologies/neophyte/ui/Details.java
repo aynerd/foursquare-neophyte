@@ -86,20 +86,24 @@ public class Details extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
-        //
+
+        // bind UI elements using butter knife
         ButterKnife.bind(this);
-        //
+
+        // get the date and user id from the intent
         Intent intent = getIntent();
         String date = intent.getStringExtra("date");
         String Uid = intent.getStringExtra("Uid");
-        //
+
+        // set the close button listener
         btn_close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
             }
         });
-        //
+
+        // pull data from the database
         database = FirebaseDatabase.getInstance();
         DatabaseReference membersRef = database.getReference("members");
         DatabaseReference dateRef = membersRef.child(date);
@@ -139,8 +143,7 @@ public class Details extends AppCompatActivity {
             lbl_spiritual_rebirth_date.setText(record.getDateOfSpiritualRebirth());
             //
             String[] decisions = record.getDecisions().split(";");
-            for (int i = 0; i < decisions.length; i++) {
-                String decision = decisions[i];
+            for (String decision : decisions) {
                 if (decision.contains("pastorate")) {
                     lbl_talk_pastorate.setVisibility(View.VISIBLE);
                 } else if (decision.contains("maturity")) {

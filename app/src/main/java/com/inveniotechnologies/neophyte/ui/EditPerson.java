@@ -369,7 +369,7 @@ public class EditPerson extends AppCompatActivity implements View.OnClickListene
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                         btn_select_save_date.setText(
-                                new StringBuilder().append(year).append("-").append(String.format("%02d", (monthOfYear + 1))).append("-").append(String.format("%02d", dayOfMonth)).toString()
+                                String.valueOf(year) + "-" + String.format("%02d", (monthOfYear + 1)) + "-" + String.format("%02d", dayOfMonth)
                         );
                     }
                 },
