@@ -230,6 +230,9 @@ public class Home extends AppCompatActivity {
     private StringBuilder getCsvFromSnapshot(DataSnapshot dataSnapshot) {
         StringBuilder csvBuilder = new StringBuilder();
 
+        csvBuilder.append("S/No");
+        csvBuilder.append('\t');
+
         csvBuilder.append("Title");
         csvBuilder.append('\t');
 
@@ -267,8 +270,12 @@ public class Home extends AppCompatActivity {
 
         csvBuilder.append('\n');
 
+        int index = 1;
         for (DataSnapshot personShot : dataSnapshot.getChildren()) {
             Record record = personShot.getValue(Record.class);
+
+            csvBuilder.append(index);
+            csvBuilder.append('\t');
 
             csvBuilder.append(record.getTitle());
             csvBuilder.append('\t');
@@ -307,6 +314,8 @@ public class Home extends AppCompatActivity {
             csvBuilder.append('\t');
 
             csvBuilder.append('\n');
+
+            index++;
         }
         return csvBuilder;
     }
