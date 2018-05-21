@@ -27,7 +27,7 @@ import java.util.Date;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class NewRecord extends AppCompatActivity implements View.OnClickListener {
+public class AddRecord extends AppCompatActivity implements View.OnClickListener {
     @BindView(R.id.txt_full_name)
     EditText txt_full_name;
 
@@ -260,7 +260,7 @@ public class NewRecord extends AppCompatActivity implements View.OnClickListener
                     .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            NewRecord.super.onBackPressed();
+                            AddRecord.super.onBackPressed();
                         }
                     })
                     .setNegativeButton("No", null)

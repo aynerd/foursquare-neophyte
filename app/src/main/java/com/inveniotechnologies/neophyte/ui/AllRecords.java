@@ -31,7 +31,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class People extends AppCompatActivity {
+public class AllRecords extends AppCompatActivity {
     @BindView(R.id.lst_people)
     RecyclerView lst_people;
     private FirebaseDatabase database;
@@ -127,7 +127,7 @@ public class People extends AppCompatActivity {
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 Toast.makeText(
-                        People.this,
+                        AllRecords.this,
                         "Sorry, an error occurred while trying to read data.",
                         Toast.LENGTH_LONG
                 ).show();
@@ -143,7 +143,7 @@ public class People extends AppCompatActivity {
             public void onClick(View view, int position) {
                 PersonListItem item = personsList.get(position);
 
-                Intent intent = new Intent(getApplicationContext(), Details.class);
+                Intent intent = new Intent(getApplicationContext(), RecordDetails.class);
                 intent.putExtra("date", date);
                 intent.putExtra("Uid", item.getUID());
                 startActivity(intent);
@@ -154,13 +154,13 @@ public class People extends AppCompatActivity {
                 final PersonListItem item = personsList.get(position);
 
                 PopupMenu popupMenu = new PopupMenu(view.getContext(), view);
-                People.this.getMenuInflater().inflate(R.menu.menu_person, popupMenu.getMenu());
+                AllRecords.this.getMenuInflater().inflate(R.menu.menu_person, popupMenu.getMenu());
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem menuItem) {
                         switch (menuItem.getItemId()) {
                             case R.id.menu_delete:
-                                AlertDialog.Builder builder = new AlertDialog.Builder(People.this);
+                                AlertDialog.Builder builder = new AlertDialog.Builder(AllRecords.this);
                                 builder.setCancelable(true);
                                 builder.setMessage("Are you sure you want to delete this person?");
                                 builder.setPositiveButton(
@@ -179,7 +179,7 @@ public class People extends AppCompatActivity {
                                                     DatabaseError databaseError,
                                                     DatabaseReference databaseReference) {
                                                 Toast.makeText(
-                                                        People.this,
+                                                        AllRecords.this,
                                                         "Record has been deleted.",
                                                         Toast.LENGTH_SHORT
                                                 ).show();
@@ -195,7 +195,7 @@ public class People extends AppCompatActivity {
                             case  R.id.menu_edit:
                                 Intent intent = new Intent(
                                         getApplicationContext(),
-                                        EditPerson.class
+                                        UpdateRecord.class
                                 );
                                 intent.putExtra("date", date);
                                 intent.putExtra("Uid", item.getUID());

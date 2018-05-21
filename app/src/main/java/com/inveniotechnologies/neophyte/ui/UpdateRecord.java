@@ -27,7 +27,7 @@ import java.util.Calendar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class EditPerson extends AppCompatActivity implements View.OnClickListener {
+public class UpdateRecord extends AppCompatActivity implements View.OnClickListener {
     String date;
     String Uid;
 
@@ -129,7 +129,7 @@ public class EditPerson extends AppCompatActivity implements View.OnClickListene
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 Toast.makeText(
-                        EditPerson.this,
+                        UpdateRecord.this,
                         "An error occurred and the app has to close.",
                         Toast.LENGTH_SHORT
                 ).show();

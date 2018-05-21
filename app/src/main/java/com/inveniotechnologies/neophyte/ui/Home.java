@@ -73,7 +73,7 @@ public class Home extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), NewRecord.class);
+                Intent intent = new Intent(getApplicationContext(), AddRecord.class);
                 startActivity(intent);
             }
         });
@@ -143,7 +143,7 @@ public class Home extends AppCompatActivity {
                     public void onClick(View view, int position) {
                         DateListItem item = datesList.get(position);
 
-                        Intent intent = new Intent(getApplicationContext(), People.class);
+                        Intent intent = new Intent(getApplicationContext(), AllRecords.class);
                         intent.putExtra("date", item.getDate());
                         startActivity(intent);
                     }

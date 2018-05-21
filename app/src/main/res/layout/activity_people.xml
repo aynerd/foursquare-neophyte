@@ -7,7 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="5dp"
-    tools:context="com.inveniotechnologies.neophyte.ui.People">
+    tools:context="com.inveniotechnologies.neophyte.ui.AllRecords">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/lst_people"

@@ -19,7 +19,7 @@ import com.inveniotechnologies.neophyte.network.models.Record;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class Details extends AppCompatActivity {
+public class RecordDetails extends AppCompatActivity {
     @BindView(R.id.lbl_title)
     TextView lbl_title;
 
@@ -118,7 +118,7 @@ public class Details extends AppCompatActivity {
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 Toast.makeText(
-                        Details.this,
+                        RecordDetails.this,
                         "An error occurred and the details could not be retrieved."
                                 + "This activity has to close.",
                         Toast.LENGTH_LONG).show();
