@@ -230,6 +230,9 @@ public class Home extends AppCompatActivity {
     private StringBuilder getCsvFromSnapshot(DataSnapshot dataSnapshot) {
         StringBuilder csvBuilder = new StringBuilder();
 
+        csvBuilder.append("S/No");
+        csvBuilder.append('\t');
+
         csvBuilder.append("Title");
         csvBuilder.append('\t');
 
@@ -267,46 +270,52 @@ public class Home extends AppCompatActivity {
 
         csvBuilder.append('\n');
 
+        int index = 1;
         for (DataSnapshot personShot : dataSnapshot.getChildren()) {
             Record record = personShot.getValue(Record.class);
 
-            csvBuilder.append(record.getTitle());
+            csvBuilder.append(index);
             csvBuilder.append('\t');
 
-            csvBuilder.append(record.getFullName().replace(",", ""));
+            csvBuilder.append(cleanString(record.getTitle()));
             csvBuilder.append('\t');
 
-            csvBuilder.append(record.getMobile());
+            csvBuilder.append(cleanString(record.getFullName()));
             csvBuilder.append('\t');
 
-            csvBuilder.append(record.getEmail());
+            csvBuilder.append(cleanString(record.getMobile()));
             csvBuilder.append('\t');
 
-            csvBuilder.append(record.getHomeAddress().replace(",", ""));
+            csvBuilder.append(cleanString(record.getEmail()));
             csvBuilder.append('\t');
 
-            csvBuilder.append(record.getBirthDay());
+            csvBuilder.append(cleanString(record.getHomeAddress()));
             csvBuilder.append('\t');
 
-            csvBuilder.append(record.getAgeGroup());
+            csvBuilder.append(cleanString(record.getBirthDay()));
             csvBuilder.append('\t');
 
-            csvBuilder.append(record.getHomeTel());
+            csvBuilder.append(cleanString(record.getAgeGroup()));
             csvBuilder.append('\t');
 
-            csvBuilder.append(record.getOfficeTel());
+            csvBuilder.append(cleanString(record.getHomeTel()));
             csvBuilder.append('\t');
 
-            csvBuilder.append(record.getInvitedBy());
+            csvBuilder.append(cleanString(record.getOfficeTel()));
             csvBuilder.append('\t');
 
-            csvBuilder.append(record.getComments().replace(",", ""));
+            csvBuilder.append(cleanString(record.getInvitedBy()));
             csvBuilder.append('\t');
 
-            csvBuilder.append(record.getDecisions().replace(",", ""));
+            csvBuilder.append(cleanString(record.getComments()));
+            csvBuilder.append('\t');
+
+            csvBuilder.append(cleanString(record.getDecisions()));
             csvBuilder.append('\t');
 
             csvBuilder.append('\n');
+
+            index++;
         }
         return csvBuilder;
     }
@@ -335,6 +344,12 @@ public class Home extends AppCompatActivity {
                 message,
                 Toast.LENGTH_SHORT
         ).show();
+    }
+
+    private String cleanString(String input) {
+        return input
+                .replace('\n', ' ')
+                .replace('\t', ' ');
     }
 }
 
