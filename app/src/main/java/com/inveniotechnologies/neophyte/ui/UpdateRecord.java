@@ -341,6 +341,7 @@ public class UpdateRecord extends AppCompatActivity implements View.OnClickListe
             scrollViewer.fullScroll(ScrollView.FOCUS_UP);
 
             Toast.makeText(this, "Record successfully updated!", Toast.LENGTH_SHORT).show();
+            this.finish();
         }
         catch (Exception e){
             Toast.makeText(this, "An error occurred: " + e.getMessage(), Toast.LENGTH_LONG).show();
