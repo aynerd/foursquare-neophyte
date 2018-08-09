@@ -161,14 +161,25 @@ public class UpdateRecord extends AppCompatActivity implements View.OnClickListe
             if (record.getBirthDay() != null && !record.getBirthDay().isEmpty()) {
                 String[] components = record.getBirthDay().split(" ");
                 if (components.length == 2) {
-                    cmb_day.setSelection(Integer.parseInt(components[1].trim()) - 1);
-                    cmb_month.setSelection(Arrays.binarySearch(months, components[0]));
+                    if (isInteger(components[0]) && isInteger(components[1])) {
+                        cmb_day.setSelection(Integer.parseInt(components[1].trim()) - 1);
+                        cmb_month.setSelection(Arrays.binarySearch(months, components[0]));
+                    } else {
+                        cmb_day.setSelection(0);
+                        cmb_month.setSelection(0);
+                    }
                 }
-                //cater to the immediate deprecated system
+                // cater to the immediately deprecated system
                 else if (components.length == 1 && components[0].contains(";")) {
                     components = components[0].split(";");
-                    cmb_day.setSelection(Integer.parseInt(components[0].trim()) - 1);
-                    cmb_month.setSelection(Integer.parseInt(components[1].trim()) - 1);
+
+                    if (components.length == 2 && isInteger(components[0]) && isInteger(components[1])) {
+                        cmb_day.setSelection(Integer.parseInt(components[0].trim()) - 1);
+                        cmb_month.setSelection(Integer.parseInt(components[1].trim()) - 1);
+                    } else {
+                        cmb_day.setSelection(0);
+                        cmb_month.setSelection(0);
+                    }
                 }
                 // cater to the old date system
                 else if (components.length == 1 && components[0].contains("-")) {
@@ -384,5 +395,17 @@ public class UpdateRecord extends AppCompatActivity implements View.OnClickListe
         Intent intent = getIntent();
         date = intent.getStringExtra("date");
         Uid = intent.getStringExtra("Uid");
+    }
+
+    private boolean isInteger(String s) {
+        if (s.isEmpty()) return false;
+        for (int i = 0; i < s.length(); i++) {
+            if (i == 0 && s.charAt(i) == '-') {
+                if (s.length() == 1) return false;
+                else continue;
+            }
+            if (Character.digit(s.charAt(i), 10) < 0) return false;
+        }
+        return true;
     }
 }
