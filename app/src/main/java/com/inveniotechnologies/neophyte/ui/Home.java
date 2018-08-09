@@ -1,11 +1,9 @@
 package com.inveniotechnologies.neophyte.ui;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -26,7 +24,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.inveniotechnologies.neophyte.R;
 import com.inveniotechnologies.neophyte.network.models.Record;
-import com.inveniotechnologies.neophyte.network.util.Uploader;
 import com.inveniotechnologies.neophyte.ui.adapters.DateListAdapter;
 import com.inveniotechnologies.neophyte.ui.extras.ClickListener;
 import com.inveniotechnologies.neophyte.ui.extras.DividerItemDecoration;
@@ -198,20 +195,6 @@ public class Home extends AppCompatActivity {
                     final StringBuilder csvBuilder = getCsvFromSnapshot(dataSnapshot);
 
                     writeCsvToFile(folder, filename, csvBuilder);
-
-                    AlertDialog alertDialog = new AlertDialog.Builder(Home.this)
-                            .setTitle("Upload to Drive")
-                            .setMessage("Do you want to upload the generated data to Google Drive?")
-                            .setPositiveButton("YES", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    uploadCsvToDrive(filename, csvBuilder.toString());
-                                }
-                            })
-                            .setNegativeButton("NO", null)
-                            .setCancelable(true)
-                            .create();
-                    alertDialog.show();
                 }
             }
 
@@ -220,11 +203,6 @@ public class Home extends AppCompatActivity {
                 displayToast("Sorry, an error occured and the data was not exported.");
             }
         });
-    }
-
-    private void uploadCsvToDrive(String filename, String s) {
-        Uploader uploader = new Uploader(this);
-        uploader.uploadFile(filename, s);
     }
 
     private StringBuilder getCsvFromSnapshot(DataSnapshot dataSnapshot) {
