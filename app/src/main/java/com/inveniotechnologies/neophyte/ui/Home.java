@@ -192,8 +192,9 @@ public class Home extends AppCompatActivity {
                 Environment.getExternalStorageDirectory()
                         + "/FoursquareNewcomers"
         );
-        if (!folder.exists())
+        if (!folder.exists()) {
             folder.mkdir();
+        }
         final String filename = item.getDate() + ".csv";
 
         DatabaseReference membersRef = database.getReference("members");
