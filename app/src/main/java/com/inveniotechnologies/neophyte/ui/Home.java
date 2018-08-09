@@ -1,11 +1,9 @@
 package com.inveniotechnologies.neophyte.ui;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -198,20 +196,6 @@ public class Home extends AppCompatActivity {
                     final StringBuilder csvBuilder = getCsvFromSnapshot(dataSnapshot);
 
                     writeCsvToFile(folder, filename, csvBuilder);
-
-                    AlertDialog alertDialog = new AlertDialog.Builder(Home.this)
-                            .setTitle("Upload to Drive")
-                            .setMessage("Do you want to upload the generated data to Google Drive?")
-                            .setPositiveButton("YES", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    uploadCsvToDrive(filename, csvBuilder.toString());
-                                }
-                            })
-                            .setNegativeButton("NO", null)
-                            .setCancelable(true)
-                            .create();
-                    alertDialog.show();
                 }
             }
 
