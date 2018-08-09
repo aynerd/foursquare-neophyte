@@ -84,6 +84,12 @@ public class Home extends AppCompatActivity {
             }
         });
 
+        if (ActivityCompat.shouldShowRequestPermissionRationale(Home.this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+            ActivityCompat.requestPermissions(Home.this, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 2);
+        } else {
+            ActivityCompat.requestPermissions(Home.this, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 2);
+        }
+
         lst_dates = findViewById(R.id.lst_dates);
 
         datesAdapter = new DateListAdapter(datesList);
@@ -303,6 +309,12 @@ public class Home extends AppCompatActivity {
     }
 
     private void writeCsvToFile(File folder, String filename, StringBuilder csvBuilder) {
+        if (!isWriteStoragePermissionGranted()) {
+            displayToast("Access to storage is required for this app to work. Please grant and try again.");
+            ActivityCompat.requestPermissions(Home.this, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 2);
+            return;
+        }
+
         FileOutputStream outputStream;
         try {
             File file = new File(folder, filename);
