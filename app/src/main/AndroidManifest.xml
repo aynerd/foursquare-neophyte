@@ -23,16 +23,16 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.NewRecord"
+            android:name=".ui.AddRecord"
             android:label="Register" />
         <activity
-            android:name=".ui.People"
+            android:name=".ui.AllRecords"
             android:label="People" />
         <activity
-            android:name=".ui.Details"
+            android:name=".ui.RecordDetails"
             android:label="Details" />
         <activity
-            android:name=".ui.EditPerson"
+            android:name=".ui.UpdateRecord"
             android:label="Edit Details"/>
 
         <meta-data
