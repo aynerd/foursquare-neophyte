@@ -1,9 +1,13 @@
 package com.inveniotechnologies.neophyte.ui;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -40,6 +44,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class Home extends AppCompatActivity {
+    private final String TAG = "Neophyte";
+
     @BindView(R.id.lst_dates)
     RecyclerView lst_dates;
 
@@ -326,6 +332,24 @@ public class Home extends AppCompatActivity {
         return input
                 .replace('\n', ' ')
                 .replace('\t', ' ');
+    }
+
+    private boolean isWriteStoragePermissionGranted() {
+        if (Build.VERSION.SDK_INT >= 23) {
+            if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    == PackageManager.PERMISSION_GRANTED) {
+                Log.v(TAG, "Write permission granted.");
+                return true;
+            } else {
+
+                Log.v(TAG, "Write permission revoked,");
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 2);
+                return false;
+            }
+        } else {
+            Log.v(TAG, "SDK less than Marshmallow, permission granted by default.");
+            return true;
+        }
     }
 }
 
