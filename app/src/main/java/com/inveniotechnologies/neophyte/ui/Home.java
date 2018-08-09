@@ -24,7 +24,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.inveniotechnologies.neophyte.R;
 import com.inveniotechnologies.neophyte.network.models.Record;
-import com.inveniotechnologies.neophyte.network.util.Uploader;
 import com.inveniotechnologies.neophyte.ui.adapters.DateListAdapter;
 import com.inveniotechnologies.neophyte.ui.extras.ClickListener;
 import com.inveniotechnologies.neophyte.ui.extras.DividerItemDecoration;
@@ -204,11 +203,6 @@ public class Home extends AppCompatActivity {
                 displayToast("Sorry, an error occured and the data was not exported.");
             }
         });
-    }
-
-    private void uploadCsvToDrive(String filename, String s) {
-        Uploader uploader = new Uploader(this);
-        uploader.uploadFile(filename, s);
     }
 
     private StringBuilder getCsvFromSnapshot(DataSnapshot dataSnapshot) {
