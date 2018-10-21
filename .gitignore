@@ -42,3 +42,6 @@ captures/
 
 # Idea settings folder
 .idea/
+
+# DS Store
+.DS_Store
