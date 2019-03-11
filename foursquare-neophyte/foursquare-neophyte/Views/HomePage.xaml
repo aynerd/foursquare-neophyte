@@ -4,10 +4,10 @@
         <AbsoluteLayout x:Name="absContent" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
             <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
                 <Label Text="Records by date" Style="Bold" FontSize="Large" Margin="10, 10, 10, 10" FontAttributes="Bold" />
-                <ListView x:Name="lstDays" HorizontalOptions="FillAndExpand" VerticalOptions="Fill">
+                <ListView x:Name="lstDates" HorizontalOptions="FillAndExpand" VerticalOptions="Fill">
                     <ListView.ItemTemplate>
                         <DataTemplate>
-                            <TextCell Text="{Binding Title}" Detail="{Binding Details}" />
+                            <TextCell Text="{Binding Date}" Detail="{Binding DateDetails}" />
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
