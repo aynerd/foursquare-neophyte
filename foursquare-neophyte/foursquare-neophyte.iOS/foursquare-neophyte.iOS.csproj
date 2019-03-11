@@ -11,7 +11,7 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>foursquare_neophyte.iOS</RootNamespace>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
-    <AssemblyName>foursquare-neophyte.iOS</AssemblyName>
+    <AssemblyName>foursquare_neophyte.iOS</AssemblyName>
     <MtouchEnableSGenConc>true</MtouchEnableSGenConc>
     <MtouchHttpClientHandler>NSUrlSessionHandler</MtouchHttpClientHandler>
   </PropertyGroup>

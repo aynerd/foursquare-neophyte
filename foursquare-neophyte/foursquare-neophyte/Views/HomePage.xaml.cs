@@ -42,22 +42,23 @@ namespace foursquare_neophyte.Views
                 .OnceAsync<object>()
                 .Result
                 .OrderByDescending(x => x.Key)
-                .Select(x => x.Key); ;
+                .Select(x => x.Key);
 
             foreach (var date in dates)
             {
-                var displayModel = new DateDisplayModel();
-                displayModel.Date = date;
-                displayModel.DateDetails = (DateTime.Parse(date)).ToString("ddd, dd MMM yyy");
+                var displayModel = new DateDisplayModel
+                {
+                    Date = date, 
+                    DateDetails = DateTime.Parse(date).ToString("ddd, dd MMM yyy")
+                };
                 Dates.Add(displayModel);
             }
 
-            this.lstDates.ItemsSource = Dates;
+            lstDates.ItemsSource = Dates;
         }
 
         protected async void AddRecord(object sender, EventArgs e)
         {
-
         }
     }
 }
