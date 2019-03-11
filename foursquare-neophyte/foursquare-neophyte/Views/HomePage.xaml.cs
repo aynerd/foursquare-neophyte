@@ -1,13 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace foursquare-neophyte.Views
+namespace foursquare_neophyte.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class HomePage : ContentPage
@@ -15,6 +9,8 @@ namespace foursquare-neophyte.Views
         public HomePage()
         {
             InitializeComponent();
+
+            Title = "Foursqaure Newcomers";
         }
     }
 }

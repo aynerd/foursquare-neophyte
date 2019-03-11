@@ -98,6 +98,10 @@
     <Folder Include="Resources\drawable\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\foursquare-neophyte\foursquare-neophyte.csproj">
+      <Project>{2b617dc6-a67a-4927-8c15-beb662ab7063}</Project>
+      <Name>foursquare-neophyte</Name>
+    </ProjectReference>
     <ProjectReference Include="..\foursquare_neophyte\foursquare_neophyte.csproj">
       <Project>{3BB49A6D-CCE2-409C-AE93-C21FD6324501}</Project>
       <Name>foursquare_neophyte</Name>
