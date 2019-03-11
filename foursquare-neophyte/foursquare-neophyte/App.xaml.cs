@@ -1,6 +1,5 @@
-﻿using System;
+﻿using foursquare_neophyte.Views;
 using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
 
 namespace foursquare_neophyte
 {
@@ -10,7 +9,17 @@ namespace foursquare_neophyte
         {
             InitializeComponent();
 
-            MainPage = new MainPage();
+            // customize the navbar
+            var nav = new NavigationPage(new HomePage()) {BarBackgroundColor = Color.FromHex("#92278F")};
+
+            if (Device.RuntimePlatform == Device.iOS)
+            {
+                nav.BarTextColor = Color.Black;
+            }
+
+            // set the signin page as the main page
+            MainPage = nav;
+
         }
 
         protected override void OnStart()

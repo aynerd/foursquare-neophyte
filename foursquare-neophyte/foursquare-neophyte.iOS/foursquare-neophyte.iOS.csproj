@@ -11,7 +11,7 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>foursquare_neophyte.iOS</RootNamespace>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
-    <AssemblyName>foursquare-neophyte.iOS</AssemblyName>
+    <AssemblyName>foursquare_neophyte.iOS</AssemblyName>
     <MtouchEnableSGenConc>true</MtouchEnableSGenConc>
     <MtouchHttpClientHandler>NSUrlSessionHandler</MtouchHttpClientHandler>
   </PropertyGroup>
@@ -127,11 +127,11 @@
     <PackageReference Include="Xamarin.Forms" Version="3.6.0.135200-pre1" />
     <PackageReference Include="Xamarin.Essentials" Version="1.0.1" />
   </ItemGroup>
-  <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
-    <ProjectReference Include="..\foursquare_neophyte\foursquare_neophyte.csproj">
-      <Project>{3BB49A6D-CCE2-409C-AE93-C21FD6324501}</Project>
-      <Name>foursquare_neophyte</Name>
+    <ProjectReference Include="..\foursquare-neophyte\foursquare-neophyte.csproj">
+      <Project>{2b617dc6-a67a-4927-8c15-beb662ab7063}</Project>
+      <Name>foursquare-neophyte</Name>
     </ProjectReference>
   </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

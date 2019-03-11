@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:views="clr-namespace:SuaveControls.Views;assembly=SuaveControls.FloatingActionButton" x:Class="foursquare_neophyte.Views.HomePage" Padding="20, 5, 20, 5">
+    <ContentPage.Content>
+        <AbsoluteLayout x:Name="absContent" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+            <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                <Label Text="Records by date" Style="Bold" FontSize="Large" Margin="20, 10, 20, 10" FontAttributes="Bold" />
+                <ListView x:Name="lstDates" HorizontalOptions="FillAndExpand" VerticalOptions="Fill">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <TextCell Text="{Binding Date}" Detail="{Binding DateDetails}" />
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackLayout>
+            <views:FloatingActionButton x:Name="fabAddNote" WidthRequest="83" HeightRequest="95" Image="ic_add_white.png" ButtonColor="#92278F" AbsoluteLayout.LayoutFlags="PositionProportional" AbsoluteLayout.LayoutBounds="1, 1, AutoSize, AutoSize" Margin="0, 0, 0, 10" />
+        </AbsoluteLayout>
+    </ContentPage.Content>
+</ContentPage>
