@@ -10,7 +10,7 @@ namespace foursquare_neophyte.Views
         {
             InitializeComponent();
 
-            Title = "Foursqaure Newcomers";
+            Title = "Foursquare Newcomers";
         }
     }
 }
