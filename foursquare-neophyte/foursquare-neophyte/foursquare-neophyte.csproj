@@ -23,4 +23,7 @@
       <Generator></Generator>
     </Page>
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Models\" />
+  </ItemGroup>
 </Project>
