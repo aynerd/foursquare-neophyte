@@ -5,7 +5,6 @@ jobs:
     docker:
     - image: dwillmc/android-27-alpha-ndk
     environment:
-      ANDROID_HOME: /usr/local/android-sdk-linux
       JVM_OPTS: -Xmx3200m
     steps:
       - checkout
