@@ -16,11 +16,11 @@ jobs:
          command: sudo chmod +x ./gradlew
       - run:
           name: Download Dependencies
-            pre:
-            - echo y | android update sdk --no-ui --all --filter "platform-tools, tools"
-            - echo y | android update sdk --no-ui --all --filter "android-26, build-tools-27.0.3"
-            - echo y | android update sdk --no-ui --all --filter "extra-android-m2repository"
-            - echo y | android update sdk --no-ui --all --filter "extra-android-support"
+          pre:
+          - echo y | android update sdk --no-ui --all --filter "platform-tools, tools"
+          - echo y | android update sdk --no-ui --all --filter "android-26, build-tools-27.0.3"
+          - echo y | android update sdk --no-ui --all --filter "extra-android-m2repository"
+          - echo y | android update sdk --no-ui --all --filter "extra-android-support"
           command: ./gradlew androidDependencies
       - save_cache:
           paths:
