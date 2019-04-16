@@ -6,25 +6,25 @@
     android:background="?attr/selectableItemBackground"
     android:focusable="true">
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:src="@drawable/ic_calendar"
-        android:id="@+id/img_icon"/>
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
+        android:src="@drawable/ic_date"
+        android:id="@+id/img_icon" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/lbl_date"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_toRightOf="@+id/img_icon"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_toEndOf="@+id/img_icon"
         android:maxLines="1"
-        android:textSize="15sp"/>
+        android:textSize="16sp"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -32,8 +32,9 @@
         android:maxLines="1"
         android:id="@+id/lbl_day_string"
         android:layout_below="@+id/lbl_date"
-        android:layout_toRightOf="@+id/img_icon"
-        android:layout_marginRight="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginBottom="10dp"/>
+        android:layout_toEndOf="@+id/img_icon"
+        android:layout_marginRight="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginBottom="15dp"
+        android:layout_marginTop="10dp"/>
 </RelativeLayout>
