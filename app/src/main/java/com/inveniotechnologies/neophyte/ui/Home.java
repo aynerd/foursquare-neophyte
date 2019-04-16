@@ -323,6 +323,8 @@ public class Home extends AppCompatActivity {
                 file.delete();
             }
             outputStream = new FileOutputStream(file);
+            // clean the unfilled fields
+            String csvString = csvBuilder.toString();
             outputStream.write(csvBuilder.toString().getBytes());
             outputStream.close();
 
