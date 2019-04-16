@@ -323,7 +323,10 @@ public class Home extends AppCompatActivity {
                 file.delete();
             }
             outputStream = new FileOutputStream(file);
-            outputStream.write(csvBuilder.toString().getBytes());
+            // clean the unfilled fields
+            String csvString = csvBuilder.toString();
+            String cleanedCsv = csvString.replaceAll("Select", "");
+            outputStream.write(cleanedCsv.getBytes());
             outputStream.close();
 
             displayToast("File successfully exported. "
