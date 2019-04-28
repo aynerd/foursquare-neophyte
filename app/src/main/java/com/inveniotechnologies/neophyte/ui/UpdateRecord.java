@@ -92,9 +92,6 @@ public class UpdateRecord extends AppCompatActivity implements View.OnClickListe
     @BindView(R.id.btn_update_record)
     Button btn_update_record;
 
-    @BindView(R.id.btn_spiritual_rebirth_date)
-    Button btn_select_spiritual_rebirth;
-
     @BindView(R.id.btn_select_save_date)
     Button btn_select_save_date;
 
@@ -113,7 +110,6 @@ public class UpdateRecord extends AppCompatActivity implements View.OnClickListe
         retrieveIntentData();
 
         btn_select_save_date.setOnClickListener(this);
-        btn_select_spiritual_rebirth.setOnClickListener(this);
         btn_update_record.setOnClickListener(this);
 
         database = FirebaseDatabase.getInstance();
@@ -142,9 +138,6 @@ public class UpdateRecord extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.btn_spiritual_rebirth_date:
-                changeSRB();
-                break;
             case R.id.btn_select_save_date:
                 changeSaveDate();
                 break;
@@ -203,12 +196,6 @@ public class UpdateRecord extends AppCompatActivity implements View.OnClickListe
             txt_mobile.setText(record.getMobile());
             txt_office_tel.setText(record.getOfficeTel());
             txt_how_you_found_us.setText(record.getInvitedBy());
-            if (record.getDateOfSpiritualRebirth() == null ||
-                    record.getDateOfSpiritualRebirth().isEmpty()) {
-                btn_select_spiritual_rebirth.setText("Select Date");
-            } else {
-                btn_select_spiritual_rebirth.setText(record.getDateOfSpiritualRebirth());
-            }
 
             String[] decisions = record.getDecisions().split(";");
             for (String decision : decisions) {
@@ -301,12 +288,6 @@ public class UpdateRecord extends AppCompatActivity implements View.OnClickListe
             record.setOfficeTel(txt_office_tel.getText().toString());
             record.setFullName(txt_full_name.getText().toString());
 
-            if (btn_select_spiritual_rebirth.getText().toString().equals("Select Date")) {
-                record.setDateOfSpiritualRebirth("");
-            } else {
-                record.setDateOfSpiritualRebirth(btn_select_spiritual_rebirth.getText().toString());
-            }
-
             String decisions = "";
             if (chk_talk_pastorate.isChecked()) {
                 decisions += chk_talk_pastorate.getText().toString() + " ; ";
@@ -348,28 +329,6 @@ public class UpdateRecord extends AppCompatActivity implements View.OnClickListe
         } catch (Exception e) {
             Toast.makeText(this, "An error occurred: " + e.getMessage(), Toast.LENGTH_LONG).show();
         }
-    }
-
-    private void changeSRB() {
-        final Calendar c = Calendar.getInstance();
-        int year = c.get(Calendar.YEAR);
-        int month = c.get(Calendar.MONTH);
-        int day = c.get(Calendar.DAY_OF_MONTH);
-
-        DatePickerDialog datePickerDialog = new DatePickerDialog(this,
-                new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                        btn_select_spiritual_rebirth.setText(
-                                String.valueOf(year) + "-" + String.format(Locale.ENGLISH, "%02d", (monthOfYear + 1)) + "-" + String.format(Locale.ENGLISH, "%02d", dayOfMonth)
-                        );
-                    }
-                },
-                year,
-                month,
-                day
-        );
-        datePickerDialog.show();
     }
 
     private void changeSaveDate() {
