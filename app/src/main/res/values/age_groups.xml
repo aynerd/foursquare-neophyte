@@ -4,12 +4,9 @@
         <item>Select</item>
         <item>13 - 19</item>
         <item>20 - 24</item>
-        <item>25 - 30</item>
-        <item>31 - 35</item>
-        <item>36 - 40</item>
-        <item>41 - 45</item>
-        <item>46 - 50</item>
-        <item>51 - 60</item>
-        <item>61+</item>
+        <item>25 - 35</item>
+        <item>36 - 45</item>
+        <item>46 - 59</item>
+        <item>60+</item>
     </string-array>
 </resources>
