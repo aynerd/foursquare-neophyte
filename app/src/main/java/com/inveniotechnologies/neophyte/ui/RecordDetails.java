@@ -53,9 +53,6 @@ public class RecordDetails extends AppCompatActivity {
     @BindView(R.id.lbl_birthday)
     TextView lbl_birthday;
 
-    @BindView(R.id.lbl_spiritual_rebirth_date)
-    TextView lbl_spiritual_rebirth_date;
-
     @BindView(R.id.lbl_commit_life)
     TextView lbl_commit_life;
 
@@ -140,7 +137,6 @@ public class RecordDetails extends AppCompatActivity {
             lbl_mobile.setText(record.getMobile());
             lbl_office_tel.setText(record.getOfficeTel());
             lbl_how_you_found_us.setText(record.getInvitedBy());
-            lbl_spiritual_rebirth_date.setText(record.getDateOfSpiritualRebirth());
             //
             String[] decisions = record.getDecisions().split(";");
             for (String decision : decisions) {

@@ -155,18 +155,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="@string/text_spiritual_rebirth_date" />
-
-            <Button
-                android:id="@+id/btn_spiritual_rebirth_date"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/text_select_date" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
                 android:text="@string/text_age_group" />
 
             <android.support.v7.widget.AppCompatSpinner

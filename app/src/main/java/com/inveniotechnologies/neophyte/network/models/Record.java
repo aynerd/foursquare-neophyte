@@ -16,15 +16,6 @@ public class Record {
     private String Decisions;
     private String Comments;
     private String FullName;
-    private String DateOfSpiritualRebirth;
-
-    public String getDateOfSpiritualRebirth() {
-        return DateOfSpiritualRebirth;
-    }
-
-    public void setDateOfSpiritualRebirth(String dateOfSpiritualRebirth) {
-        DateOfSpiritualRebirth = dateOfSpiritualRebirth;
-    }
 
     public String getFullName() {
         return FullName;
