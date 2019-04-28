@@ -2,8 +2,8 @@
 <resources>
     <string-array name="ageGroupList">
         <item>Select</item>
-        <item>11 - 17</item>
-        <item>18 - 24</item>
+        <item>13 - 19</item>
+        <item>20 - 24</item>
         <item>25 - 30</item>
         <item>31 - 35</item>
         <item>36 - 40</item>
