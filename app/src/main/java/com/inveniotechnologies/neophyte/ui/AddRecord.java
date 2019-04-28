@@ -88,9 +88,6 @@ public class AddRecord extends AppCompatActivity implements View.OnClickListener
     @BindView(R.id.btn_save_record)
     Button btn_save_record;
 
-    @BindView(R.id.btn_spiritual_rebirth_date)
-    Button btn_select_spiritual_rebirth;
-
     @BindView(R.id.mScrollView)
     ScrollView scrollViewer;
 
@@ -118,10 +115,7 @@ public class AddRecord extends AppCompatActivity implements View.OnClickListener
         setContentView(R.layout.activity_new_record);
 
         ButterKnife.bind(this);
-
         btn_save_record.setOnClickListener(this);
-        btn_select_spiritual_rebirth.setOnClickListener(this);
-
         database = FirebaseDatabase.getInstance();
     }
 
@@ -130,9 +124,6 @@ public class AddRecord extends AppCompatActivity implements View.OnClickListener
         switch (view.getId()) {
             case R.id.btn_save_record:
                 saveRecord();
-                break;
-            case R.id.btn_spiritual_rebirth_date:
-                changeSRB();
                 break;
         }
     }
@@ -151,11 +142,6 @@ public class AddRecord extends AppCompatActivity implements View.OnClickListener
             record.setMobile(txt_mobile.getText().toString());
             record.setOfficeTel(txt_office_tel.getText().toString());
             record.setFullName(toTitleCase(txt_full_name.getText().toString()));
-            if(btn_select_spiritual_rebirth.getText().toString() == "Select Date") {
-                record.setDateOfSpiritualRebirth("");
-            } else {
-                record.setDateOfSpiritualRebirth(btn_select_spiritual_rebirth.getText().toString());
-            }
 
             String decisions = getDecisions();
 
@@ -180,22 +166,6 @@ public class AddRecord extends AppCompatActivity implements View.OnClickListener
         catch (Exception e){
             Toast.makeText(this, "An error occurred: " + e.getMessage(), Toast.LENGTH_LONG).show();
         }
-    }
-
-    private void changeSRB() {
-        final Calendar c = Calendar.getInstance();
-        int year = c.get(Calendar.YEAR);
-        int month = c.get(Calendar.MONTH);
-        int day = c.get(Calendar.DAY_OF_MONTH);
-
-        DatePickerDialog datePickerDialog = new DatePickerDialog(this,
-                new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                        btn_select_spiritual_rebirth.setText(year + "-" + String.format("%02d", (monthOfYear + 1)) + "-" + String.format("%02d", dayOfMonth));
-                    }
-                }, year, month, day);
-        datePickerDialog.show();
     }
 
     private String getDecisions() {
@@ -233,7 +203,6 @@ public class AddRecord extends AppCompatActivity implements View.OnClickListener
         txt_home_tel.setText("");
         txt_mobile.setText("");
         txt_office_tel.setText("");
-        btn_select_spiritual_rebirth.setText("Select Date");
 
         cmb_age_group.setSelection(0);
         cmb_title.setSelection(0);
