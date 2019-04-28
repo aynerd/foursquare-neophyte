@@ -23,6 +23,7 @@ import com.inveniotechnologies.neophyte.network.models.Record;
 
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -210,8 +211,7 @@ public class UpdateRecord extends AppCompatActivity implements View.OnClickListe
             }
 
             String[] decisions = record.getDecisions().split(";");
-            for (int i = 0; i < decisions.length; i++) {
-                String decision = decisions[i];
+            for (String decision : decisions) {
                 if (decision.contains("pastorate")) {
                     chk_talk_pastorate.setChecked(true);
                 } else if (decision.contains("maturity")) {
@@ -255,6 +255,8 @@ public class UpdateRecord extends AppCompatActivity implements View.OnClickListe
             cmb_age_group.setSelection(8);
         } else if (ageGroup.equals("61+")) {
             cmb_age_group.setSelection(9);
+        } else {
+            cmb_age_group.setSelection(0);
         }
     }
 
@@ -298,7 +300,8 @@ public class UpdateRecord extends AppCompatActivity implements View.OnClickListe
             record.setMobile(txt_mobile.getText().toString());
             record.setOfficeTel(txt_office_tel.getText().toString());
             record.setFullName(txt_full_name.getText().toString());
-            if(btn_select_spiritual_rebirth.getText().toString() == "Select Date") {
+
+            if (btn_select_spiritual_rebirth.getText().toString().equals("Select Date")) {
                 record.setDateOfSpiritualRebirth("");
             } else {
                 record.setDateOfSpiritualRebirth(btn_select_spiritual_rebirth.getText().toString());
@@ -342,8 +345,7 @@ public class UpdateRecord extends AppCompatActivity implements View.OnClickListe
 
             Toast.makeText(this, "Record successfully updated!", Toast.LENGTH_SHORT).show();
             this.finish();
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             Toast.makeText(this, "An error occurred: " + e.getMessage(), Toast.LENGTH_LONG).show();
         }
     }
@@ -359,7 +361,7 @@ public class UpdateRecord extends AppCompatActivity implements View.OnClickListe
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                         btn_select_spiritual_rebirth.setText(
-                                new StringBuilder().append(year).append("-").append(String.format("%02d", (monthOfYear + 1))).append("-").append(String.format("%02d", dayOfMonth)).toString()
+                                String.valueOf(year) + "-" + String.format(Locale.ENGLISH, "%02d", (monthOfYear + 1)) + "-" + String.format(Locale.ENGLISH, "%02d", dayOfMonth)
                         );
                     }
                 },
