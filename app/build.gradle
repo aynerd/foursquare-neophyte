@@ -7,8 +7,8 @@ android {
         applicationId "com.inveniotechnologies.neophyte"
         minSdkVersion 19
         targetSdkVersion 26
-        versionCode 15
-        versionName "1.1.7"
+        versionCode 16
+        versionName "1.2.0"
     }
     buildTypes {
         release {
